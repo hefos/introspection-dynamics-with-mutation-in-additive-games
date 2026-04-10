@@ -102,8 +102,9 @@ and two actions \(\{C,D\}\) coded as \(\{1,0\}\). The state space is
 We write \(C(\bfa)=\sum_j\alpha_j a_j\) for the total contribution.
 
 \textbf{Fermi function.} Each player \(i\) has a personal Fermi function
-\(\phi_i(x)=(1+e^{\beta_i x})^{-1}\), satisfying \(\phi_i(x)+\phi_i(-x)=1\)
-and \(\phi_i(0)=\tfrac{1}{2}\).
+\(\phi_i(x)=(1+e^{\beta_i x})^{-1}\). Since \(\beta_i>0\), the exponential
+\(e^{\beta_i x}\) is strictly increasing in \(x\), so \(\phi_i\) is strictly
+decreasing with \(\phi_i(0)=\tfrac{1}{2}\) and \(\phi_i(x)+\phi_i(-x)=1\).
 
 \textbf{Mutation.} All dynamics carry a uniform mutation rate
 \(\mu\in(0,\tfrac{1}{2})\), ensuring ergodicity of the Markov chain.
@@ -220,41 +221,11 @@ rows of \(M_i\) are identical:
   M_i = \begin{pmatrix} 1-p_i & p_i \\ 1-p_i & p_i \end{pmatrix}.
 \]
 Player \(i\)'s next action is therefore drawn from \(\pi_i = (1-p_i, p_i)\)
-regardless of their current action.
-
-Since \([M_i]_{a_i,b_i}=\pi_i(b_i)\) is independent of \(a_i\), the full transition
-matrix can be written as
-\[
-  T^{\intro}_{\bfa,\bfb}
-  = \frac{1}{N}\sum_{i=1}^N \pi_i(b_i)\prod_{j\neq i}\delta_{a_j,b_j},
-\]
-where \(\delta_{a,b}\) is the Kronecker delta. Each term in the sum corresponds to
-player \(i\) being selected: coordinate \(i\) is redrawn from \(\pi_i\), while all other
-coordinates are unchanged (\(\delta_{a_j,b_j}\) enforces \(a_j=b_j\) for \(j\neq i\)).
-
-We verify that the product measure \(\pi=\bigotimes_i\pi_i\) is stationary.
-For any state \(\bfb\in S\):
-
-\begin{align*}
-  \sum_{\bfa\in S}\pi(\bfa)\,T^{\intro}_{\bfa,\bfb}
-  &= \sum_{\bfa}\prod_k\pi_k(a_k)\cdot
-     \frac{1}{N}\sum_{i=1}^N\pi_i(b_i)\prod_{j\neq i}\delta_{a_j,b_j} \\
-  &= \frac{1}{N}\sum_{i=1}^N\pi_i(b_i)
-     \sum_{\bfa}\prod_k\pi_k(a_k)\prod_{j\neq i}\delta_{a_j,b_j} \\
-  &= \frac{1}{N}\sum_{i=1}^N\pi_i(b_i)
-     \prod_{j\neq i}\pi_j(b_j)\underbrace{\sum_{a_i}\pi_i(a_i)}_{=1},
-\end{align*}
-
-where in the last step the Kronecker deltas pin \(a_j=b_j\) for each \(j\neq i\),
-leaving only the sum over \(a_i\), which equals one by normalisation. Therefore
-
-\[
-  \sum_{\bfa}\pi(\bfa)\,T^{\intro}_{\bfa,\bfb}
-  = \frac{1}{N}\sum_{i=1}^N\prod_k\pi_k(b_k)
-  = \prod_k\pi_k(b_k) = \pi(\bfb).
-\]
-
-Since \(T^{\intro}\) is ergodic (by \(\mu>0\)), this product measure is the unique
+regardless of their current action. The chain is thus a random-scan Gibbs sampler
+targeting \(\pi = \bigotimes_i \pi_i\): at each step one coordinate is resampled
+from its marginal under \(\pi\), independently of all other coordinates. By the
+standard theory of random-scan Gibbs samplers~\cite{liu1995covariance}, \(\pi\) is
+stationary, and since \(T^{\intro}\) is ergodic (by \(\mu>0\)), it is the unique
 stationary distribution.
 
 \end{proof}

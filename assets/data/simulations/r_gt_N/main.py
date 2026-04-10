@@ -21,7 +21,7 @@ df.to_csv(file_path.parent / "main.csv", index=False)
 
 for N in range(11, 100, 11):
     alphas = np.array([i for i in range(N)])
-    for seed in range(1,40):
+    for seed in range(1,100):
         print(N, seed)
         pc = get_pc_from_sims(alphas=alphas, r=2*N, N=N, seed=seed)
         data = [N, seed, pc]

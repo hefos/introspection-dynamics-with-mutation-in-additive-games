@@ -21,7 +21,7 @@ def get_new_formula_val(alphas, r, N):
 df = pd.DataFrame(columns = ["N", "p_C"])
 df.to_csv(file_path.parent / "main.csv", index=False)
 
-for N in range(3,11):
+for N in range(3,100):
     alphas = np.array([i for i in range(N)])
     pc = get_new_formula_val(alphas=alphas, r=2*N, N=N)
     data = [N, pc]
@@ -29,15 +29,4 @@ for N in range(3,11):
     df.to_csv(file_path.parent / "main.csv",
                   mode="a",
                   header=False,
-                  index=False)
-for N in range(11,100):
-    alphas = np.array([i for i in range(N)])
-    pc = get_new_formula_val(alphas=alphas, r=2*N, N=N)
-    data = [N, pc]
-    df = pd.DataFrame([data], columns=["N", "pc"])
-    df.to_csv(file_path.parent / "main.csv",
-                  mode="a",
-                  header=False,
-                  index=False)
-
-    
+                  index=False)   

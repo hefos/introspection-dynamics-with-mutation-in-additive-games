@@ -5,6 +5,7 @@
 \usepackage{geometry}
 \geometry{margin=1in}
 \usepackage{authblk}
+\usepackage{graphicx}
 
 \newtheorem{theorem}{Theorem}
 \newtheorem{lemma}[theorem]{Lemma}
@@ -187,52 +188,33 @@ parameters.
 
 \end{remark}
 
-\section{Product decomposition and exact cooperation probability}\label{sec:decomp}
+\section{Individual cooperation probabilities}\label{sec:decomp}
 
-A Markov chain on a product space \(S=S_1\times\cdots\times S_N\) is called a
-\emph{random-scan composition}~\cite{liu1995covariance} if each step (i) selects a
-coordinate \(i\) uniformly at random and (ii) updates coordinate \(i\) according to a
-kernel \(M_i\) that may depend on coordinate \(i\) but not on the remaining coordinates
-\(\bfa_{-i}\).
+By Lemma~\ref{lem:payoff-identity}, player \(i\)'s update depends only on their own
+action \(a_i\), not on \(\bfa_{-i}\). We use this to compute each player's long-run
+cooperation probability directly from their two-state update rule.
 
-\begin{theorem}[Product decomposition]\label{thm:decomp}
+\begin{theorem}[Individual cooperation probabilities]\label{thm:decomp}
 
 Under introspection dynamics with player-specific \(\beta_i\) and \(r_i\), uniform
-mutation \(\mu\in(0,\tfrac{1}{2})\), and payoff~\eqref{eq:payoff}, the Markov chain
-on \(S=\{0,1\}^N\) is a random-scan product of \(N\) independent two-state chains with
-stationary distributions \(\pi_i(C)=p_i\), \(\pi_i(D)=1-p_i\), where
+mutation \(\mu_i\in(0,\tfrac{1}{2})\), and payoff~\eqref{eq:payoff}, the long-run
+probability that player \(i\) cooperates is
 
 \begin{align}
-  p_i &= \phi_i\!\bigl(\alpha_i(1-r_i/N)\bigr)(1-2\mu)+\mu. \label{eq:pi}
+  p_i &= \phi_i\!\bigl(\alpha_i(1-r_i/N)\bigr)(1-2\mu_i)+\mu_i. \label{eq:pi}
 \end{align}
 \end{theorem}
 
 \begin{proof}
 
-By Lemma~\ref{lem:payoff-identity}, \(\Delta\pi_i\) depends on the current state \(\bfa\)
-only through coordinate \(a_i\). The switching probability~\eqref{eq:intro-transition}
-therefore depends on \(\bfa\) only through \(a_i\), and the transition for player \(i\)
-defines a \(2\times2\) conditional update kernel \(M_i\) (rows indexed by \(D=0\), \(C=1\),
-columns by the next action):
-\[
-  M_i = \begin{pmatrix} 1-p_i & p_i \\ q_i & 1-q_i \end{pmatrix},
-\]
-where \(p_i\) is as in~\eqref{eq:pi} and
-\[
-  q_i = \phi_i\!\bigl(\alpha_i(r_i/N-1)\bigr)(1-2\mu)+\mu \quad (C\to D).
-\]
-Since \(\phi_i(x)+\phi_i(-x)=1\), we have \(p_i+q_i=1\), so \(q_i=1-p_i\) and both
-rows of \(M_i\) are identical:
-\[
-  M_i = \begin{pmatrix} 1-p_i & p_i \\ 1-p_i & p_i \end{pmatrix}.
-\]
-Player \(i\)'s next action is therefore drawn from \(\pi_i = (1-p_i, p_i)\)
-regardless of their current action. The chain is thus a random-scan Gibbs sampler
-targeting \(\pi = \bigotimes_i \pi_i\): at each step one coordinate is resampled
-from its marginal under \(\pi\), independently of all other coordinates. By the
-standard theory of random-scan Gibbs samplers~\cite{liu1995covariance}, \(\pi\) is
-stationary, and since \(T^{\intro}\) is ergodic (by \(\mu>0\)), it is the unique
-stationary distribution.
+By Lemma~\ref{lem:payoff-identity}, \(\Delta\pi_i\) depends only on \(a_i\). When
+player \(i\) is selected, the probability their next action is \(C\) equals \(p_i\)
+regardless of their current action: if \(a_i=D\), the switch probability is
+\(\phi_i(\alpha_i(1-r_i/N))(1-2\mu_i)+\mu_i=p_i\); if \(a_i=C\), the probability of
+remaining at \(C\) is \(1-[\phi_i(\alpha_i(r_i/N-1))(1-2\mu_i)+\mu_i]=p_i\), using
+\(\phi_i(x)+\phi_i(-x)=1\). Since each selection of player \(i\) places them in state
+\(C\) with probability \(p_i\) independently of their current state, the long-run
+cooperation probability of player \(i\) is \(p_i\).
 
 \end{proof}
 
@@ -243,30 +225,42 @@ The long-run cooperation probability is
 \begin{equation}\label{eq:pC}
   \boxed{
   \pC = \frac{1}{N}\sum_{i=1}^{N}
-        \left[\frac{1-2\mu}{1+e^{\,\beta_i\alpha_i(1-r_i/N)}}+\mu\right].
+        \left[\frac{1-2\mu_i}{1+e^{\,\beta_i\alpha_i(1-r_i/N)}}+\mu_i\right].
   }
 \end{equation}
 
-This is exact: no asymptotic or weak-selection approximation is made.
 \end{corollary}
 
 \begin{proof}
 
-By Theorem~\ref{thm:decomp} the stationary distribution is \(\pi=\bigotimes_i\pi_i\)
-with \(\pi_i(C)=p_i\). Since the marginals are independent, \(\mathbb{E}_\pi[a_i]=p_i\)
-for each \(i\), and therefore
+By Theorem~\ref{thm:decomp}: 
+
 \[
-  \pC = \mathbb{E}_\pi[s_\bfa]
-      = \mathbb{E}_\pi\!\left[\frac{1}{N}\sum_{i=1}^N a_i\right]
-      = \frac{1}{N}\sum_{i=1}^N p_i.
+  \pC = \frac{1}{N}\sum_{i=1}^N p_i.
 \]
 Substituting \(\phi_i(\alpha_i(1-r_i/N))=(1+e^{\beta_i\alpha_i(1-r_i/N)})^{-1}\)
 into~\eqref{eq:pi} gives~\eqref{eq:pC}.
 
 \end{proof}
 
-% TODO Let us add a nice panel figure here showing numeric results. The text
-% should cite ludics.
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=\textwidth]{../assets/graphs/simulations/main.pdf}
+  \caption{Validation of the exact formula~\eqref{eq:pC} on a heterogeneous group
+    with contributions \(\alpha_i = i\) for \(i = 0, 1, \ldots, N-1\), choice
+    intensity \(\beta = 0.5\), and mutation rate \(\mu_i = 0.1\).
+    \textit{Left:} \(r = 2N\) (so \(r > N\) for all \(N\)).
+    \textit{Right:} \(r = N/2\) (so \(r < N\) for all \(N\)).
+    Orange dots: exact \(p_C\) obtained by solving the full \(2^N\) linear system
+    (feasible only for small \(N\)).
+    Blue curve: the closed-form formula~\eqref{eq:pC} (Theorem~\ref{thm:decomp}).
+    Blue bands: cooperation probability estimated from \(10^5\) simulation steps
+    across 99 independent runs; the band width reflects run-to-run variability.
+    The exact and the estimated values of \(p_C\) are obtained
+    using~\cite{harry_foster_2026_19495532}.
+    The formula matches both the exact values and the simulations exactly.}
+  \label{fig:validation}
+\end{figure}
 
 \section{Structural consequences}\label{sec:consequences}
 
@@ -307,8 +301,8 @@ parameters.
 When \(\beta_i=0\), the Fermi function satisfies \(\phi_i(x)=\tfrac{1}{2}\) for all \(x\).
 Substituting into~\eqref{eq:pC}:
 \[
-  \pC = \frac{1}{N}\sum_{i=1}^N\left[\frac{1-2\mu}{2}+\mu\right]
-       = \frac{1-2\mu}{2}+\mu = \frac{1}{2}.\qedhere
+  \pC = \frac{1}{N}\sum_{i=1}^N\left[\frac{1-2\mu_i}{2}+\mu_i\right]
+       = \frac{1-2\mu_i}{2}+\mu_i = \frac{1}{2}.\qedhere
 \]
 
 \end{proof}
@@ -328,24 +322,26 @@ For player \(i\) with \(r_i\neq N\):
 
 \begin{proof}
 
-Write \(p_i=(1-2\mu)\phi_i(\alpha_i(1-r_i/N))+\mu\).
+Write \(p_i=(1-2\mu_i)\phi_i(\alpha_i(1-r_i/N))+\mu_i\).
 
 \textit{Part (i).} Differentiating with respect to \(\alpha_i\):
 \[
   \frac{\partial p_i}{\partial\alpha_i}
-    = (1-2\mu)(1-r_i/N)\,\phi_i'(\alpha_i(1-r_i/N)).
+    = (1-2\mu_i)(1-r_i/N)\,\phi_i'(\alpha_i(1-r_i/N)).
 \]
-Since \(\phi_i'(x)<0\) for all \(x\) and \(1-2\mu>0\), the sign equals
-\(-\mathrm{sgn}(1-r_i/N)=\mathrm{sgn}(r_i/N-1)\), which is positive iff \(r_i>N\).
+Since \(\phi_i'(x)<0\) for all \(x\) and \(1-2\mu_i>0\), the sign equals
+\(-\mathrm{sgn}(1-r_i/N)=\mathrm{sgn}(r_i/N-1)\), which is positive if and only
+    if\(r_i>N\).
 
 \textit{Part (ii).} Write \(g(t)=(1+e^t)^{-1}\), so \(\phi_i(x)=g(\beta_i x)\).
 Differentiating with respect to \(\beta_i\):
 \[
   \frac{\partial p_i}{\partial\beta_i}
-    = (1-2\mu)\,\alpha_i(1-r_i/N)\,g'(\beta_i\alpha_i(1-r_i/N)).
+    = (1-2\mu_i)\,\alpha_i(1-r_i/N)\,g'(\beta_i\alpha_i(1-r_i/N)).
 \]
 Since \(g'<0\) and \(\alpha_i>0\), the sign equals
-\(-\mathrm{sgn}(1-r_i/N)=\mathrm{sgn}(r_i/N-1)\), which is positive iff \(r_i>N\).
+\(-\mathrm{sgn}(1-r_i/N)=\mathrm{sgn}(r_i/N-1)\), which is positive if and only
+    if \(r_i>N\).
 \end{proof}
 
 \begin{remark}
@@ -359,25 +355,41 @@ players have no effect on player \(i\)'s marginal cooperation probability.
 
 \end{remark}
 
-% TODO Can we get include a nice panel figure here showing this.
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=\textwidth]{../assets/graphs/big_panel/main.pdf}
+  \caption{Structural properties of \(p_i\) for a single player with \(N = 5\),
+    \(\mu_i = 0.1\).
+    \textit{Top left:} \(p_i\) as a function of \(\beta_i\) (\(\alpha_i = 2\))
+    for \(r < N\), \(r = N\), and \(r > N\); all curves pass through \(p_i = \tfrac{1}{2}\)
+    at \(\beta_i = 0\) (Corollary~\ref{cor:neutral}).
+    \textit{Top centre:} \(p_i\) as a function of \(\alpha_i\) for two values of
+    \(r\) and \(\beta_i\); curves above (below) \(\tfrac{1}{2}\) correspond to
+    \(r > N\) (\(r < N\)).
+    \textit{Top right:} \(p_i(\alpha_i, r_i)\) at \(\beta_i = 0\), confirming
+    \(p_i = \tfrac{1}{2}\) everywhere (Corollary~\ref{cor:neutral}); the dashed
+    line marks \(r_i = N\).
+    \textit{Bottom row:} Heatmaps of the partial derivatives
+    \(\partial p_i/\partial \mu_i\), \(\partial p_i/\partial \alpha_i\), and
+    \(\partial p_i/\partial \beta_i\) over the \((r_i, \alpha_i)\) or
+    \((r_i, \beta_i)\) plane (\(\beta_i = 0.5\) or \(\alpha_i = 2\) as fixed
+    parameter). Red indicates a positive derivative; blue indicates negative.
+    Each derivative changes sign exactly at \(r_i = N\) (dashed line), consistent
+    with Corollary~\ref{cor:heterogeneity}.}
+  \label{fig:panel}
+\end{figure}
 
 \section{Conclusion}\label{sec:conclusion}
 
 We have proved that introspection dynamics on the heterogeneous public goods game is
-exactly solvable. The linear payoff structure implies that each player's counterfactual
-payoff comparison is independent of all other players' actions
-(Lemma~\ref{lem:payoff-identity}), so each player's \(2\times2\) update kernel has
-identical rows: player \(i\) draws their next action from \(\pi_i\) independently of their
-current action. The Markov chain on \(\{0,1\}^N\) is therefore a random-scan product of
-\(N\) independent chains (Theorem~\ref{thm:decomp}), the stationary distribution is a
-product measure, and the cooperation probability has a closed form with \(N\) terms rather
-than \(2^N\) (Corollary~\ref{cor:exact-pC}).
+exactly solvable. The linear payoff structure implies that each player's payoff comparison
+is independent of all other players' actions (Lemma~\ref{lem:payoff-identity}), so when
+player \(i\) is selected their next action is \(C\) with probability \(p_i\) regardless
+of current state (Theorem~\ref{thm:decomp}). The long-run cooperation probability
+therefore has a closed form with \(N\) terms rather than \(2^N\)
+(Corollary~\ref{cor:exact-pC}).
 
-This closed form provides the reference point for perturbation-theoretic comparisons
-with other evolutionary dynamics, including the Moran process, Fermi imitation,
-aspiration dynamics, and introspective imitation. Non-asymptotic bounds on the
-resulting cooperation probability differences are pursued in companion work.
-
+\newpage
 \bibliographystyle{plain}
 \bibliography{bibliography}
 

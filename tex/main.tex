@@ -20,7 +20,7 @@
 
 \title{An Exact Cooperation Formula for Introspection Dynamics in the Heterogeneous Public Goods Game}
 \author[1]{Harry Foster}
-\author[1]{Vince Knight}
+\author[1,*]{Vince Knight}
 \author[2]{Sebastian Krapohl}
 \affil[1]{School of Mathematics, Cardiff University}
 \affil[2]{Faculty of Social and Behavioural Sciences, University of Amsterdam}
@@ -95,27 +95,26 @@ Consider a well-mixed population of \(N\) ordered players with contributions
 \(r_1,\ldots,r_N>1\), player-specific choice intensities \(\beta_1,\ldots,\beta_N>0\),
 and two actions \(\{C,D\}\) coded as \(\{1,0\}\). The state space is
 \(S=\{0,1\}^N\) with \(|S|=2^N\).
-
-\textbf{Payoff.} The payoff to player \(i\) in state \(\bfa=(a_1,\ldots,a_N)\) is
+The payoff to player \(i\) in state \(\bfa=(a_1,\ldots,a_N)\) is
 
 \begin{equation}\label{eq:payoff}
   \pi_i(\bfa) = \frac{r_i}{N}\sum_{j=1}^N \alpha_j a_j - \alpha_i a_i.
 \end{equation}
 
 We write \(C(\bfa)=\sum_j\alpha_j a_j\) for the total contribution.
-
 To give the definition of introspection dynamics we define the following two
-quantities.
+quantities:
 
-\textbf{Fermi function.} Each player \(i\) has a personal Fermi function
+\begin{itemize}
+    \item \textbf{Fermi function.} Each player \(i\) has a personal Fermi function
 \(\phi_i(x)=(1+e^{\beta_i x})^{-1}\). Since \(\beta_i>0\), the exponential
 \(e^{\beta_i x}\) is strictly increasing in \(x\), so \(\phi_i\) is strictly
 decreasing with \(\phi_i(0)=\tfrac{1}{2}\) and \(\phi_i(x)+\phi_i(-x)=1\).
-
-\textbf{Mutation.} Each player \(i\) has a mutation rate
+    \item \textbf{Mutation.} Each player \(i\) has a mutation rate
 \(\mu_i \in(0,\tfrac{1}{2})\), ensuring ergodicity of the Markov chain. This is
 the probability with which they mutate to the other action regardless of the
 intended choice of the dynamic.
+\end{itemize}
 
 
 \begin{definition}[Cooperation probability]

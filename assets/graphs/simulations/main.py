@@ -23,7 +23,6 @@ sns.scatterplot(
     x="N", y="p_C",
     ax=axes[0],
     marker='o',
-    label=r'theoretic $p_C$',
     color='orange'
 )
 
@@ -33,7 +32,6 @@ sns.lineplot(
     errorbar=None,
     ax=axes[0],
     markers='o',
-    label = r'actual $p_C$'
 )
 
 sns.violinplot(
@@ -41,7 +39,7 @@ sns.violinplot(
     x="N", y="p_C",
     inner=None,
     ax=axes[0],
-    label=r'simulated $p_C$'
+    facecolor='C0'
 )
 
 axes[0].set_title(r"$r > N$")
@@ -75,6 +73,7 @@ sns.violinplot(
     x="N", y="p_C",
     inner=None,
     ax=axes[1],
+    color='C0'
 )
 
 axes[1].set_title(r"$r < N$")
@@ -100,21 +99,19 @@ for ax in axes:
 from matplotlib.lines import Line2D
 from matplotlib.patches import Patch
 
-# remove any existing legends
 for ax in axes:
     leg = ax.get_legend()
     if leg is not None:
         leg.remove()
 
-# manually define legend entries
 handles = [
-    Line2D([0], [0], marker='v', color='w',
+    Line2D([0], [0], marker='o', color='w',
            markerfacecolor='orange', markersize=8,
-           label=r'theoretic $p_C$'),
+           label=r'actual $p_C$'),
 
     Line2D([0], [0], marker='o', color='w',
            markerfacecolor='blue', markersize=8,
-           label=r'actual $p_C$'),
+           label=r'theoretic $p_C$'),
 
     Patch(facecolor='C0', alpha=0.5,
           label=r'simulated $p_C$')

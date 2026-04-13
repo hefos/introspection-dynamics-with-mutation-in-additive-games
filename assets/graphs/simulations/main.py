@@ -4,7 +4,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pathlib
-
+from matplotlib.lines import Line2D
+from matplotlib.patches import Patch
 
 file_path = pathlib.Path(__file__)
 assets_path = file_path.parents[2]
@@ -95,9 +96,6 @@ for ax in axes:
             new_labels.append("")
     
     ax.set_xticklabels(new_labels)
-
-from matplotlib.lines import Line2D
-from matplotlib.patches import Patch
 
 for ax in axes:
     leg = ax.get_legend()

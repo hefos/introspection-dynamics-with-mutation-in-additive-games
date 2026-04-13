@@ -32,7 +32,7 @@
 \begin{abstract}
 We study introspection dynamics on the heterogeneous public goods game, where \(N\) players
 may differ in their contributions \(\alpha_i\), public goods multipliers \(r_i\), and choice
-intensities \(\beta_i\). We prove that the counterfactual payoff difference a player evaluates
+intensities \(\beta_i\). We prove that the payoff difference a player evaluates
 when considering a strategy switch is independent of all other players' current actions, a
 consequence of the linear payoff structure. This state-independence implies that the introspection
 Markov chain decomposes as a random-scan product of \(N\) independent two-state chains, one
@@ -40,7 +40,7 @@ per player. The stationary distribution is therefore a product measure, and the 
 cooperation probability admits the exact closed form
 \[
   \pC = \frac{1}{N}\sum_{i=1}^{N}
-        \left[\frac{1-2\mu}{1+e^{\,\beta_i\alpha_i(1-r_i/N)}}+\mu\right],
+        \left[\frac{1-2\mu_i}{1+e^{\,\beta_i\alpha_i(1-r_i/N)}}+\mu_i\right],
 \]
 with no asymptotic approximation. Several structural consequences follow immediately:
 a player-specific cooperation threshold at \(r_i = N\), neutrality under zero choice
@@ -57,14 +57,14 @@ real groups are heterogeneous: players differ in their productivity, their contr
 and how sensitively they respond to payoff differences~\cite{hauser2019social}.
 
 A natural learning rule for such settings is \emph{introspection dynamics}, introduced
-by Couto, Giaimo, and Hilbe~\cite{couto2022introspection}: at each time step a player
+in~\cite{couto2022introspection}: at each time step a player
 compares their current payoff to the payoff they \emph{would have received} had they
 played the alternative action (keeping all other players fixed), and switches with a
-probability governed by this counterfactual difference. Because the comparison is
+probability governed by this difference. Because the comparison is
 self-referential rather than imitative, introspection applies to arbitrary asymmetric
 games where role-model imitation is unavailable or unnatural.
 
-Couto and Pal~\cite{couto2023multiplayer} extended introspection dynamics to multiplayer
+In~\cite{couto2023multiplayer} the authors extended introspection dynamics to multiplayer
 asymmetric games and derived a formula for the stationary distribution that can be
 evaluated numerically for any game. In their general framework the transition rate for
 player \(i\) switching depends on the actions of all other players through the payoff
@@ -73,7 +73,7 @@ dimension \(2^N\); no closed form is available in general.
 
 In this paper we show that the specific payoff structure of the heterogeneous public
 goods game admits an exact closed-form analysis. The key observation is that the
-counterfactual payoff difference \(\Delta\pi_i\) a player evaluates depends only on their
+payoff difference \(\Delta\pi_i\) a player evaluates depends only on their
 own current action and individual parameters, not on the actions of others. This is a consequence of the
 \emph{linearity} of the public goods payoff in contributions. As a result, the
 introspection chain decomposes exactly as a product of \(N\) independent two-state chains
@@ -96,20 +96,26 @@ and two actions \(\{C,D\}\) coded as \(\{1,0\}\). The state space is
 \(S=\{0,1\}^N\) with \(|S|=2^N\).
 
 \textbf{Payoff.} The payoff to player \(i\) in state \(\bfa=(a_1,\ldots,a_N)\) is
+
 \begin{equation}\label{eq:payoff}
   \pi_i(\bfa) = \frac{r_i}{N}\sum_{j=1}^N \alpha_j a_j - \alpha_i a_i.
 \end{equation}
+
 We write \(C(\bfa)=\sum_j\alpha_j a_j\) for the total contribution.
+
+To give the definition of introspection dynamics we define the following two
+quantities.
 
 \textbf{Fermi function.} Each player \(i\) has a personal Fermi function
 \(\phi_i(x)=(1+e^{\beta_i x})^{-1}\). Since \(\beta_i>0\), the exponential
 \(e^{\beta_i x}\) is strictly increasing in \(x\), so \(\phi_i\) is strictly
 decreasing with \(\phi_i(0)=\tfrac{1}{2}\) and \(\phi_i(x)+\phi_i(-x)=1\).
 
-\textbf{Mutation.} All dynamics carry a uniform mutation rate
-\(\mu\in(0,\tfrac{1}{2})\), ensuring ergodicity of the Markov chain.
-% TODO Can we modify this to have mutation rate mu_{ij} for player i to action
-% j.
+\textbf{Mutation.} Each player \(i\) has a mutation rate
+\(\mu_i \in(0,\tfrac{1}{2})\), ensuring ergodicity of the Markov chain. This is
+the probability with which they mutate to the other action regardless of the
+intended choice of the dynamic.
+
 
 \begin{definition}[Cooperation probability]
 Given an ergodic chain on \(S\) with stationary distribution \(\pi\), the
@@ -125,20 +131,20 @@ switch is
 
 \begin{equation}\label{eq:intro-transition}
   T^{\intro}_{\bfa,\,\bfa_{i\to\bar{a}_i}}
-  = \frac{1}{N}\bigl[\phi_i(\Delta\pi_i)(1-2\mu)+\mu\bigr],
+  = \frac{1}{N}\bigl[\phi_i(\Delta\pi_i)(1-2\mu_i)+\mu_i\bigr],
 \end{equation}
 
 where \(\Delta\pi_i:=\pi_i(\bfa)-\pi_i(\bfa_{i\to\bar{a}_i})\) is the
-counterfactual payoff gain from keeping action \(a_i\). Since \(\phi_i\) is
+payoff gain from keeping action \(a_i\). Since \(\phi_i\) is
 strictly decreasing, a larger payoff gain from the current action yields a
 smaller switching probability.
 
 \section{The payoff identity}\label{sec:payoff}
 
-\begin{lemma}[State-independence of counterfactual payoff differences]
+\begin{lemma}[State-independence of payoff differences]
 \label{lem:payoff-identity}
 
-For the payoff~\eqref{eq:payoff}, the counterfactual difference player \(i\)
+For the payoff~\eqref{eq:payoff}, the difference player \(i\)
 evaluates when considering a switch from \(a_i\) to \(\bar{a}_i\) is
 \begin{equation}\label{eq:delta-pi}
   \Delta\pi_i = (2a_i-1)\,\alpha_i\!\left(\frac{r_i}{N}-1\right).
@@ -176,7 +182,7 @@ independent of \(\bfa_{-i}\).
 
 The cancellation of \(C(\bfa)\) relies on the payoff~\eqref{eq:payoff} being
 \emph{linear} in contributions. The heterogeneity of \(r_i\) does not affect this
-cancellation: each player's counterfactual comparison depends only on their own
+cancellation: each player's comparison depends only on their own
 parameters.
 
 \end{remark}

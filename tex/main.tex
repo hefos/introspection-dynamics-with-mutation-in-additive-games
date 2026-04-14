@@ -6,6 +6,7 @@
 \geometry{margin=1in}
 \usepackage{authblk}
 \usepackage{graphicx}
+\usepackage{booktabs}
 
 \newtheorem{theorem}{Theorem}
 \newtheorem{lemma}[theorem]{Lemma}
@@ -267,24 +268,44 @@ into~\eqref{eq:pi} gives~\eqref{eq:pC}.
 
 \end{proof}
 
+Figure~\ref{fig:validation} validates Corollary~\ref{cor:exact-pC} against exact
+values and simulation across group sizes.
+Table~\ref{tab:stationary} verifies Theorem~\ref{thm:stationary}: for \(N=3\) with
+per-player multipliers \(r_1=1\), \(r_2=3=N\), \(r_3=9\), uniform contributions
+\(\alpha_i=1\), \(\beta=2\), and \(\mu_{i0}=\mu_{i1}=0.1\), the individual
+cooperation probabilities are \(p_1\approx0.267\), \(p_2=0.500\),
+\(p_3\approx0.886\), and the formula and exact values of \(\pi_{\mathbf{a}}\)
+agree to five decimal places for all eight states.
+
 \begin{figure}[ht]
   \centering
   \includegraphics[width=\textwidth]{../assets/graphs/simulations/main.pdf}
-  \caption{Validation of the exact formula~\eqref{eq:pC} on a heterogeneous group
-    with contributions \(\alpha_i = i\) for \(i = 0, 1, \ldots, N-1\), choice
-    intensity \(\beta = 0.5\), and mutation rate \(\mu_i = 0.1\).
-    \textit{Left:} \(r = 2N\) (so \(r > N\) for all \(N\)).
-    \textit{Right:} \(r = N/2\) (so \(r < N\) for all \(N\)).
-    Orange dots: exact \(p_C\) obtained by solving the full \(2^N\) linear system
-    (feasible only for small \(N\)).
-    Blue curve: the closed-form formula~\eqref{eq:pC} (Theorem~\ref{thm:decomp}).
-    Blue bands: cooperation probability estimated from \(10^5\) simulation steps
-    across 99 independent runs; the band width reflects run-to-run variability.
-    The exact and the estimated values of \(p_C\) are obtained
-    using~\cite{harry_foster_2026_19495532}.
-    The formula matches both the exact values and the simulations exactly.}
+  \caption{Validation of formula~\eqref{eq:pC} on a heterogeneous group with
+    \(\alpha_i=i\), \(\beta=0.5\), \(\mu_{i0}=\mu_{i1}=0.1\).
+    \textit{Left:} \(r=2N\) (so \(r>N\) for all \(N\)).
+    \textit{Right:} \(r=N/2\) (so \(r<N\) for all \(N\)).
+    Orange dots: exact \(p_C\) from the full \(2^N\) linear system (feasible only
+    for small \(N\)).
+    Blue curve: formula~\eqref{eq:pC} (Corollary~\ref{cor:exact-pC}).
+    Blue bands: \(p_C\) estimated from \(10^5\) simulation steps across 99
+    independent runs.
+    All values obtained using~\cite{harry_foster_2026_19495532}.}
   \label{fig:validation}
 \end{figure}
+
+\begin{table}[ht]
+  \centering
+  \input{stationary_table}
+  \caption{Stationary-distribution probabilities \(\pi_{\mathbf{a}}\) for all
+    eight states \(\mathbf{a}\in\{D,C\}^3\) with \(N=3\), \(\alpha_i=1\),
+    \(\beta=2\), \(\mu_{i0}=\mu_{i1}=0.1\), and per-player multipliers
+    \(r_1=1{<}N{=}r_2{=}3{<}r_3{=}9\).
+    Formula: product measure~\eqref{eq:stationary} (Theorem~\ref{thm:stationary});
+    Exact: values from the \(2^N\) linear system obtained
+    using~\cite{harry_foster_2026_19495532}.
+    Both columns to five decimal places.}
+  \label{tab:stationary}
+\end{table}
 
 \section{Structural consequences}\label{sec:consequences}
 

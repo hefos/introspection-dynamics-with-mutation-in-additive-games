@@ -221,6 +221,27 @@ cooperation probability of player \(i\) is \(p_i\).
 
 \end{proof}
 
+\begin{theorem}[Stationary distribution]\label{thm:stationary}
+
+The stationary distribution of the introspection chain on $S=\{0,1\}^N$ is the
+product measure
+\begin{equation}\label{eq:stationary}
+  \pi_{\bfa} = \prod_{i=1}^{N} p_i^{\,a_i}(1-p_i)^{1-a_i}, \qquad \bfa\in S,
+\end{equation}
+where $p_i$ is given by~\eqref{eq:pi}.
+
+\end{theorem}
+
+\begin{proof}
+
+By Theorem~\ref{thm:decomp}, each selection of player $i$ places them in state $C$
+with probability $p_i$ independently of every other player's action. In stationarity
+the players' actions are therefore independent, with player $i$ cooperating with
+probability $p_i$ and defecting with probability $1-p_i$. The probability of state
+$\bfa$ is the product of these marginals, giving~\eqref{eq:stationary}.
+
+\end{proof}
+
 \begin{corollary}[Exact cooperation probability]\label{cor:exact-pC}
 
 The long-run cooperation probability is

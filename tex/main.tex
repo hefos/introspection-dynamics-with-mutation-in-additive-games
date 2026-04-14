@@ -41,11 +41,12 @@ per player. The stationary distribution is therefore a product measure, and the 
 cooperation probability admits the exact closed form
 \[
   \pC = \frac{1}{N}\sum_{i=1}^{N}
-        \left[\frac{1-2\mu_i}{1+e^{\,\beta_i\alpha_i(1-r_i/N)}}+\mu_i\right],
+        \left[\frac{1-\mu_{i0}-\mu_{i1}}{1+e^{\,\beta_i\alpha_i(1-r_i/N)}}+\mu_{i0}\right],
 \]
 with no asymptotic approximation. Several structural consequences follow immediately:
-a player-specific cooperation threshold at \(r_i = N\), neutrality under zero choice
-intensity, and the sign of each player's sensitivity to their own parameters.
+a player-specific cooperation threshold at \(r_i = N\) (under symmetric mutation),
+payoff-neutrality under zero choice intensity, and the sign of each player's
+sensitivity to their own parameters.
 \end{abstract}
 
 \section{Introduction}
@@ -110,10 +111,11 @@ quantities:
 \(\phi_i(x)=(1+e^{\beta_i x})^{-1}\). Since \(\beta_i>0\), the exponential
 \(e^{\beta_i x}\) is strictly increasing in \(x\), so \(\phi_i\) is strictly
 decreasing with \(\phi_i(0)=\tfrac{1}{2}\) and \(\phi_i(x)+\phi_i(-x)=1\).
-    \item \textbf{Mutation.} Each player \(i\) has a mutation rate
-\(\mu_i \in(0,\tfrac{1}{2})\), ensuring ergodicity of the Markov chain. This is
-the probability with which they mutate to the other action regardless of the
-intended choice of the dynamic.
+    \item \textbf{Mutation.} Each player \(i\) has mutation probabilities
+\(\mu_{i0},\mu_{i1}>0\) with \(\mu_{i0}+\mu_{i1}<1\), where \(\mu_{i0}\) is the
+probability of mutating to cooperation and \(\mu_{i1}\) is the probability of
+mutating to defection, regardless of the intended choice of the dynamic. Having
+\(\mu_{i0},\mu_{i1}>0\) ensures ergodicity of the Markov chain.
 \end{itemize}
 
 
@@ -131,13 +133,14 @@ switch is
 
 \begin{equation}\label{eq:intro-transition}
   T^{\intro}_{\bfa,\,\bfa_{i\to\bar{a}_i}}
-  = \frac{1}{N}\bigl[\phi_i(\Delta\pi_i)(1-2\mu_i)+\mu_i\bigr],
+  = \frac{1}{N}\bigl[(1-\mu_{i0}-\mu_{i1})\phi_i(\Delta\pi_i)+\mu_{i,\bar{a}_i}\bigr],
 \end{equation}
 
-where \(\Delta\pi_i:=\pi_i(\bfa)-\pi_i(\bfa_{i\to\bar{a}_i})\) is the
-payoff gain from keeping action \(a_i\). Since \(\phi_i\) is
-strictly decreasing, a larger payoff gain from the current action yields a
-smaller switching probability.
+where \(\Delta\pi_i:=\pi_i(\bfa)-\pi_i(\bfa_{i\to\bar{a}_i})\) is the payoff gain
+from keeping action \(a_i\), and \(\mu_{i,\bar{a}_i}\) denotes \(\mu_{i0}\) when
+\(\bar{a}_i=C\) and \(\mu_{i1}\) when \(\bar{a}_i=D\). Since \(\phi_i\) is strictly
+decreasing, a larger payoff gain from the current action yields a smaller switching
+probability.
 
 \section{The payoff identity}\label{sec:payoff}
 
@@ -195,12 +198,12 @@ cooperation probability directly from their two-state update rule.
 
 \begin{theorem}[Individual cooperation probabilities]\label{thm:decomp}
 
-Under introspection dynamics with player-specific \(\beta_i\) and \(r_i\), uniform
-mutation \(\mu_i\in(0,\tfrac{1}{2})\), and payoff~\eqref{eq:payoff}, the long-run
-probability that player \(i\) cooperates is
+Under introspection dynamics with player-specific \(\beta_i\), \(r_i\), and
+mutation probabilities \(\mu_{i0},\mu_{i1}>0\) with \(\mu_{i0}+\mu_{i1}<1\), and
+payoff~\eqref{eq:payoff}, the long-run probability that player \(i\) cooperates is
 
 \begin{align}
-  p_i &= \phi_i\!\bigl(\alpha_i(1-r_i/N)\bigr)(1-2\mu_i)+\mu_i. \label{eq:pi}
+  p_i &= \phi_i\!\bigl(\alpha_i(1-r_i/N)\bigr)(1-\mu_{i0}-\mu_{i1})+\mu_{i0}. \label{eq:pi}
 \end{align}
 \end{theorem}
 
@@ -209,8 +212,9 @@ probability that player \(i\) cooperates is
 By Lemma~\ref{lem:payoff-identity}, \(\Delta\pi_i\) depends only on \(a_i\). When
 player \(i\) is selected, the probability their next action is \(C\) equals \(p_i\)
 regardless of their current action: if \(a_i=D\), the switch probability is
-\(\phi_i(\alpha_i(1-r_i/N))(1-2\mu_i)+\mu_i=p_i\); if \(a_i=C\), the probability of
-remaining at \(C\) is \(1-[\phi_i(\alpha_i(r_i/N-1))(1-2\mu_i)+\mu_i]=p_i\), using
+\(\phi_i(\alpha_i(1-r_i/N))(1-\mu_{i0}-\mu_{i1})+\mu_{i0}=p_i\); if \(a_i=C\), the
+probability of remaining at \(C\) is
+\(1-[\phi_i(\alpha_i(r_i/N-1))(1-\mu_{i0}-\mu_{i1})+\mu_{i1}]=p_i\), using
 \(\phi_i(x)+\phi_i(-x)=1\). Since each selection of player \(i\) places them in state
 \(C\) with probability \(p_i\) independently of their current state, the long-run
 cooperation probability of player \(i\) is \(p_i\).
@@ -224,7 +228,7 @@ The long-run cooperation probability is
 \begin{equation}\label{eq:pC}
   \boxed{
   \pC = \frac{1}{N}\sum_{i=1}^{N}
-        \left[\frac{1-2\mu_i}{1+e^{\,\beta_i\alpha_i(1-r_i/N)}}+\mu_i\right].
+        \left[\frac{1-\mu_{i0}-\mu_{i1}}{1+e^{\,\beta_i\alpha_i(1-r_i/N)}}+\mu_{i0}\right].
   }
 \end{equation}
 
@@ -267,41 +271,52 @@ The closed form~\eqref{eq:pC} allows immediate structural conclusions about how
 cooperation depends on game parameters.
 
 \begin{corollary}[Player-specific cooperation thresholds]\label{cor:threshold}
-    
-Player \(i\) cooperates with probability greater than \(\frac{1}{2}\) if and only if
-\(r_i > N\). A sufficient condition for \(\pC > \tfrac{1}{2}\) is \(r_i > N\) for all \(i\).
+
+Player \(i\) cooperates with probability greater than \(\tfrac{1}{2}\) if and only if
+\[
+  \phi_i\!\bigl(\alpha_i(1-r_i/N)\bigr) > \frac{\tfrac{1}{2}-\mu_{i0}}{1-\mu_{i0}-\mu_{i1}}.
+\]
+When \(\mu_{i0}=\mu_{i1}\) this reduces to \(r_i>N\). A sufficient condition for
+\(\pC>\tfrac{1}{2}\) is that the inequality holds for every \(i\).
 
 \end{corollary}
 
 \begin{proof}
-    
-Since \(\phi_i\) is strictly decreasing with \(\phi_i(0)=\tfrac{1}{2}\):
+
+Since \(1-\mu_{i0}-\mu_{i1}>0\):
 \[
   p_i > \tfrac{1}{2}
-  \iff \phi_i\!\bigl(\alpha_i(1-r_i/N)\bigr) > \tfrac{1}{2}
-  \iff \alpha_i(1-r_i/N) < 0
-  \iff r_i > N.
+  \iff (1-\mu_{i0}-\mu_{i1})\phi_i\!\bigl(\alpha_i(1-r_i/N)\bigr) > \tfrac{1}{2}-\mu_{i0}
+  \iff \phi_i\!\bigl(\alpha_i(1-r_i/N)\bigr) > \frac{\tfrac{1}{2}-\mu_{i0}}{1-\mu_{i0}-\mu_{i1}}.
 \]
-
-The average \(\pC=\frac{1}{N}\sum_i p_i\) exceeds \(\tfrac{1}{2}\) whenever every
-summand does.
+When \(\mu_{i0}=\mu_{i1}\), the right-hand side equals \(\tfrac{1}{2}\), and since
+\(\phi_i\) is strictly decreasing with \(\phi_i(0)=\tfrac{1}{2}\), this is equivalent
+to \(\alpha_i(1-r_i/N)<0\), i.e.\ \(r_i>N\). The claim about \(\pC\) follows by
+averaging.
 
 \end{proof}
 
 \begin{corollary}[Neutral drift]\label{cor:neutral}
 
-If \(\beta_i=0\) for all \(i\), then \(\pC=\tfrac{1}{2}\) regardless of all other
-parameters.
+If \(\beta_i=0\) for all \(i\), then game parameters \(r_i\) and \(\alpha_i\) have no
+effect on \(p_C\); cooperation is determined entirely by mutation:
+\[
+  p_i = \frac{1+\mu_{i0}-\mu_{i1}}{2}, \qquad
+  \pC = \frac{1}{2}+\frac{1}{2N}\sum_{i=1}^{N}(\mu_{i0}-\mu_{i1}).
+\]
+In particular, \(\pC=\tfrac{1}{2}\) if and only if
+\(\sum_i(\mu_{i0}-\mu_{i1})=0\).
 
 \end{corollary}
 
 \begin{proof}
 
-When \(\beta_i=0\), the Fermi function satisfies \(\phi_i(x)=\tfrac{1}{2}\) for all \(x\).
-Substituting into~\eqref{eq:pC}:
+When \(\beta_i=0\), the Fermi function satisfies \(\phi_i(x)=\tfrac{1}{2}\) for all
+\(x\). Substituting into~\eqref{eq:pi}:
 \[
-  \pC = \frac{1}{N}\sum_{i=1}^N\left[\frac{1-2\mu_i}{2}+\mu_i\right]
-       = \frac{1-2\mu_i}{2}+\mu_i = \frac{1}{2}.\qedhere
+  p_i = \frac{1-\mu_{i0}-\mu_{i1}}{2}+\mu_{i0}
+      = \frac{1}{2}+\frac{\mu_{i0}-\mu_{i1}}{2}
+      = \frac{1+\mu_{i0}-\mu_{i1}}{2}.\qedhere
 \]
 
 \end{proof}
@@ -321,26 +336,26 @@ For player \(i\) with \(r_i\neq N\):
 
 \begin{proof}
 
-Write \(p_i=(1-2\mu_i)\phi_i(\alpha_i(1-r_i/N))+\mu_i\).
+Write \(p_i=(1-\mu_{i0}-\mu_{i1})\phi_i(\alpha_i(1-r_i/N))+\mu_{i0}\).
 
 \textit{Part (i).} Differentiating with respect to \(\alpha_i\):
 \[
   \frac{\partial p_i}{\partial\alpha_i}
-    = (1-2\mu_i)(1-r_i/N)\,\phi_i'(\alpha_i(1-r_i/N)).
+    = (1-\mu_{i0}-\mu_{i1})(1-r_i/N)\,\phi_i'(\alpha_i(1-r_i/N)).
 \]
-Since \(\phi_i'(x)<0\) for all \(x\) and \(1-2\mu_i>0\), the sign equals
+Since \(\phi_i'(x)<0\) for all \(x\) and \(1-\mu_{i0}-\mu_{i1}>0\), the sign equals
 \(-\mathrm{sgn}(1-r_i/N)=\mathrm{sgn}(r_i/N-1)\), which is positive if and only
-    if\(r_i>N\).
+if \(r_i>N\).
 
 \textit{Part (ii).} Write \(g(t)=(1+e^t)^{-1}\), so \(\phi_i(x)=g(\beta_i x)\).
 Differentiating with respect to \(\beta_i\):
 \[
   \frac{\partial p_i}{\partial\beta_i}
-    = (1-2\mu_i)\,\alpha_i(1-r_i/N)\,g'(\beta_i\alpha_i(1-r_i/N)).
+    = (1-\mu_{i0}-\mu_{i1})\,\alpha_i(1-r_i/N)\,g'(\beta_i\alpha_i(1-r_i/N)).
 \]
 Since \(g'<0\) and \(\alpha_i>0\), the sign equals
 \(-\mathrm{sgn}(1-r_i/N)=\mathrm{sgn}(r_i/N-1)\), which is positive if and only
-    if \(r_i>N\).
+if \(r_i>N\).
 \end{proof}
 
 \begin{remark}
@@ -358,7 +373,7 @@ players have no effect on player \(i\)'s marginal cooperation probability.
   \centering
   \includegraphics[width=\textwidth]{../assets/graphs/big_panel/main.pdf}
   \caption{Structural properties of \(p_i\) for a single player with \(N = 5\),
-    \(\mu_i = 0.1\).
+    \(\mu_{i0} = \mu_{i1} = 0.1\).
     \textit{Top left:} \(p_i\) as a function of \(\beta_i\) (\(\alpha_i = 2\))
     for \(r < N\), \(r = N\), and \(r > N\); all curves pass through \(p_i = \tfrac{1}{2}\)
     at \(\beta_i = 0\) (Corollary~\ref{cor:neutral}).

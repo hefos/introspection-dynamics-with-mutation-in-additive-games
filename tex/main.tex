@@ -117,9 +117,9 @@ only on \(a_i\), not on \(\bfa_{-i}\). When this holds there is a constant
 \end{equation}
 
 where \(\delta_i = \Delta f_i\!\big|_{a_i=0}\) is the payoff difference when player
-\(i\) defects. When \(a_i=0\) (\ref{eq:delta}) follows from the definition of
-\(\delta_i\), when \(a_i=1\), we have: \(\Delta f_i\!\big|_{a_i=1}=-\Delta f_i\!\big|_{a_i=0}\)
-which gives (\ref{eq:delta}).
+\(i\) defects. When \(a_i=0\), \eqref{eq:delta} follows directly from the definition of
+\(\delta_i\); when \(a_i=1\), \(\Delta f_i\!\big|_{a_i=1}=-\Delta f_i\!\big|_{a_i=0}=-\delta_i\),
+giving \eqref{eq:delta}.
 To define introspection dynamics we introduce the following two quantities:
 
 \begin{itemize}
@@ -147,9 +147,6 @@ where \(\mu_{i,\bar{a}_i}\) denotes \(\mu_{i0}\) when
 \(\bar{a}_i=C\) and \(\mu_{i1}\) when \(\bar{a}_i=D\). Since \(\phi_i\) is strictly
 decreasing, a larger payoff gain from keeping the current action yields a smaller
 switching probability.
-
-The main result of this paper is to give the overall cooperation probability for
-introspection dynamics for any \emph{state-independent} payoff function.
 
 \begin{definition}[Cooperation probability]
 Given an ergodic chain on \(S\) with stationary distribution \(\pi\), the
@@ -219,8 +216,7 @@ multipliers \(r_1,\ldots,r_N>1\). The payoff to player \(i\) in state
 \begin{equation}\label{eq:payoff}
   f_i(\bfa) = \frac{r_i}{N}\sum_{j=1}^N \alpha_j a_j - \alpha_i a_i.
 \end{equation}
-We write \(C(\bfa)=\sum_j\alpha_j a_j\) for the total contribution. We now verify
-that this payoff is state-independent.
+We write \(C(\bfa)=\sum_j\alpha_j a_j\) for the total contribution.
 
 \begin{lemma}[State-independence of the PGG]
 \label{lem:payoff-identity}

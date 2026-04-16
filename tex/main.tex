@@ -120,6 +120,33 @@ where \(\delta_i = \Delta f_i\!\big|_{a_i=0}\) is the payoff difference when pla
 \(i\) defects. When \(a_i=0\), \eqref{eq:delta} follows directly from the definition of
 \(\delta_i\); when \(a_i=1\), \(\Delta f_i\!\big|_{a_i=1}=-\Delta f_i\!\big|_{a_i=0}=-\delta_i\),
 giving \eqref{eq:delta}.
+
+Note that not all games lead to \emph{state-independent} payoff functions. For
+example in~\cite{couto2022introspection} two of the 2 player, 2 strategy games
+considered to illustrate introspection dynamics are: the Prisoner's Dilemma
+(\ref{eq:games_from_couto_2022} - \(M_1\)) and the Stag-hunt
+(\ref{eq:games_from_couto_2022} - \(M_2\)) for \(b > c_1 \leq c_2 > 0\).
+
+\begin{equation}\label{eq:games_from_couto_2022}
+    M_1 = \begin{pmatrix}
+        b - c_1, b - c_2 & - c_1, b\\
+        b, - c_2 & 0, 0\\
+    \end{pmatrix}
+    \qquad
+    M_2 = \begin{pmatrix}
+        b - c_1, b - c_2 & - c_1, 0\\
+        0, - c_2 & 0, 0\\
+    \end{pmatrix}
+\end{equation}
+
+For \(M_1\): \(\delta_1=c_1\) and \(\delta_2=c_2\) however for \(M_2\), \(\Delta
+f_1((1, 1)) = b-c_1\) but \(\Delta f_1((1, 0)) = -c_1\). The Prisoner's Dilemma
+(as defined by \(M_1\)) is \emph{state-independent} but the Stag-hunt game (as
+defined by \(M_2\)) is not. Further games considered
+in~\cite{couto2022introspection} are the Volunteer's dilemma and the Volunteer's
+timing dilemma (a generalisation with more than 2 strategies) which are both not
+\emph{state-independent}.
+
 To define introspection dynamics we introduce the following two quantities:
 
 \begin{itemize}

@@ -5,6 +5,8 @@
 \usepackage{geometry}
 \geometry{margin=1in}
 \usepackage{authblk}
+\usepackage{graphicx}
+\usepackage{booktabs}
 
 \newtheorem{theorem}{Theorem}
 \newtheorem{lemma}[theorem]{Lemma}
@@ -19,7 +21,7 @@
 
 \title{An Exact Cooperation Formula for Introspection Dynamics in the Heterogeneous Public Goods Game}
 \author[1]{Harry Foster}
-\author[1]{Vince Knight}
+\author[1,*]{Vince Knight}
 \author[2]{Sebastian Krapohl}
 \affil[1]{School of Mathematics, Cardiff University}
 \affil[2]{Faculty of Social and Behavioural Sciences, University of Amsterdam}
@@ -30,21 +32,24 @@
 \maketitle
 
 \begin{abstract}
-We study introspection dynamics on the heterogeneous public goods game, where \(N\) players
-may differ in their contributions \(\alpha_i\), public goods multipliers \(r_i\), and choice
-intensities \(\beta_i\). We prove that the counterfactual payoff difference a player evaluates
-when considering a strategy switch is independent of all other players' current actions, a
-consequence of the linear payoff structure. This state-independence implies that the introspection
-Markov chain decomposes as a random-scan product of \(N\) independent two-state chains, one
-per player. The stationary distribution is therefore a product measure, and the long-run
-cooperation probability admits the exact closed form
+We study introspection dynamics on multiplayer games in which the payoff difference
+\(\Delta f_i\) a player evaluates when considering a strategy switch is independent of
+all other players' current actions, a property we call \emph{state-independence}. Under
+this condition the introspection Markov chain decomposes as a random-scan product of
+\(N\) independent two-state chains, one per player, and the stationary distribution is a
+product measure. As our main application we consider the heterogeneous public goods
+game, where \(N\) players may differ in their contributions \(\alpha_i\), public goods
+multipliers \(r_i\), and choice intensities \(\beta_i\). We prove that the linear payoff
+structure implies state-independence, and the long-run cooperation probability admits the
+exact closed form
 \[
   \pC = \frac{1}{N}\sum_{i=1}^{N}
-        \left[\frac{1-2\mu}{1+e^{\,\beta_i\alpha_i(1-r_i/N)}}+\mu\right],
+        \left[\frac{1-\mu_{i0}-\mu_{i1}}{1+e^{\,\beta_i\alpha_i(1-r_i/N)}}+\mu_{i0}\right],
 \]
 with no asymptotic approximation. Several structural consequences follow immediately:
-a player-specific cooperation threshold at \(r_i = N\), neutrality under zero choice
-intensity, and the sign of each player's sensitivity to their own parameters.
+a player-specific cooperation threshold at \(r_i = N\) (under symmetric mutation),
+payoff-neutrality under zero choice intensity, and the sign of each player's
+sensitivity to their own parameters.
 \end{abstract}
 
 \section{Introduction}
@@ -57,59 +62,91 @@ real groups are heterogeneous: players differ in their productivity, their contr
 and how sensitively they respond to payoff differences~\cite{hauser2019social}.
 
 A natural learning rule for such settings is \emph{introspection dynamics}, introduced
-by Couto, Giaimo, and Hilbe~\cite{couto2022introspection}: at each time step a player
+in~\cite{couto2022introspection}: at each time step a player
 compares their current payoff to the payoff they \emph{would have received} had they
 played the alternative action (keeping all other players fixed), and switches with a
-probability governed by this counterfactual difference. Because the comparison is
+probability governed by this difference. Because the comparison is
 self-referential rather than imitative, introspection applies to arbitrary asymmetric
 games where role-model imitation is unavailable or unnatural.
 
-Couto and Pal~\cite{couto2023multiplayer} extended introspection dynamics to multiplayer
+In~\cite{couto2023multiplayer} the authors extended introspection dynamics to multiplayer
 asymmetric games and derived a formula for the stationary distribution that can be
 evaluated numerically for any game. In their general framework the transition rate for
 player \(i\) switching depends on the actions of all other players through the payoff
 function, so the stationary distribution must be computed by solving a linear system of
 dimension \(2^N\); no closed form is available in general.
 
-In this paper we show that the specific payoff structure of the heterogeneous public
-goods game admits an exact closed-form analysis. The key observation is that the
-counterfactual payoff difference \(\Delta\pi_i\) a player evaluates depends only on their
-own current action and individual parameters, not on the actions of others. This is a consequence of the
-\emph{linearity} of the public goods payoff in contributions. As a result, the
-introspection chain decomposes exactly as a product of \(N\) independent two-state chains
-(one per player), the stationary distribution is a product measure, and the cooperation
-probability \(\pC\) admits an explicit closed form that scales as \(O(N)\) rather than
-\(O(2^N)\).
+In this paper we show that whenever the payoff difference \(\Delta f_i\) a player
+evaluates when considering a switch is independent of all other players' current
+actions, a property we call \emph{state-independence}, the introspection chain
+decomposes exactly as a product of \(N\) independent two-state chains (one per player),
+the stationary distribution is a product measure, and the cooperation probability
+\(\pC\) admits an explicit closed form scaling as \(O(N)\) rather than \(O(2^N)\). We
+then show that the heterogeneous public goods game (PGG) satisfies state-independence as a
+consequence of the \emph{linearity} of its payoff structure, yielding the exact
+formula~\eqref{eq:pC}.
 
-The paper is organised as follows. Section~\ref{sec:setup} introduces the model.
-Section~\ref{sec:payoff} establishes the payoff identity. Section~\ref{sec:decomp}
-proves the product decomposition and derives the exact cooperation formula.
+The paper is organised as follows. Section~\ref{sec:setup} introduces the general
+framework and the state-independence condition.
+Section~\ref{sec:decomp} proves, for any state-independent game, that individual
+cooperation probabilities are given by~\eqref{eq:pi} and the stationary distribution
+is a product measure. Section~\ref{sec:payoff} establishes state-independence for the
+PGG and derives the exact cooperation formula.
 Section~\ref{sec:consequences} records several structural corollaries.
 Section~\ref{sec:conclusion} concludes.
 
 \section{Setup and notation}\label{sec:setup}
 
-Consider a well-mixed population of \(N\) ordered players with contributions
-\(\alpha_1,\ldots,\alpha_N>0\), player-specific public goods multipliers
-\(r_1,\ldots,r_N>1\), player-specific choice intensities \(\beta_1,\ldots,\beta_N>0\),
-and two actions \(\{C,D\}\) coded as \(\{1,0\}\). The state space is
-\(S=\{0,1\}^N\) with \(|S|=2^N\).
+Consider \(N\) ordered players, each choosing from two actions \(\{C,D\}\) coded as
+\(\{1,0\}\). The state space is \(S=\{0,1\}^N\) with \(|S|=2^N\). Each player \(i\)
+has a payoff function \(f_i:S\to\mathbb{R}\) and player-specific choice intensity
+\(\beta_i>0\). Writing \(\bfa_{i\to\bar{a}_i}\) for the state with player \(i\)'s
+action flipped to \(\bar{a}_i=1-a_i\), the \emph{payoff difference} for player \(i\)
+at state \(\bfa\) is
 
-\textbf{Payoff.} The payoff to player \(i\) in state \(\bfa=(a_1,\ldots,a_N)\) is
-\begin{equation}\label{eq:payoff}
-  \pi_i(\bfa) = \frac{r_i}{N}\sum_{j=1}^N \alpha_j a_j - \alpha_i a_i.
+\[
+  \Delta f_i(\bfa) := f_i(\bfa) - f_i(\bfa_{i\to\bar{a}_i}).
+\]
+
+A payoff function \(f_i\) is \emph{state-independent} if \(\Delta f_i(\bfa)\) depends
+only on \(a_i\), not on \(\bfa_{-i}\). When this holds there is a constant
+\(\delta_i\in\mathbb{R}\) such that
+
+\begin{equation}\label{eq:delta}
+  \Delta f_i(\bfa) = (1-2a_i)\,\delta_i,
 \end{equation}
-We write \(C(\bfa)=\sum_j\alpha_j a_j\) for the total contribution.
 
-\textbf{Fermi function.} Each player \(i\) has a personal Fermi function
+where \(\delta_i = \Delta f_i\!\big|_{a_i=0}\) is the payoff difference when player
+\(i\) defects. When \(a_i=0\), \eqref{eq:delta} follows directly from the definition of
+\(\delta_i\); when \(a_i=1\), \(\Delta f_i\!\big|_{a_i=1}=-\Delta f_i\!\big|_{a_i=0}=-\delta_i\),
+giving \eqref{eq:delta}.
+To define introspection dynamics we introduce the following two quantities:
+
+\begin{itemize}
+    \item \textbf{Fermi function.} Each player \(i\) has a personal Fermi function
 \(\phi_i(x)=(1+e^{\beta_i x})^{-1}\). Since \(\beta_i>0\), the exponential
 \(e^{\beta_i x}\) is strictly increasing in \(x\), so \(\phi_i\) is strictly
 decreasing with \(\phi_i(0)=\tfrac{1}{2}\) and \(\phi_i(x)+\phi_i(-x)=1\).
+    \item \textbf{Mutation.} Each player \(i\) has mutation probabilities
+\(\mu_{i0},\mu_{i1}>0\) with \(\mu_{i0}+\mu_{i1}<1\), where \(\mu_{i0}\) is the
+probability of mutating to cooperation and \(\mu_{i1}\) is the probability of
+mutating to defection, regardless of the intended choice of the dynamic.
+\end{itemize}
 
-\textbf{Mutation.} All dynamics carry a uniform mutation rate
-\(\mu\in(0,\tfrac{1}{2})\), ensuring ergodicity of the Markov chain.
-% TODO Can we modify this to have mutation rate mu_{ij} for player i to action
-% j.
+
+\textbf{Introspection dynamics.} At each step, one player \(i\) is selected
+uniformly at random. Player \(i\) considers switching from action \(a_i\) to the
+alternative \(\bar{a}_i=1-a_i\). The transition probability for the switch is
+
+\begin{equation}\label{eq:intro-transition}
+  T^{\intro}_{\bfa,\,\bfa_{i\to\bar{a}_i}}
+  = \frac{1}{N}\bigl[(1-\mu_{i0}-\mu_{i1})\phi_i(\Delta f_i(\bfa))+\mu_{i,\bar{a}_i}\bigr],
+\end{equation}
+
+where \(\mu_{i,\bar{a}_i}\) denotes \(\mu_{i0}\) when
+\(\bar{a}_i=C\) and \(\mu_{i1}\) when \(\bar{a}_i=D\). Since \(\phi_i\) is strictly
+decreasing, a larger payoff gain from keeping the current action yields a smaller
+switching probability.
 
 \begin{definition}[Cooperation probability]
 Given an ergodic chain on \(S\) with stationary distribution \(\pi\), the
@@ -117,34 +154,78 @@ Given an ergodic chain on \(S\) with stationary distribution \(\pi\), the
 \(s_\bfa=\frac{1}{N}\sum_i a_i\) is the fraction of cooperators in state \(\bfa\).
 \end{definition}
 
-\textbf{Introspection dynamics.} At each step, one player \(i\) is selected
-uniformly at random. Player \(i\) considers switching from action \(a_i\) to the
-alternative \(\bar{a}_i=1-a_i\). Writing \(\bfa_{i\to\bar{a}_i}\) for the state
-obtained by flipping only coordinate \(i\), the transition probability for the
-switch is
+\section{Individual cooperation probabilities}\label{sec:decomp}
 
-\begin{equation}\label{eq:intro-transition}
-  T^{\intro}_{\bfa,\,\bfa_{i\to\bar{a}_i}}
-  = \frac{1}{N}\bigl[\phi_i(\Delta\pi_i)(1-2\mu)+\mu\bigr],
+For a state-independent game, \(\Delta f_i(\bfa)\) depends only on \(a_i\), not on
+\(\bfa_{-i}\). We use this to compute each player's long-run cooperation probability
+and the stationary distribution directly from the two-state update rule.
+
+\begin{theorem}[Individual cooperation probabilities]\label{thm:decomp}
+
+For any state-independent game with constants \(\delta_i\), under introspection
+dynamics with player-specific choice intensity \(\beta_i\) and mutation probabilities
+\(\mu_{i0},\mu_{i1}>0\) with \(\mu_{i0}+\mu_{i1}<1\), the long-run probability that
+player \(i\) cooperates is
+
+\begin{align}
+  p_i &= \phi_i(\delta_i)(1-\mu_{i0}-\mu_{i1})+\mu_{i0}. \label{eq:pi}
+\end{align}
+\end{theorem}
+
+\begin{proof}
+
+By state-independence, \(\Delta f_i(\bfa)=(1-2a_i)\delta_i\) depends only on \(a_i\).
+When player \(i\) is selected, the probability their next action is \(C\) equals \(p_i\)
+regardless of their current action: if \(a_i=D\), the switch probability is
+\(\phi_i(\delta_i)(1-\mu_{i0}-\mu_{i1})+\mu_{i0}=p_i\); if \(a_i=C\), the
+probability of remaining at \(C\) is
+\(1-[\phi_i(-\delta_i)(1-\mu_{i0}-\mu_{i1})+\mu_{i1}]=p_i\), using
+\(\phi_i(x)+\phi_i(-x)=1\). Since each selection of player \(i\) places them in state
+\(C\) with probability \(p_i\) independently of their current state, the long-run
+cooperation probability of player \(i\) is \(p_i\).
+
+\end{proof}
+
+\begin{theorem}[Stationary distribution]\label{thm:stationary}
+
+For any state-independent game with constants \(\delta_i\), the stationary
+distribution of the introspection chain on $S=\{0,1\}^N$ is the product measure
+\begin{equation}\label{eq:stationary}
+  \pi_{\bfa} = \prod_{i=1}^{N} p_i^{\,a_i}(1-p_i)^{1-a_i}, \qquad \bfa\in S,
 \end{equation}
+where $p_i$ is given by~\eqref{eq:pi}.
 
-where \(\Delta\pi_i:=\pi_i(\bfa)-\pi_i(\bfa_{i\to\bar{a}_i})\) is the
-counterfactual payoff gain from keeping action \(a_i\). Since \(\phi_i\) is
-strictly decreasing, a larger payoff gain from the current action yields a
-smaller switching probability.
+\end{theorem}
 
-\section{The payoff identity}\label{sec:payoff}
+\begin{proof}
 
-\begin{lemma}[State-independence of counterfactual payoff differences]
+By Theorem~\ref{thm:decomp}, each selection of player $i$ places them in state $C$
+with probability $p_i$ independently of every other player's action. In stationarity
+the players' actions are therefore independent, with player $i$ cooperating with
+probability $p_i$ and defecting with probability $1-p_i$. The probability of state
+$\bfa$ is the product of these marginals, giving~\eqref{eq:stationary}.
+
+\end{proof}
+
+\section{State-independence of the heterogeneous public goods game}\label{sec:payoff}
+
+The \emph{heterogeneous public goods game} is played by \(N\) players with
+player-specific contributions \(\alpha_1,\ldots,\alpha_N>0\) and public goods
+multipliers \(r_1,\ldots,r_N>1\). The payoff to player \(i\) in state
+\(\bfa=(a_1,\ldots,a_N)\) is
+\begin{equation}\label{eq:payoff}
+  f_i(\bfa) = \frac{r_i}{N}\sum_{j=1}^N \alpha_j a_j - \alpha_i a_i.
+\end{equation}
+We write \(C(\bfa)=\sum_j\alpha_j a_j\) for the total contribution.
+
+\begin{lemma}[State-independence of the PGG]
 \label{lem:payoff-identity}
 
-For the payoff~\eqref{eq:payoff}, the counterfactual difference player \(i\)
-evaluates when considering a switch from \(a_i\) to \(\bar{a}_i\) is
+The payoff~\eqref{eq:payoff} is state-independent for every player \(i\), with
 \begin{equation}\label{eq:delta-pi}
-  \Delta\pi_i = (2a_i-1)\,\alpha_i\!\left(\frac{r_i}{N}-1\right).
+  \delta_i = \alpha_i\!\left(1-\frac{r_i}{N}\right),
 \end{equation}
-This depends only on \(a_i\), \(\alpha_i\), \(r_i\), and \(N\); in particular, it is
-independent of all other players' actions \(\bfa_{-i}\).
+i.e.\ \(\Delta f_i(\bfa)=(1-2a_i)\,\alpha_i(1-r_i/N)\), independent of \(\bfa_{-i}\).
 \end{lemma}
 
 \begin{proof}
@@ -153,163 +234,142 @@ contribution changes, so the total contribution becomes
 \(C(\bfa_{i\to\bar{a}_i}) = C(\bfa)+\alpha_i(1-2a_i)\).
 Expanding both payoffs:
 \begin{align*}
-  \pi_i(\bfa) &= \frac{r_i}{N}\,C(\bfa)-\alpha_i a_i, \\
-  \pi_i(\bfa_{i\to\bar{a}_i})
+  f_i(\bfa) &= \frac{r_i}{N}\,C(\bfa)-\alpha_i a_i, \\
+  f_i(\bfa_{i\to\bar{a}_i})
   &= \frac{r_i}{N}\bigl[C(\bfa)+\alpha_i(1-2a_i)\bigr]-\alpha_i(1-a_i).
 \end{align*}
-
 Subtracting:
-
 \begin{align*}
-  \Delta\pi_i
+  \Delta f_i
   &= -\frac{r_i}{N}\alpha_i(1-2a_i) + \alpha_i(1-2a_i) \\
-  &= \alpha_i(1-2a_i)\!\left(1-\frac{r_i}{N}\right) \\
-  &= \alpha_i(2a_i-1)\!\left(\frac{r_i}{N}-1\right).
+  &= \alpha_i(1-2a_i)\!\left(1-\frac{r_i}{N}\right).
 \end{align*}
-
-The term \(C(\bfa)\) cancels entirely, so \(\Delta\pi_i\) is
-independent of \(\bfa_{-i}\).
-
-\end{proof}
-
-\begin{remark}
-
-The cancellation of \(C(\bfa)\) relies on the payoff~\eqref{eq:payoff} being
-\emph{linear} in contributions. The heterogeneity of \(r_i\) does not affect this
-cancellation: each player's counterfactual comparison depends only on their own
-parameters.
-
-\end{remark}
-
-\section{Product decomposition and exact cooperation probability}\label{sec:decomp}
-
-A Markov chain on a product space \(S=S_1\times\cdots\times S_N\) is called a
-\emph{random-scan composition}~\cite{liu1995covariance} if each step (i) selects a
-coordinate \(i\) uniformly at random and (ii) updates coordinate \(i\) according to a
-kernel \(M_i\) that may depend on coordinate \(i\) but not on the remaining coordinates
-\(\bfa_{-i}\).
-
-\begin{theorem}[Product decomposition]\label{thm:decomp}
-
-Under introspection dynamics with player-specific \(\beta_i\) and \(r_i\), uniform
-mutation \(\mu\in(0,\tfrac{1}{2})\), and payoff~\eqref{eq:payoff}, the Markov chain
-on \(S=\{0,1\}^N\) is a random-scan product of \(N\) independent two-state chains with
-stationary distributions \(\pi_i(C)=p_i\), \(\pi_i(D)=1-p_i\), where
-
-\begin{align}
-  p_i &= \phi_i\!\bigl(\alpha_i(1-r_i/N)\bigr)(1-2\mu)+\mu. \label{eq:pi}
-\end{align}
-\end{theorem}
-
-\begin{proof}
-
-By Lemma~\ref{lem:payoff-identity}, \(\Delta\pi_i\) depends on the current state \(\bfa\)
-only through coordinate \(a_i\). The switching probability~\eqref{eq:intro-transition}
-therefore depends on \(\bfa\) only through \(a_i\), and the transition for player \(i\)
-defines a \(2\times2\) conditional update kernel \(M_i\) (rows indexed by \(D=0\), \(C=1\),
-columns by the next action):
-\[
-  M_i = \begin{pmatrix} 1-p_i & p_i \\ q_i & 1-q_i \end{pmatrix},
-\]
-where \(p_i\) is as in~\eqref{eq:pi} and
-\[
-  q_i = \phi_i\!\bigl(\alpha_i(r_i/N-1)\bigr)(1-2\mu)+\mu \quad (C\to D).
-\]
-Since \(\phi_i(x)+\phi_i(-x)=1\), we have \(p_i+q_i=1\), so \(q_i=1-p_i\) and both
-rows of \(M_i\) are identical:
-\[
-  M_i = \begin{pmatrix} 1-p_i & p_i \\ 1-p_i & p_i \end{pmatrix}.
-\]
-Player \(i\)'s next action is therefore drawn from \(\pi_i = (1-p_i, p_i)\)
-regardless of their current action. The chain is thus a random-scan Gibbs sampler
-targeting \(\pi = \bigotimes_i \pi_i\): at each step one coordinate is resampled
-from its marginal under \(\pi\), independently of all other coordinates. By the
-standard theory of random-scan Gibbs samplers~\cite{liu1995covariance}, \(\pi\) is
-stationary, and since \(T^{\intro}\) is ergodic (by \(\mu>0\)), it is the unique
-stationary distribution.
-
+The term \(C(\bfa)\) cancels entirely, confirming state-independence with
+\(\delta_i=\alpha_i(1-r_i/N)\).
 \end{proof}
 
 \begin{corollary}[Exact cooperation probability]\label{cor:exact-pC}
 
-The long-run cooperation probability is
+For the heterogeneous public goods game~\eqref{eq:payoff}, the long-run cooperation
+probability is
 
 \begin{equation}\label{eq:pC}
   \boxed{
   \pC = \frac{1}{N}\sum_{i=1}^{N}
-        \left[\frac{1-2\mu}{1+e^{\,\beta_i\alpha_i(1-r_i/N)}}+\mu\right].
+        \left[\frac{1-\mu_{i0}-\mu_{i1}}{1+e^{\,\beta_i\alpha_i(1-r_i/N)}}+\mu_{i0}\right].
   }
 \end{equation}
 
-This is exact: no asymptotic or weak-selection approximation is made.
 \end{corollary}
 
 \begin{proof}
 
-By Theorem~\ref{thm:decomp} the stationary distribution is \(\pi=\bigotimes_i\pi_i\)
-with \(\pi_i(C)=p_i\). Since the marginals are independent, \(\mathbb{E}_\pi[a_i]=p_i\)
-for each \(i\), and therefore
-\[
-  \pC = \mathbb{E}_\pi[s_\bfa]
-      = \mathbb{E}_\pi\!\left[\frac{1}{N}\sum_{i=1}^N a_i\right]
-      = \frac{1}{N}\sum_{i=1}^N p_i.
-\]
-Substituting \(\phi_i(\alpha_i(1-r_i/N))=(1+e^{\beta_i\alpha_i(1-r_i/N)})^{-1}\)
+By Lemma~\ref{lem:payoff-identity}, \(\delta_i=\alpha_i(1-r_i/N)\). By
+Theorem~\ref{thm:decomp}: \(\pC = \frac{1}{N}\sum_{i=1}^N p_i\).
+Substituting \(\phi_i(\delta_i)=(1+e^{\beta_i\alpha_i(1-r_i/N)})^{-1}\)
 into~\eqref{eq:pi} gives~\eqref{eq:pC}.
 
 \end{proof}
 
-% TODO Let us add a nice panel figure here showing numeric results. The text
-% should cite ludics.
+Figure~\ref{fig:validation} validates Corollary~\ref{cor:exact-pC} against exact
+values and simulation across group sizes.
+Table~\ref{tab:stationary} verifies Theorem~\ref{thm:stationary}: for \(N=3\) with
+per-player multipliers \(r_1=1\), \(r_2=3=N\), \(r_3=9\), uniform contributions
+\(\alpha_i=1\), \(\beta=2\), and \(\mu_{i0}=\mu_{i1}=0.1\), the individual
+cooperation probabilities are \(p_1\approx0.267\), \(p_2=0.500\),
+\(p_3\approx0.886\), and the formula and exact values of \(\pi_{\mathbf{a}}\)
+agree to five decimal places for all eight states.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=\textwidth]{../assets/graphs/simulations/main.pdf}
+  \caption{Validation of formula~\eqref{eq:pC} on a heterogeneous group with
+    \(\alpha_i=i\), \(\beta=0.5\), \(\mu_{i0}=\mu_{i1}=0.1\).
+    \textit{Left:} \(r=2N\) (so \(r>N\) for all \(N\)).
+    \textit{Right:} \(r=N/2\) (so \(r<N\) for all \(N\)).
+    Orange dots: exact \(p_C\) from the full \(2^N\) linear system (feasible only
+    for small \(N\)).
+    Blue curve: formula~\eqref{eq:pC} (Corollary~\ref{cor:exact-pC}).
+    Blue bands: \(p_C\) estimated from \(10^5\) simulation steps across 99
+    independent runs.
+    All values obtained using~\cite{harry_foster_2026_19495532}.}
+  \label{fig:validation}
+\end{figure}
+
+\begin{table}[ht]
+  \centering
+  \input{stationary_table}
+  \caption{Stationary-distribution probabilities \(\pi_{\mathbf{a}}\) for all
+    eight states \(\mathbf{a}\in\{D,C\}^3\) with \(N=3\), \(\alpha_i=1\),
+    \(\beta=2\), \(\mu_{i0}=\mu_{i1}=0.1\), and per-player multipliers
+    \(r_1=1{<}N{=}r_2{=}3{<}r_3{=}9\).
+    Formula: product measure~\eqref{eq:stationary} (Theorem~\ref{thm:stationary});
+    Exact: values from the \(2^N\) linear system obtained
+    using~\cite{harry_foster_2026_19495532}.
+    Both columns to five decimal places.}
+  \label{tab:stationary}
+\end{table}
 
 \section{Structural consequences}\label{sec:consequences}
 
-The closed form~\eqref{eq:pC} allows immediate structural conclusions about how
-cooperation depends on game parameters.
+The formulas~\eqref{eq:pi} and~\eqref{eq:pC} allow immediate structural conclusions
+about individual and aggregate cooperation.
 
 \begin{corollary}[Player-specific cooperation thresholds]\label{cor:threshold}
-    
-Player \(i\) cooperates with probability greater than \(\frac{1}{2}\) if and only if
-\(r_i > N\). A sufficient condition for \(\pC > \tfrac{1}{2}\) is \(r_i > N\) for all \(i\).
+
+Player \(i\) cooperates with probability greater than \(\tfrac{1}{2}\) if and only if
+\[
+  \phi_i(\delta_i) > \frac{\tfrac{1}{2}-\mu_{i0}}{1-\mu_{i0}-\mu_{i1}}.
+\]
+For the PGG, \(\delta_i=\alpha_i(1-r_i/N)\); when \(\mu_{i0}=\mu_{i1}\) this reduces
+to \(r_i>N\). A sufficient condition for \(\pC>\tfrac{1}{2}\) is that the inequality
+holds for every \(i\).
 
 \end{corollary}
 
 \begin{proof}
-    
-Since \(\phi_i\) is strictly decreasing with \(\phi_i(0)=\tfrac{1}{2}\):
+
+Since \(1-\mu_{i0}-\mu_{i1}>0\):
 \[
   p_i > \tfrac{1}{2}
-  \iff \phi_i\!\bigl(\alpha_i(1-r_i/N)\bigr) > \tfrac{1}{2}
-  \iff \alpha_i(1-r_i/N) < 0
-  \iff r_i > N.
+  \iff (1-\mu_{i0}-\mu_{i1})\phi_i(\delta_i) > \tfrac{1}{2}-\mu_{i0}
+  \iff \phi_i(\delta_i) > \frac{\tfrac{1}{2}-\mu_{i0}}{1-\mu_{i0}-\mu_{i1}}.
 \]
-
-The average \(\pC=\frac{1}{N}\sum_i p_i\) exceeds \(\tfrac{1}{2}\) whenever every
-summand does.
+When \(\mu_{i0}=\mu_{i1}\), the right-hand side equals \(\tfrac{1}{2}\), and since
+\(\phi_i\) is strictly decreasing with \(\phi_i(0)=\tfrac{1}{2}\), this is equivalent
+to \(\delta_i<0\). For the PGG, \(\delta_i=\alpha_i(1-r_i/N)<0\) iff \(r_i>N\).
+The claim about \(\pC\) follows by averaging.
 
 \end{proof}
 
 \begin{corollary}[Neutral drift]\label{cor:neutral}
 
-If \(\beta_i=0\) for all \(i\), then \(\pC=\tfrac{1}{2}\) regardless of all other
-parameters.
+If \(\beta_i=0\) for all \(i\), then \(\phi_i\) is constant and the payoff parameters
+\(\delta_i\) have no effect on \(p_C\); cooperation is determined entirely by mutation:
+\[
+  p_i = \frac{1+\mu_{i0}-\mu_{i1}}{2}, \qquad
+  \pC = \frac{1}{2}+\frac{1}{2N}\sum_{i=1}^{N}(\mu_{i0}-\mu_{i1}).
+\]
+In particular, \(\pC=\tfrac{1}{2}\) if and only if
+\(\sum_i(\mu_{i0}-\mu_{i1})=0\).
 
 \end{corollary}
 
 \begin{proof}
 
-When \(\beta_i=0\), the Fermi function satisfies \(\phi_i(x)=\tfrac{1}{2}\) for all \(x\).
-Substituting into~\eqref{eq:pC}:
+When \(\beta_i=0\), the Fermi function satisfies \(\phi_i(x)=\tfrac{1}{2}\) for all
+\(x\). Substituting into~\eqref{eq:pi}:
 \[
-  \pC = \frac{1}{N}\sum_{i=1}^N\left[\frac{1-2\mu}{2}+\mu\right]
-       = \frac{1-2\mu}{2}+\mu = \frac{1}{2}.\qedhere
+  p_i = \frac{1-\mu_{i0}-\mu_{i1}}{2}+\mu_{i0}
+      = \frac{1}{2}+\frac{\mu_{i0}-\mu_{i1}}{2}
+      = \frac{1+\mu_{i0}-\mu_{i1}}{2}.\qedhere
 \]
 
 \end{proof}
 
 \begin{corollary}[Role of heterogeneity]\label{cor:heterogeneity}
 
-For player \(i\) with \(r_i\neq N\):
+For the PGG, for player \(i\) with \(r_i\neq N\):
 
 \begin{enumerate}
   \item[(i)] \(\dfrac{\partial p_i}{\partial\alpha_i}\) is positive when \(r_i>N\) and
@@ -322,24 +382,26 @@ For player \(i\) with \(r_i\neq N\):
 
 \begin{proof}
 
-Write \(p_i=(1-2\mu)\phi_i(\alpha_i(1-r_i/N))+\mu\).
+Write \(p_i=(1-\mu_{i0}-\mu_{i1})\phi_i(\alpha_i(1-r_i/N))+\mu_{i0}\).
 
 \textit{Part (i).} Differentiating with respect to \(\alpha_i\):
 \[
   \frac{\partial p_i}{\partial\alpha_i}
-    = (1-2\mu)(1-r_i/N)\,\phi_i'(\alpha_i(1-r_i/N)).
+    = (1-\mu_{i0}-\mu_{i1})(1-r_i/N)\,\phi_i'(\alpha_i(1-r_i/N)).
 \]
-Since \(\phi_i'(x)<0\) for all \(x\) and \(1-2\mu>0\), the sign equals
-\(-\mathrm{sgn}(1-r_i/N)=\mathrm{sgn}(r_i/N-1)\), which is positive iff \(r_i>N\).
+Since \(\phi_i'(x)<0\) for all \(x\) and \(1-\mu_{i0}-\mu_{i1}>0\), the sign equals
+\(-\mathrm{sgn}(1-r_i/N)=\mathrm{sgn}(r_i/N-1)\), which is positive if and only
+if \(r_i>N\).
 
 \textit{Part (ii).} Write \(g(t)=(1+e^t)^{-1}\), so \(\phi_i(x)=g(\beta_i x)\).
 Differentiating with respect to \(\beta_i\):
 \[
   \frac{\partial p_i}{\partial\beta_i}
-    = (1-2\mu)\,\alpha_i(1-r_i/N)\,g'(\beta_i\alpha_i(1-r_i/N)).
+    = (1-\mu_{i0}-\mu_{i1})\,\alpha_i(1-r_i/N)\,g'(\beta_i\alpha_i(1-r_i/N)).
 \]
 Since \(g'<0\) and \(\alpha_i>0\), the sign equals
-\(-\mathrm{sgn}(1-r_i/N)=\mathrm{sgn}(r_i/N-1)\), which is positive iff \(r_i>N\).
+\(-\mathrm{sgn}(1-r_i/N)=\mathrm{sgn}(r_i/N-1)\), which is positive if and only
+if \(r_i>N\).
 \end{proof}
 
 \begin{remark}
@@ -353,25 +415,42 @@ players have no effect on player \(i\)'s marginal cooperation probability.
 
 \end{remark}
 
-% TODO Can we get include a nice panel figure here showing this.
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=\textwidth]{../assets/graphs/big_panel/main.pdf}
+  \caption{Structural properties of \(p_i\) for a single player with \(N = 5\),
+    \(\mu_{i0} = \mu_{i1} = 0.1\).
+    \textit{Top left:} \(p_i\) as a function of \(\beta_i\) (\(\alpha_i = 2\))
+    for \(r < N\), \(r = N\), and \(r > N\); all curves pass through \(p_i = \tfrac{1}{2}\)
+    at \(\beta_i = 0\) (Corollary~\ref{cor:neutral}).
+    \textit{Top centre:} \(p_i\) as a function of \(\alpha_i\) for two values of
+    \(r\) and \(\beta_i\); curves above (below) \(\tfrac{1}{2}\) correspond to
+    \(r > N\) (\(r < N\)).
+    \textit{Top right:} \(p_i(\alpha_i, r_i)\) at \(\beta_i = 0\), confirming
+    \(p_i = \tfrac{1}{2}\) everywhere (Corollary~\ref{cor:neutral}); the dashed
+    line marks \(r_i = N\).
+    \textit{Bottom row:} Heatmaps of the partial derivatives
+    \(\partial p_i/\partial \mu_i\), \(\partial p_i/\partial \alpha_i\), and
+    \(\partial p_i/\partial \beta_i\) over the \((r_i, \alpha_i)\) or
+    \((r_i, \beta_i)\) plane (\(\beta_i = 0.5\) or \(\alpha_i = 2\) as fixed
+    parameter). Red indicates a positive derivative; blue indicates negative.
+    Each derivative changes sign exactly at \(r_i = N\) (dashed line), consistent
+    with Corollary~\ref{cor:heterogeneity}.}
+  \label{fig:panel}
+\end{figure}
 
 \section{Conclusion}\label{sec:conclusion}
 
-We have proved that introspection dynamics on the heterogeneous public goods game is
-exactly solvable. The linear payoff structure implies that each player's counterfactual
-payoff comparison is independent of all other players' actions
-(Lemma~\ref{lem:payoff-identity}), so each player's \(2\times2\) update kernel has
-identical rows: player \(i\) draws their next action from \(\pi_i\) independently of their
-current action. The Markov chain on \(\{0,1\}^N\) is therefore a random-scan product of
-\(N\) independent chains (Theorem~\ref{thm:decomp}), the stationary distribution is a
-product measure, and the cooperation probability has a closed form with \(N\) terms rather
-than \(2^N\) (Corollary~\ref{cor:exact-pC}).
+We have proved that introspection dynamics on any state-independent game is exactly
+solvable. When \(\Delta f_i\) depends only on \(a_i\), each selection of player \(i\)
+places them in state \(C\) with probability \(p_i\) regardless of current state
+(Theorem~\ref{thm:decomp}), and the stationary distribution is a product measure
+(Theorem~\ref{thm:stationary}). For the heterogeneous public goods game, the linear
+payoff structure implies state-independence (Lemma~\ref{lem:payoff-identity}), and the
+long-run cooperation probability has a closed form with \(N\) terms rather than \(2^N\)
+(Corollary~\ref{cor:exact-pC}).
 
-This closed form provides the reference point for perturbation-theoretic comparisons
-with other evolutionary dynamics, including the Moran process, Fermi imitation,
-aspiration dynamics, and introspective imitation. Non-asymptotic bounds on the
-resulting cooperation probability differences are pursued in companion work.
-
+\newpage
 \bibliographystyle{plain}
 \bibliography{bibliography}
 

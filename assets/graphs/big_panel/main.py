@@ -1,157 +1,175 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.colors as mcolors
 import seaborn as sns
 import pathlib
-from mpl_toolkits.mplot3d import Axes3D
 
 file_path = pathlib.Path(__file__)
 
-def get_individual_player_val(alpha, r, N, beta, mu):
-    numerator = 1 - (2 * mu)
-    denominator = 1 + np.exp(beta * (alpha * (1 - (r / N))))
-    return (numerator / denominator) + mu
+
+def p_i(alpha, r, N, beta, mu):
+    s = beta * alpha * (1 - r / N)
+    return (1 - 2 * mu) / (1 + np.exp(s)) + mu
 
 
-fig, axarray = plt.subplots(2, 2, figsize=(10, 8))
-ax = axarray.flatten()
+def dp_dmu(alpha, r, N, beta):
+    """dp_i/dmu = 1 - 2*phi(beta*alpha*(1-r/N)).  Independent of mu."""
+    s = beta * alpha * (1 - r / N)
+    return 1 - 2 / (1 + np.exp(s))
+
+
+def dp_dalpha(alpha, r, N, beta, mu):
+    s = beta * alpha * (1 - r / N)
+    e_s = np.exp(s)
+    return (1 - 2 * mu) * (-beta * (1 - r / N)) * e_s / (1 + e_s) ** 2
+
+
+def dp_dbeta(alpha, r, N, beta, mu):
+    s = beta * alpha * (1 - r / N)
+    e_s = np.exp(s)
+    return (1 - 2 * mu) * (-alpha * (1 - r / N)) * e_s / (1 + e_s) ** 2
+
 
 N = 5
 standard_alpha = 2
 standard_mu = 0.1
+standard_beta = 0.5
+linestyles = ["-", "--", "-.", ":"]
 
-linestyles = ['-', '--', '-.', ':']
+beta_values = np.linspace(0, 2, 400)
+alpha_values = np.linspace(0.1, 10, 400)
+r_values = np.linspace(1, 10, 400)
+beta_fine = np.linspace(0.01, 2, 400)
 
-beta_values = np.linspace(0, 2, 200)
+fig, axes = plt.subplots(2, 3, figsize=(15, 10))
 
-beta_values_r_lt = np.array([
-    get_individual_player_val(standard_alpha, 2, N, beta, standard_mu)
-    for beta in beta_values
-])
-beta_values_r_eq = np.array([
-    get_individual_player_val(standard_alpha, 5, N, beta, standard_mu)
-    for beta in beta_values
-])
-beta_values_r_gt = np.array([
-    get_individual_player_val(standard_alpha, 7, N, beta, standard_mu)
-    for beta in beta_values
-])
+ax = axes[0, 0]
+for r_val, ls in zip([2, 5, 7], linestyles):
+    ax.plot(
+        beta_values,
+        p_i(standard_alpha, r_val, N, beta_values, standard_mu),
+        color="black",
+        linestyle=ls,
+        linewidth=2,
+        label=rf"$r = {r_val}$",
+    )
+ax.axhline(0.5, color="gray", linewidth=0.8, linestyle=":")
+ax.set_xlabel(r"$\beta_i$")
+ax.set_ylabel(r"$p_i$")
+ax.legend()
 
-sns.lineplot(x=beta_values, y=beta_values_r_lt, ax=ax[0],
-             color='black', linestyle=linestyles[0], linewidth=2, label=r'$r = 2$')
+ax = axes[0, 1]
+for (r_val, beta_val), ls in zip([(7, 2), (7, 0.2), (2, 2), (2, 0.2)], linestyles):
+    ax.plot(
+        alpha_values,
+        p_i(alpha_values, r_val, N, beta_val, standard_mu),
+        color="black",
+        linestyle=ls,
+        linewidth=2,
+        label=rf"$r = {r_val},\ \beta = {beta_val}$",
+    )
+ax.axhline(0.5, color="gray", linewidth=0.8, linestyle=":")
+ax.set_xlabel(r"$\alpha_i$")
+ax.set_ylabel(r"$p_i$")
+ax.legend()
 
-sns.lineplot(x=beta_values, y=beta_values_r_eq, ax=ax[0],
-             color='black', linestyle=linestyles[1], linewidth=2, label=r'$r = 5$')
+ax = axes[0, 2]
+R, A = np.meshgrid(r_values, alpha_values)
+Z = p_i(A, R, N, beta=0, mu=standard_mu)
+im = ax.imshow(
+    Z,
+    extent=[r_values.min(), r_values.max(), alpha_values.min(), alpha_values.max()],
+    origin="lower",
+    aspect="auto",
+    cmap="gray",
+    vmin=0,
+    vmax=1,
+)
+plt.colorbar(im, ax=ax, label=r"$p_i$")
+ax.axvline(N, color="k", linewidth=1, linestyle="--", label=rf"$r_i = N = {N}$")
+ax.set_xlabel(r"$r_i$")
+ax.set_ylabel(r"$\alpha_i$")
+ax.set_title(r"$p_i$ when $\beta_i = 0$" "\n" r"(neutral drift: $p_i = 1/2$)")
+ax.legend(fontsize=8)
 
-sns.lineplot(x=beta_values, y=beta_values_r_gt, ax=ax[0],
-             color='black', linestyle=linestyles[2], linewidth=2, label=r'$r = 7$')
 
-ax[0].set_xlabel(r'$\beta$')
-ax[0].set_ylabel(r'$p_i$')
-ax[0].legend()
+def diverging_heatmap(ax, Z, r_vals, y_vals, xlabel, ylabel, cblabel, N):
+    vmax = np.abs(Z).max()
+    vmin = -vmax
+    norm = mcolors.TwoSlopeNorm(vmin=vmin, vcenter=0, vmax=vmax)
+    im = ax.imshow(
+        Z,
+        extent=[r_vals.min(), r_vals.max(), y_vals.min(), y_vals.max()],
+        origin="lower",
+        aspect="auto",
+        cmap="RdBu_r",
+        norm=norm,
+    )
+    plt.colorbar(im, ax=ax, label=cblabel)
+    ax.axvline(N, color="k", linewidth=1, linestyle="--", label=rf"$r_i = N = {N}$")
+    ax.set_xlabel(xlabel)
+    ax.set_ylabel(ylabel)
+    ax.legend(fontsize=8)
 
-alpha_values = np.linspace(0.1, 10, 2000)
 
-alpha_values_r_gt_beta_high = np.array([
-    get_individual_player_val(alpha, 7, N, 2, standard_mu)
-    for alpha in alpha_values
-])
-alpha_values_r_gt_beta_low = np.array([
-    get_individual_player_val(alpha, 7, N, 0.2, standard_mu)
-    for alpha in alpha_values
-])
-
-alpha_values_r_lt_beta_high = np.array([
-    get_individual_player_val(alpha, 2, N, 2, standard_mu)
-    for alpha in alpha_values
-])
-alpha_values_r_lt_beta_low = np.array([
-    get_individual_player_val(alpha, 2, N, 0.2, standard_mu)
-    for alpha in alpha_values
-])
-
-sns.lineplot(x=alpha_values, y=alpha_values_r_gt_beta_high, ax=ax[1],
-             color='black', linestyle=linestyles[0], linewidth=2,
-             label=r'$r = 7,\ \beta = 2$')
-
-sns.lineplot(x=alpha_values, y=alpha_values_r_gt_beta_low, ax=ax[1],
-             color='black', linestyle=linestyles[1], linewidth=2,
-             label=r'$r = 7,\ \beta = 0.2$')
-
-sns.lineplot(x=alpha_values, y=alpha_values_r_lt_beta_high, ax=ax[1],
-             color='black', linestyle=linestyles[2], linewidth=2,
-             label=r'$r = 2,\ \beta = 2$')
-
-sns.lineplot(x=alpha_values, y=alpha_values_r_lt_beta_low, ax=ax[1],
-             color='black', linestyle=linestyles[3], linewidth=2,
-             label=r'$r = 2,\ \beta = 0.2$')
-
-ax[1].set_xlabel(r'$\alpha_i$')
-ax[1].set_ylabel(r'$p_i$')
-ax[1].legend()
-
-r_values = np.linspace(1,10,2000)
-R,A = np.meshgrid(r_values, alpha_values)
-pc_vals_beta_zero = get_individual_player_val(
-    alpha=A,
-    r=R,
+ax = axes[1, 0]
+R, A = np.meshgrid(r_values, alpha_values)
+Z = dp_dmu(A, R, N, beta=standard_beta)
+diverging_heatmap(
+    ax,
+    Z,
+    r_values,
+    alpha_values,
+    xlabel=r"$r_i$",
+    ylabel=r"$\alpha_i$",
+    cblabel=r"$\partial p_i / \partial \mu$",
     N=N,
-    beta=0,
-    mu=standard_mu
 )
-im = ax[2].imshow(
-    pc_vals_beta_zero,
-    extent=[r_values.min(), r_values.max(),
-            alpha_values.min(), alpha_values.max()],
-    origin='lower',
-    aspect='auto',
-    cmap='gray'
+ax.set_title(
+    r"$\partial p_i / \partial \mu$"
+    "\n"
+    rf"($\beta_i = {standard_beta}$;  $\mu$ does not appear in derivative)"
 )
 
-plt.colorbar(im, label=r'$p_i$')
-
-ax[2].set_xlabel('r')
-ax[2].set_ylabel(r'$\alpha_i$')
-ax[2].set_title(r'Heatmap of $p_i$ ($\beta = 0$)')
-
-mu_values = np.linspace(0, 0.5, 2000, endpoint=False)
-
-d_beta_over_r = np.array([
-    np.gradient(np.array([get_individual_player_val(alpha=standard_alpha, N=N, r=r, beta=beta, mu=standard_mu) for beta in beta_values])) for r in r_values
-])
-
-R, B = np.meshgrid(r_values, beta_values, indexing='ij')
-plot = ax[3].plot_surface(
-    R, B, d_beta_over_r,
-    cmap='grey', label = r'$\frac{\partial \beta_i}{\partial r_i}$'
+ax = axes[1, 1]
+R, A = np.meshgrid(r_values, alpha_values)
+Z = dp_dalpha(A, R, N, beta=standard_beta, mu=standard_mu)
+diverging_heatmap(
+    ax,
+    Z,
+    r_values,
+    alpha_values,
+    xlabel=r"$r_i$",
+    ylabel=r"$\alpha_i$",
+    cblabel=r"$\partial p_i / \partial \alpha_i$",
+    N=N,
+)
+ax.set_title(
+    r"$\partial p_i / \partial \alpha_i$"
+    "\n"
+    rf"($\beta_i = {standard_beta}$, $\mu_i = {standard_mu}$)"
 )
 
-
-
-
-d_alpha_over_r = np.array([
-    np.gradient(np.array([get_individual_player_val(alpha=alpha, N=N, r=r, beta=0.5, mu=standard_mu) for alpha in alpha_values])) for r in r_values
-])
-
-d_mu_over_r = np.array([
-    np.gradient(np.array([get_individual_player_val(alpha=standard_alpha, N=N, r=r, beta=0.5, mu=mu) for mu in mu_values])) for r in r_values
-])
-
-
-R, A = np.meshgrid(r_values, alpha_values, indexing='ij')
-surf = ax[3].plot_surface(
-    R, A, d_alpha_over_r,
-    cmap='grey', label = r'$\frac{\partial \alpha_i}{\partial r_i}$'
+ax = axes[1, 2]
+R, B = np.meshgrid(r_values, beta_fine)
+Z = dp_dbeta(standard_alpha, R, N, B, mu=standard_mu)
+diverging_heatmap(
+    ax,
+    Z,
+    r_values,
+    beta_fine,
+    xlabel=r"$r_i$",
+    ylabel=r"$\beta_i$",
+    cblabel=r"$\partial p_i / \partial \beta_i$",
+    N=N,
+)
+ax.set_title(
+    r"$\partial p_i / \partial \beta_i$"
+    "\n"
+    rf"($\alpha_i = {standard_alpha}$, $\mu_i = {standard_mu}$)"
 )
 
-R, MU = np.meshgrid(r_values, mu_values, indexing='ij')
-surf = ax[3].plot_surface(
-    R, MU, d_mu_over_r,
-    cmap='grey', label = r'$\frac{\partial \mu_i}{\partial r_i}$'
-)
-
-ax[3].set_xlabel(r'$r_i$')
-ax[3].set_ylabel(r'$\mu$')
-ax[3].set_zlabel(r'$\frac{\partial p_i}{\partial \mu}$')
+# ---------------------------------------------------------------------------
 
 plt.tight_layout()
-plt.savefig(file_path.parent / "main.pdf")
+plt.savefig(file_path.parent / "main.pdf", bbox_inches="tight")

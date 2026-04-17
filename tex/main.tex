@@ -33,7 +33,7 @@
 
 \begin{abstract}
 We study introspection dynamics on multiplayer games in which the payoff difference
-\(\Delta f_i\) a player evaluates when considering a strategy switch is independent of
+\(\Delta f_i\) evaluated by a player when considering a strategy switch is independent of
 all other players' current actions, a property we call \emph{state-independence}. Under
 this condition the introspection Markov chain decomposes as a random-scan product of
 \(N\) independent two-state chains, one per player, and the stationary distribution is a
@@ -108,9 +108,10 @@ at state \(\bfa\) is
   \Delta f_i(\bfa) := f_i(\bfa) - f_i(\bfa_{i\to\bar{a}_i}).
 \]
 
-A payoff function \(f_i\) is \emph{state-independent} if \(\Delta f_i(\bfa)\) depends
-only on \(a_i\), not on \(\bfa_{-i}\). When this holds there is a constant
-\(\delta_i\in\mathbb{R}\) such that
+A payoff function \(f_i\) is \emph{state-independent} if \(\Delta f_i(\bfa)\)
+depends only on \(a_i\), not on \(\bfa_{-i}\), the actions of all individuals
+other than \(i\). When this holds there is a constant \(\delta_i\in\mathbb{R}\)
+such that
 
 \begin{equation}\label{eq:delta}
   \Delta f_i(\bfa) = (1-2a_i)\,\delta_i,
@@ -201,15 +202,18 @@ player \(i\) cooperates is
 
 \begin{proof}
 
-By state-independence, \(\Delta f_i(\bfa)=(1-2a_i)\delta_i\) depends only on \(a_i\).
-When player \(i\) is selected, the probability their next action is \(C\) equals \(p_i\)
-regardless of their current action: if \(a_i=D\), the switch probability is
-\(\phi_i(\delta_i)(1-\mu_{i0}-\mu_{i1})+\mu_{i0}=p_i\); if \(a_i=C\), the
-probability of remaining at \(C\) is
-\(1-[\phi_i(-\delta_i)(1-\mu_{i0}-\mu_{i1})+\mu_{i1}]=p_i\), using
-\(\phi_i(x)+\phi_i(-x)=1\). Since each selection of player \(i\) places them in state
-\(C\) with probability \(p_i\) independently of their current state, the long-run
-cooperation probability of player \(i\) is \(p_i\).
+By state-independence, \(\Delta f_i(\bfa)=(1-2a_i)\delta_i\) depends only on
+    \(a_i\). When player \(i\) is selected, the probability their next action is
+    \(C\) equals \(p_i\) regardless of their current action: if \(a_i=D\), the
+    switch probability is
+    \(p_i=\phi_i(\delta_i)(1-\mu_{i0}-\mu_{i1})+\mu_{i0}\); if \(a_i=C\), the
+    probability of remaining at \(C\) is
+    \(1-[\phi_i(-\delta_i)(1-\mu_{i0}-\mu_{i1})+\mu_{i1}]\), using
+    \(\phi_i(x)+\phi_i(-x)=1\) this gives: \(1-[(1 -
+    \phi_i(\delta_i))(1-\mu_{i0}-\mu_{i1})+\mu_{i1}]=p_i\). Since each selection
+    of player \(i\) places them in state \(C\) with probability \(p_i\)
+    independently of their current state, the long-run cooperation probability
+    of player \(i\) is \(p_i\).
 
 \end{proof}
 

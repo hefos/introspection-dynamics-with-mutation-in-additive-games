@@ -5,7 +5,33 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import pathlib
 from matplotlib.lines import Line2D
-from matplotlib.patches import Patch
+from matplotlib.patches import Patch, Rectangle
+from matplotlib.legend_handler import HandlerBase
+
+
+class HandlerBoxplot(HandlerBase):
+    def create_artists(self, legend, orig_handle, xdescent, ydescent, width, height, fontsize, trans):
+        cx, cy = width / 2, height / 2
+        box_h = height * 0.5
+        box_w = width * 0.45
+        wlen = height * 0.25
+
+        box = Rectangle((cx - box_w / 2, cy - box_h / 2), box_w, box_h,
+                         facecolor=orig_handle.get_facecolor(),
+                         edgecolor="black", linewidth=0.8, transform=trans)
+        median = Line2D([cx - box_w / 2, cx + box_w / 2], [cy, cy],
+                        color="black", linewidth=1.0, transform=trans)
+        whisker_lo = Line2D([cx, cx], [cy - box_h / 2, cy - box_h / 2 - wlen],
+                            color="black", linewidth=0.8, transform=trans)
+        whisker_hi = Line2D([cx, cx], [cy + box_h / 2, cy + box_h / 2 + wlen],
+                            color="black", linewidth=0.8, transform=trans)
+        cap_lo = Line2D([cx - box_w / 4, cx + box_w / 4],
+                        [cy - box_h / 2 - wlen, cy - box_h / 2 - wlen],
+                        color="black", linewidth=0.8, transform=trans)
+        cap_hi = Line2D([cx - box_w / 4, cx + box_w / 4],
+                        [cy + box_h / 2 + wlen, cy + box_h / 2 + wlen],
+                        color="black", linewidth=0.8, transform=trans)
+        return [box, median, whisker_lo, whisker_hi, cap_lo, cap_hi]
 
 file_path = pathlib.Path(__file__)
 assets_path = file_path.parents[2]
@@ -57,7 +83,7 @@ def pgg_per_player_r(state, r_vector, contribution_vector, **kwargs):
 def generate_stationary_table(out_path):
     N = 3
     alphas = np.ones(N)
-    r_vector = np.array([1.0, 3.0, 9.0])   # r1 < N = r2 < r3
+    r_vector = np.array([1.0, 3.0, 9.0])
     beta = 2.0
     mu = 0.1
 
@@ -74,7 +100,6 @@ def generate_stationary_table(out_path):
     )
     steady_state = ludics.compute_steady_state(transition_matrix)
 
-    # Formula p_i values: p_i = phi_i(alpha_i(1 - r_i/N)) * (1 - mu_i0 - mu_i1) + mu_i0
     p = np.array([
         1.0 / (1.0 + np.exp(beta * alphas[i] * (1.0 - r_vector[i] / N))) * (1 - 2 * mu) + mu
         for i in range(N)
@@ -124,7 +149,8 @@ handles = [
 ]
 
 fig.legend(handles=handles, loc="upper center", ncol=3,
-           bbox_to_anchor=(0.5, 1.01))
+           bbox_to_anchor=(0.5, 1.01),
+           handler_map={handles[2]: HandlerBoxplot()})
 plt.tight_layout(rect=[0, 0, 1, 0.95])
 plt.savefig(file_path.parent / "main.pdf", bbox_inches="tight")
 

@@ -24,8 +24,14 @@ def plot_case(ax, sim, theoretic, new):
     sns.scatterplot(data=theoretic, x="N", y="p_C", ax=ax,
                     marker="o", color="orange", zorder=3)
     sns.lineplot(data=new, x="N", y="p_C", errorbar=None, ax=ax, zorder=2)
-    sns.violinplot(data=sim, x="N", y="p_C", inner=None, ax=ax,
-                   facecolor="C0", zorder=1)
+    sns.boxplot(data=sim, x="N", y="p_C", ax=ax,
+                color="C0",
+                medianprops=dict(color="black", linewidth=1.5),
+                boxprops=dict(facecolor="C0", edgecolor="black"),
+                whiskerprops=dict(color="black"),
+                capprops=dict(color="black"),
+                flierprops=dict(marker=".", markersize=3, color="black", alpha=0.5),
+                zorder=1)
 
     labels = [t.get_text() for t in ax.get_xticklabels()]
     ax.set_xticklabels([
@@ -114,7 +120,7 @@ handles = [
            markersize=8, label=r"exact $p_C$ (linear system)"),
     Line2D([0], [0], color="C0", linewidth=2,
            label=r"formula $p_C$ (Corollary~1)"),
-    Patch(facecolor="C0", alpha=0.5, label=r"simulated $p_C$"),
+    Patch(facecolor="C0", edgecolor="black", label=r"simulated $p_C$"),
 ]
 
 fig.legend(handles=handles, loc="upper center", ncol=3,

@@ -11,6 +11,7 @@
 \newtheorem{theorem}{Theorem}
 \newtheorem{lemma}[theorem]{Lemma}
 \newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{proposition}[theorem]{Proposition}
 \newtheorem{definition}[theorem]{Definition}
 \newtheorem{remark}[theorem]{Remark}
 
@@ -237,6 +238,25 @@ probability $p_i$ and defecting with probability $1-p_i$. The probability of sta
 $\bfa$ is the product of these marginals, giving~\eqref{eq:stationary}.
 
 \end{proof}
+
+\begin{remark}
+For the Prisoner's Dilemma \(M_1\) (\ref{eq:games_from_couto_2022}) of~\cite{couto2022introspection} the payoff
+\(f_1(\bfa)=-c_1 a_1+b a_2\) is separable with \(\delta_1=c_1\), and similarly
+\(\delta_2=c_2\). With \(b=1\), \(c_1=0.6\), \(c_2=0.1\), \(\beta=5\), and
+\(\mu_{ij}=0\),
+Theorems~\ref{thm:decomp} and~\ref{thm:stationary} give
+\[
+  p_1 = \frac{1}{1+e^{3}} \approx 0.047, \qquad
+  p_2 = \frac{1}{1+e^{0.5}} \approx 0.378,
+\]
+and the stationary distribution over \(\{DD,DC,CD,CC\}\) is the product measure
+\[
+  \pi_{DD} \approx 0.593,\quad
+  \pi_{DC} \approx 0.360,\quad
+  \pi_{CD} \approx 0.030,\quad
+  \pi_{CC} \approx 0.018.
+\]
+\end{remark}
 
 \section{State-independence of the heterogeneous public goods game}\label{sec:payoff}
 
@@ -482,6 +502,14 @@ places them in state \(C\) with probability \(p_i\) regardless of current state
 payoff structure implies state-independence (Lemma~\ref{lem:payoff-identity}), and the
 long-run cooperation probability has a closed form with \(N\) terms rather than \(2^N\)
 (Corollary~\ref{cor:exact-pC}).
+
+The approach does not extend to games that are not state-independent. When
+\(\Delta f_i(\bfa)\) depends on \(\bfa_{-i}\), the per-player chains are coupled and
+the stationary distribution is no longer a product measure; the full \(2^N\) linear
+system must be solved in general. Games such as the Stag Hunt (\(M_2\) of
+(\ref{eq:games_from_couto_2022})) contain payoff cross
+terms \(a_i a_{-i}\) that cannot be eliminated by rescaling, so no reformulation
+brings them within the scope of the present results.
 
 \newpage
 \bibliographystyle{plain}

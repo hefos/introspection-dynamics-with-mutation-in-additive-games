@@ -11,7 +11,7 @@
 \newtheorem{theorem}{Theorem}
 \newtheorem{lemma}[theorem]{Lemma}
 \newtheorem{corollary}[theorem]{Corollary}
-\newtheorem{definition}[theorem]{Definition}
+\newtheorem{definition}{Definition}
 \newtheorem{remark}[theorem]{Remark}
 
 \newcommand{\bfa}{\mathbf{a}}
@@ -32,6 +32,11 @@
 \maketitle
 
 \begin{abstract}
+Cooperation in heterogeneous groups, where individuals differ in resources, productivity,
+and behavioural responsiveness, underpins collective action across many social and
+biological systems. Introspection dynamics, in which each player compares their payoff to
+what they would have received under the alternative action, provides a natural learning
+rule for such asymmetric settings.
 We study introspection dynamics on multiplayer games in which the payoff difference
 \(\Delta f_i\) evaluated by a player when considering a strategy switch is independent of
 all other players' current actions, a property we call \emph{state-independence}. Under
@@ -56,7 +61,7 @@ sensitivity to their own parameters.
 
 The public goods game is a canonical model of cooperation in evolutionary game theory:
 players decide whether to contribute to a common resource, which is multiplied and
-redistributed equally, creating a tension between individual incentive and collective
+redistributed, creating a tension between individual incentive and collective
 benefit~\cite{nowak2006five}. Classical analyses assume a homogeneous population, but
 real groups are heterogeneous: players differ in their productivity, their contributions,
 and how sensitively they respond to payoff differences~\cite{hauser2019social}.
@@ -87,7 +92,9 @@ consequence of the \emph{linearity} of its payoff structure, yielding the exact
 formula~\eqref{eq:pC}.
 
 The paper is organised as follows. Section~\ref{sec:setup} introduces the general
-framework and the state-independence condition.
+framework and the state-independence condition, noting that whilst the donation-form
+Prisoner's Dilemma is state-independent, the Stag Hunt and the classical (RPST)
+Prisoner's Dilemma are not.
 Section~\ref{sec:decomp} proves, for any state-independent game, that individual
 cooperation probabilities are given by~\eqref{eq:pi} and the stationary distribution
 is a product measure. Section~\ref{sec:payoff} establishes state-independence for the
@@ -126,7 +133,7 @@ Note that not all games lead to \emph{state-independent} payoff functions. For
 example in~\cite{couto2022introspection} two of the 2 player, 2 strategy games
 considered to illustrate introspection dynamics are: the Prisoner's Dilemma
 (\ref{eq:games_from_couto_2022} - \(M_1\)) and the Stag-hunt
-(\ref{eq:games_from_couto_2022} - \(M_2\)) for \(b > c_1 \leq c_2 > 0\).
+(\ref{eq:games_from_couto_2022} - \(M_2\)) for \(0 < c_1, c_2 < b\).
 
 \begin{equation}\label{eq:games_from_couto_2022}
     M_1 = \begin{pmatrix}
@@ -147,6 +154,21 @@ defined by \(M_2\)) is not. Further games considered
 in~\cite{couto2022introspection} are the Volunteer's dilemma and the Volunteer's
 timing dilemma (a generalisation with more than 2 strategies) which are both not
 \emph{state-independent}.
+
+More generally, the classical Prisoner's Dilemma is parameterised by the reward
+\(R\), temptation \(T\), sucker payoff \(S\), and punishment \(P\) with
+\(T > R > P > S\) and the social-efficiency condition \(2R > T + S\).
+State-independence for player 1 requires the \emph{equality}
+\[
+  T - R \;=\; P - S \quad \text{(equivalently } P + R = S + T\text{)},
+\]
+that is, the gain from defecting against a cooperator must equal the gain from
+defecting against a defector. The PD axioms are strict inequalities and do not
+force this equality; a generic RPST Prisoner's Dilemma therefore fails it. For
+instance, \(T=5\), \(R=3\), \(P=1\), \(S=0\) satisfies \(T>R>P>S\) and
+\(2R=6>5=T+S\), yet \(T-R=2\neq 1=P-S\). The donation form \(M_1\) above is the
+exceptional case where the equality holds by construction (both differentials
+equal \(c\)).
 
 To define introspection dynamics we introduce the following two quantities:
 
@@ -257,7 +279,7 @@ and the stationary distribution over \(\{DD,DC,CD,CC\}\) is the product measure
 \]
 \end{remark}
 
-\section{State-independence of the heterogeneous public goods game}\label{sec:payoff}
+\section{The heterogeneous public goods game}\label{sec:payoff}
 
 The \emph{heterogeneous public goods game} is played by \(N\) players with
 player-specific contributions \(\alpha_1,\ldots,\alpha_N>0\) and public goods
@@ -394,6 +416,12 @@ The claim about \(\pC\) follows by averaging.
 
 \end{proof}
 
+With symmetric mutation, a player cooperates the majority of the time precisely when
+their personal multiplier on the public good exceeds the group size: that is, when
+they extract more from the pool per unit contributed than they put in. The top centre
+panel of Figure~\ref{fig:panel} illustrates this, with curves at \(r>N\) lying above
+\(p_i=\tfrac{1}{2}\) and curves at \(r<N\) lying below it.
+
 \begin{corollary}[Neutral drift]\label{cor:neutral}
 
 If \(\beta_i=0\) for all \(i\), then \(\phi_i\) is constant and the payoff parameters
@@ -418,6 +446,15 @@ When \(\beta_i=0\), the Fermi function satisfies \(\phi_i(x)=\tfrac{1}{2}\) for 
 \]
 
 \end{proof}
+
+Players who are insensitive to payoff differences ignore the underlying game; their
+long-run behaviour is set entirely by their mutation bias, and group-level cooperation
+reduces to the average asymmetry between mutation rates. The top right panel of
+Figure~\ref{fig:panel} illustrates this for symmetric mutation: at \(\beta_i=0\),
+\(p_i=\tfrac{1}{2}\) for every choice of \(\alpha_i\) and \(r_i\). The top left
+panel shows the same from a different angle: all three curves converge to
+\(p_i=\tfrac{1}{2}\) at \(\beta_i=0\) before diverging as sensitivity increases,
+with the direction of divergence set by \(r_i\) relative to \(N\).
 
 \begin{corollary}[Role of heterogeneity]\label{cor:heterogeneity}
 
@@ -455,6 +492,18 @@ Since \(g'<0\) and \(\alpha_i>0\), the sign equals
 \(-\mathrm{sgn}(1-r_i/N)=\mathrm{sgn}(r_i/N-1)\), which is positive if and only
 if \(r_i>N\).
 \end{proof}
+
+For a player who benefits from the public good (\(r_i>N\)), contributing more (larger
+\(\alpha_i\)) or responding more strongly to payoff differences (larger \(\beta_i\))
+raises their cooperation rate; the same changes lower it for a player who does not
+benefit (\(r_i<N\)). Heterogeneity in any one of these parameters therefore translates
+into heterogeneity in cooperation, with the sign of the effect set by \(r_i\) relative
+to \(N\). The bottom centre and right panels of Figure~\ref{fig:panel} show this
+directly: the heatmaps of \(\partial p_i/\partial\alpha_i\) and
+\(\partial p_i/\partial\beta_i\) change sign exactly at \(r_i=N\). The bottom
+left panel shows that \(\partial p_i/\partial\mu\) obeys the same rule: raising
+the mutation rate pulls \(p_i\) towards \(\tfrac{1}{2}\), lowering cooperation
+when \(r_i>N\) and raising it when \(r_i<N\).
 
 \begin{remark}
 

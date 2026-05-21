@@ -152,7 +152,7 @@ fig.legend(handles=handles, loc="upper center", ncol=3,
            bbox_to_anchor=(0.5, 1.01),
            handler_map={handles[2]: HandlerBoxplot()})
 plt.tight_layout(rect=[0, 0, 1, 0.95])
-plt.savefig(file_path.parent / "main.pdf", bbox_inches="tight")
+plt.savefig(file_path.parents[3] / "tex" / "simulations.pdf", bbox_inches="tight")
 
 tex_dir = file_path.parents[3] / "tex"
 generate_stationary_table(tex_dir / "stationary_table.tex")

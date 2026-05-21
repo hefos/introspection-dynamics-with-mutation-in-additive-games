@@ -3,7 +3,9 @@
 This repository contains the source code and data for the paper of the same
 name. We prove that introspection dynamics on any state-independent game is
 exactly solvable, and derive a closed-form cooperation probability for the
-heterogeneous public goods game.
+heterogeneous public goods game. The figures and data are all under version
+control and available at
+https://github.com/hefos/exact-coop-introspection-pgg.
 
 ## Regenerating the figures
 

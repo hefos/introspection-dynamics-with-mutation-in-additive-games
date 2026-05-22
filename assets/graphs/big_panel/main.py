@@ -172,4 +172,4 @@ ax.set_title(
 # ---------------------------------------------------------------------------
 
 plt.tight_layout()
-plt.savefig(file_path.parent / "main.pdf", bbox_inches="tight")
+plt.savefig(file_path.parents[3] / "tex" / "big_panel.pdf", bbox_inches="tight")

@@ -44,7 +44,7 @@ this condition the introspection Markov chain decomposes as a random-scan produc
 \(N\) independent two-state chains, one per player, and the stationary distribution is a
 product measure. As our main application we consider the heterogeneous public goods
 game, where \(N\) players may differ in their contributions \(\alpha_i\), public goods
-multipliers \(r_i\), and choice intensities \(\beta_i\). We prove that the linear payoff
+multipliers \(r_i\), and selection intensities \(\beta_i\). We prove that the linear payoff
 structure implies state-independence, and the long-run cooperation probability admits the
 exact closed form
 \[
@@ -53,7 +53,7 @@ exact closed form
 \]
 with no asymptotic approximation. Several structural consequences follow immediately:
 a player-specific cooperation threshold at \(r_i = N\) (under symmetric mutation),
-payoff-neutrality under zero choice intensity, and the sign of each player's
+payoff-neutrality under zero selection intensity, and the sign of each player's
 sensitivity to their own parameters.
 \end{abstract}
 
@@ -106,7 +106,7 @@ Section~\ref{sec:conclusion} concludes.
 
 Consider \(N\) ordered players, each choosing from two actions \(\{C,D\}\) coded as
 \(\{1,0\}\). The state space is \(S=\{0,1\}^N\) with \(|S|=2^N\). Each player \(i\)
-has a payoff function \(f_i:S\to\mathbb{R}\) and player-specific choice intensity
+has a payoff function \(f_i:S\to\mathbb{R}\) and player-specific selection intensity
 \(\beta_i>0\). Writing \(\bfa_{i\to\bar{a}_i}\) for the state with player \(i\)'s
 action flipped to \(\bar{a}_i=1-a_i\), the \emph{payoff difference} for player \(i\)
 at state \(\bfa\) is
@@ -152,7 +152,7 @@ f_1((1, 1)) = b-c_1\) but \(\Delta f_1((1, 0)) = -c_1\). The Prisoner's Dilemma
 (as defined by \(M_1\)) is \emph{state-independent} but the Stag-hunt game (as
 defined by \(M_2\)) is not. Further games considered
 in~\cite{couto2022introspection} are the Volunteer's dilemma and the Volunteer's
-timing dilemma (a generalisation with more than 2 strategies) which are both not
+timing dilemma (a generalisation with more than 2 strategies) neither of which are
 \emph{state-independent}.
 
 More generally, the classical Prisoner's Dilemma is parameterised by the reward
@@ -213,7 +213,7 @@ and the stationary distribution directly from the two-state update rule.
 \begin{theorem}[Individual cooperation probabilities]\label{thm:decomp}
 
 For any state-independent game with constants \(\delta_i\), under introspection
-dynamics with player-specific choice intensity \(\beta_i\) and mutation probabilities
+dynamics with player-specific selection intensity \(\beta_i\) and mutation probabilities
 \(\mu_{i0},\mu_{i1}>0\) with \(\mu_{i0}+\mu_{i1}<1\), the long-run probability that
 player \(i\) cooperates is
 
@@ -347,7 +347,7 @@ Figure~\ref{fig:validation} validates Corollary~\ref{cor:exact-pC} against exact
 values and simulation across group sizes.
 Table~\ref{tab:stationary} verifies Theorem~\ref{thm:stationary}: for \(N=3\) with
 per-player multipliers \(r_1=1\), \(r_2=3=N\), \(r_3=9\), uniform contributions
-\(\alpha_i=1\), \(\beta=2\), and \(\mu_{i0}=\mu_{i1}=0.1\), the individual
+\(\alpha_i=1\), \(\beta_i=2\), and \(\mu_{i0}=\mu_{i1}=0.1\), the individual
 cooperation probabilities are \(p_1\approx0.267\), \(p_2=0.500\),
 \(p_3\approx0.886\), and the formula and exact values of \(\pi_{\mathbf{a}}\)
 agree to five decimal places for all eight states.
@@ -430,7 +430,8 @@ If \(\beta_i=0\) for all \(i\), then \(\phi_i\) is constant and the payoff param
   p_i = \frac{1+\mu_{i0}-\mu_{i1}}{2}, \qquad
   \pC = \frac{1}{2}+\frac{1}{2N}\sum_{i=1}^{N}(\mu_{i0}-\mu_{i1}).
 \]
-In particular, \(\pC=\tfrac{1}{2}\) if and only if
+In particular, if \(\beta_i=0\) for all \(i\),
+\(\pC=\tfrac{1}{2}\) if and only if
 \(\sum_i(\mu_{i0}-\mu_{i1})=0\).
 
 \end{corollary}

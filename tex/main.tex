@@ -200,7 +200,7 @@ decreasing with \(\phi_i(0)=\tfrac{1}{2}\) and \(\phi_i(x)+\phi_i(-x)=1\).
 \(\mu_{i0},\mu_{i1}>0\) with \(\mu_{i0}+\mu_{i1}<1\), where \(\mu_{i0}\) is the
 probability of mutating to cooperation and \(\mu_{i1}\) is the probability of
 mutating to defection, regardless of the intended choice of the dynamic.
-\end{itemize}
+\end{itemize} %NOTE should we have a citation for mutation?
 
 
 \textbf{Introspection dynamics.} At each step, one player \(i\) is selected
@@ -224,7 +224,7 @@ Given an ergodic chain on \(S\) with stationary distribution \(\pi\), the
 \emph{cooperation probability} is \(p_C=\pi\cdot s\), where
 \(s_\bfa=\frac{1}{N}\sum_i a_i\) is the fraction of cooperators in state \(\bfa\).
 \end{definition}
-
+%NOTE do we need this as it's own definition or do we jsut put it in corollary 1?
 \section{Individual cooperation probabilities}\label{sec:decomp}
 
 Couto and Pal~\cite{couto2023multiplayer} showed that for additive games without mutation
@@ -303,7 +303,8 @@ structure is unaffected by mutation, since mutation alters only the per-player m
 For the Prisoner's Dilemma \(M_1\) (\ref{eq:games_from_couto_2022}) of~\cite{couto2022introspection} the payoff
 \(f_1(\bfa)=-c_1 a_1+b a_2\) is separable with \(\delta_1=c_1\), and similarly
 \(\delta_2=c_2\). With \(b=1\), \(c_1=0.6\), \(c_2=0.1\), \(\beta=5\), and
-\(\mu_{i0}=\mu_{i1}=0\),
+\(\mu_{i0}=\mu_{i1}=0\), 
+%NOTE in the new version I dont think we need examples with no mutation as we dont need to show that their formula works.
 Theorems~\ref{thm:decomp} and~\ref{thm:stationary} give
 \[
   p_1 = \frac{1}{1+e^{3}} \approx 0.047, \qquad
@@ -412,7 +413,7 @@ agree to five decimal places for all eight states.
   \centering
   \includegraphics[width=\textwidth]{simulations.pdf}
   \caption{Validation of formula~\eqref{eq:pC} on a heterogeneous group with
-    \(\alpha_i=i\), \(\beta=0.5\), \(\mu_{i0}=\mu_{i1}=0.1\).
+    \(\alpha_i=i\), \(\beta=0.5\), \(\mu_{i0}=\mu_{i1}=0.1\). %NOTE maybe redo with different rates?
     \textit{Left:} \(r=2N\) (so \(r>N\) for all \(N\)).
     \textit{Right:} \(r=N/2\) (so \(r<N\) for all \(N\)).
     Orange dots: exact \(p_C\) from the full \(2^N\) linear system (feasible only
@@ -457,7 +458,8 @@ to \(r_i>N\). A sufficient condition for \(\pC>\tfrac{1}{2}\) is that the inequa
 holds for every \(i\).
 
 \end{corollary}
-
+%NOTE I think maybe we have a section inbetween 3 and 4 which includes this and the other theorem you haven't called a theorem.
+%as they aren't called a theorem
 \begin{proof}
 
 Since \(1-\mu_{i0}-\mu_{i1}>0\):
@@ -494,7 +496,11 @@ defection. For a non-beneficiary (\(\delta_i>0\), i.e.\ \(r_i<N\)), the conditio
 obtained by substituting \(\phi_i(\delta_i)=(1+e^{\beta_i\delta_i})^{-1}\) into
 Corollary~\ref{cor:threshold}. The right-hand side is positive precisely when the
 mutation is biased towards cooperation (\(\mu_{i0}>\mu_{i1}\)), so a sufficiently strong
-cooperative bias overrides the payoff incentive.
+cooperative bias overrides the payoff incentive. 
+% NOTE I think this can go in section 3, it doesnt use the PGG. We just say "for a positive delta". 
+% We can then say that the inequality flips if delta is negative
+
+
 
 \begin{remark}[Neutral drift]\label{rem:neutral}
 
@@ -535,7 +541,7 @@ at \(\beta_i=0\); the left panel shows the curves converging to \(p_i=\tfrac{1}{
 Figure~\ref{fig:mutation} isolates the role of mutation. A larger selection intensity
 \(\beta_i\) makes the player respond more sharply to payoff differences, adopting the
 higher-payoff action with greater probability, whereas \(\beta_i=0\) is payoff-blind
-random choice. Without mutation \(p_i\) is driven to \(0\) or \(1\) as \(\beta_i\) grows,
+random choice. Without mutation \(p_i\) is driven to \(0\) or \(1\) as \(\beta_i\) grows,%NOTE. Maybe make this a theorem with a proof? It's a good result even if it might seem obvious
 whereas mutation confines \(p_i\) to the interval \([\mu_{i0},1-\mu_{i1}]\). The two panels
 show the same player (\(r_i=7\), \(\alpha_i=2\)) at \(N=5\) and \(N=200\): increasing the
 group size alone turns the benefactor (\(r_i>N\), \(p_i\) rising to \(1-\mu\)) into a
@@ -611,7 +617,7 @@ each derivative carries the factor \((1-r_i/N)\) multiplied by the negative quan
 \(p_i\) only through the product \(\beta_i\alpha_i\), so a change in selection intensity has
 the same effect as a proportional change in contribution. Raising the mutation rate instead
 pulls \(p_i\) towards \(\tfrac{1}{2}\), lowering cooperation when \(r_i>N\) and raising it
-when \(r_i<N\).
+when \(r_i<N\). % NOTE this is only true when action-invariant mutation is considered
 
 \end{remark}
 
@@ -619,7 +625,7 @@ A player who benefits from the public good (\(r_i>N\)) cooperates more as they c
 more or respond more strongly to payoff differences; a non-benefactor (\(r_i<N\)) does the
 opposite. Each player's long-run cooperation is thus determined entirely by their own
 \((\alpha_i,\beta_i,r_i,\mu_i)\) and the group size \(N\); the other players' parameters
-do not enter.
+do not enter. %technically \mu_ik since we aren't considering action-invariant mutation specifically here?
 
 \section{Conclusion}\label{sec:conclusion}
 

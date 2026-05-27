@@ -87,26 +87,25 @@ stationary distribution must be computed by solving a linear system of dimension
 \(2^N\). They identified an important exception: for \emph{additive} games, in which the
 payoff difference a player evaluates when switching action is independent of the other
 players' actions (a property also known as \emph{equal gains from switching}), the
-stationary distribution factorises as a product measure over the players (their
-Proposition~2), and for the linear public goods game it admits a closed form (their
-Proposition~3).
+stationary distribution factorises as a product measure over the players
+(\cite{couto2023multiplayer}; Proposition~2), and for the linear public goods game it
+admits a closed form (\cite{couto2023multiplayer}; Proposition~3).
 
 The introspection model of~\cite{couto2022introspection,couto2023multiplayer} contains no
 mutation: a selected player switches action solely according to the Fermi rule. Mutation,
 a random action chosen independently of payoffs, is a standard ingredient of evolutionary
-and learning dynamics and accounts for exploration, error, and behavioural noise. In this
+and learning dynamics~\cite{fudenberg2006evolutionary} and accounts for exploration,
+error, and behavioural noise. In this
 paper we incorporate per-player, per-action mutation into introspection dynamics and show
 that the additive-game results of~\cite{couto2023multiplayer} persist: the stationary
 distribution remains a product measure, and each player's long-run cooperation probability
 has the explicit form \(p_i=\phi_i(\delta_i)(1-\mu_{i0}-\mu_{i1})+\mu_{i0}\). We also allow
 player-specific selection intensities \(\beta_i\) rather than a single global value.
 Specifically, we extend the product-measure result to mutation (Section~\ref{sec:decomp}),
-derive the closed-form cooperation probability for the heterogeneous public goods game
-(PGG) with mutation (Section~\ref{sec:payoff}), and record the structural consequences,
-including a neutral-drift regime governed entirely by mutation bias, a
-mutation-selection balance in which aggregate cooperation is affine in the mutation
-rate, and a strong-selection limit in which mutation keeps the closed form valid as
-\(\beta_i\to\infty\) (Section~\ref{sec:consequences}).
+record the structural consequences that hold for any additive game
+(Section~\ref{sec:consequences}), and specialise them to the heterogeneous public goods
+game (PGG), for which additivity holds and the closed-form cooperation probability follows
+(Section~\ref{sec:payoff}).
 
 The paper is organised as follows. Section~\ref{sec:setup} introduces the framework, the
 additive-game condition, and introspection dynamics with mutation, noting that whilst the
@@ -114,9 +113,11 @@ donation-form Prisoner's Dilemma is additive, the Stag Hunt and the classical (R
 Prisoner's Dilemma are not.
 Section~\ref{sec:decomp} shows that, with mutation, individual cooperation probabilities
 are given by~\eqref{eq:pi} and the stationary distribution remains a product measure.
-Section~\ref{sec:payoff} establishes additivity for the heterogeneous PGG and derives the
-closed-form cooperation probability.
-Section~\ref{sec:consequences} records several structural corollaries.
+Section~\ref{sec:consequences} records the structural consequences that hold for any
+additive game: a neutral-drift regime, a strong-selection limit, a cooperation threshold,
+and a mutation-selection balance.
+Section~\ref{sec:payoff} specialises these to the heterogeneous PGG, establishing
+additivity and deriving the closed-form cooperation probability.
 Section~\ref{sec:conclusion} concludes.
 
 \section{Setup and notation}\label{sec:setup}
@@ -200,10 +201,10 @@ decreasing with \(\phi_i(0)=\tfrac{1}{2}\) and \(\phi_i(x)+\phi_i(-x)=1\).
 \(\mu_{i0},\mu_{i1}>0\) with \(\mu_{i0}+\mu_{i1}<1\), where \(\mu_{i0}\) is the
 probability of mutating to cooperation and \(\mu_{i1}\) is the probability of
 mutating to defection, regardless of the intended choice of the dynamic.
-\end{itemize} %NOTE should we have a citation for mutation?
+\end{itemize}
 
 
-\textbf{Introspection dynamics.} At each step, one player \(i\) is selected
+At each step, one player \(i\) is selected
 uniformly at random. Player \(i\) considers switching from action \(a_i\) to the
 alternative \(\bar{a}_i=1-a_i\). The transition probability for the switch is
 
@@ -224,12 +225,12 @@ Given an ergodic chain on \(S\) with stationary distribution \(\pi\), the
 \emph{cooperation probability} is \(p_C=\pi\cdot s\), where
 \(s_\bfa=\frac{1}{N}\sum_i a_i\) is the fraction of cooperators in state \(\bfa\).
 \end{definition}
-%NOTE do we need this as it's own definition or do we jsut put it in corollary 1?
+
 \section{Individual cooperation probabilities}\label{sec:decomp}
 
-Couto and Pal~\cite{couto2023multiplayer} showed that for additive games without mutation
-the stationary distribution of introspection dynamics is a product measure (their
-Proposition~2). We show that this structure persists with mutation, with a short direct
+For additive games without mutation the stationary distribution of introspection
+dynamics is a product measure (\cite{couto2023multiplayer}; Proposition~2). We show
+that this structure persists with mutation, with a short direct
 argument: for an additive game, \(\Delta f_i(\bfa)\) depends only on \(a_i\), so each time
 player \(i\) is selected their next action is \(C\) with a fixed probability \(p_i\)
 regardless of the current state. The marginal cooperation probability and the product form
@@ -292,47 +293,183 @@ $\bfa$ is the product of these marginals, giving~\eqref{eq:stationary}.
 
 In the long run the players' actions are therefore independent: the group behaves as
 \(N\) separate biased coins, with player \(i\) showing cooperation with probability
-\(p_i\).
+\(p_i\). Taking the expectation of the cooperator fraction \(s\) under this product
+measure, the cooperation probability is the mean of the individual probabilities,
+\begin{equation}\label{eq:pC-mean}
+  \pC = \frac{1}{N}\sum_{i=1}^{N} p_i.
+\end{equation}
 
 For \(\mu_{i0}=\mu_{i1}=0\), Theorem~\ref{thm:stationary} is Proposition~2
 of~\cite{couto2023multiplayer}; the argument above shows that the product-measure
 structure is unaffected by mutation, since mutation alters only the per-player marginal
 \(p_i\) and not the independence between players.
 
-\begin{remark}
-For the Prisoner's Dilemma \(M_1\) (\ref{eq:games_from_couto_2022}) of~\cite{couto2022introspection} the payoff
-\(f_1(\bfa)=-c_1 a_1+b a_2\) is separable with \(\delta_1=c_1\), and similarly
-\(\delta_2=c_2\). With \(b=1\), \(c_1=0.6\), \(c_2=0.1\), \(\beta=5\), and
-\(\mu_{i0}=\mu_{i1}=0\), 
-%NOTE in the new version I dont think we need examples with no mutation as we dont need to show that their formula works.
-Theorems~\ref{thm:decomp} and~\ref{thm:stationary} give
+\begin{remark}[The two-player donation game]
+For the Prisoner's Dilemma \(M_1\) (\ref{eq:games_from_couto_2022})
+of~\cite{couto2022introspection} the payoff \(f_1(\bfa)=-c_1 a_1+b a_2\) is additive
+with \(\delta_1=c_1\), and similarly \(\delta_2=c_2\). Theorems~\ref{thm:decomp}
+and~\ref{thm:stationary} give the per-player cooperation probability and the
+product-measure stationary distribution
 \[
-  p_1 = \frac{1}{1+e^{3}} \approx 0.047, \qquad
-  p_2 = \frac{1}{1+e^{0.5}} \approx 0.378,
+  p_i = \frac{1-\mu_{i0}-\mu_{i1}}{1+e^{\beta_i c_i}}+\mu_{i0}, \qquad
+  \pi_{\bfa} = \prod_{i=1}^{2} p_i^{\,a_i}(1-p_i)^{1-a_i}.
 \]
-and the stationary distribution over \(\{DD,DC,CD,CC\}\) is the product measure
+Setting \(\mu_{i0}=\mu_{i1}=0\) and a common selection intensity \(\beta_i=\beta\)
+recovers \(p_i=(1+e^{\beta c_i})^{-1}\) and
 \[
-  \pi_{DD} \approx 0.593,\quad
-  \pi_{DC} \approx 0.360,\quad
-  \pi_{CD} \approx 0.030,\quad
-  \pi_{CC} \approx 0.018.
+  \pi = \frac{1}{(1+e^{\beta c_1})(1+e^{\beta c_2})}
+        \bigl(1,\,e^{\beta c_2},\,e^{\beta c_1},\,e^{\beta(c_1+c_2)}\bigr)
+  \quad\text{over } (CC,CD,DC,DD),
 \]
+the stationary distribution obtained by~\cite{couto2022introspection} for this game; they
+observed that their two-player stationary distribution factorises precisely under the
+additive condition, of which the donation game is an instance. Mutation preserves the
+product form while shifting each marginal: with \(b=1\), \(c_1=0.6\), \(c_2=0.1\),
+\(\beta=5\), and asymmetric mutation \(\mu_{i0}=0.05\), \(\mu_{i1}=0.15\) we obtain
+\(p_1\approx0.088\) and \(p_2\approx0.352\), giving \(\pi_{DD}\approx0.591\),
+\(\pi_{DC}\approx0.321\), \(\pi_{CD}\approx0.057\), and \(\pi_{CC}\approx0.031\).
 \end{remark}
+
+\section{Structural consequences}\label{sec:consequences}
+
+The formula~\eqref{eq:pi} for the individual cooperation probability allows immediate
+structural conclusions that hold for any additive game, before any specific payoff
+structure is imposed. We record four: the two limits of the selection intensity, a
+cooperation threshold, and the effect of mutation on aggregate cooperation. Without
+mutation, several reduce to properties already observed
+by~\cite{couto2023multiplayer}.
+
+\begin{remark}[Neutral drift]\label{rem:neutral}
+
+If \(\beta_i=0\) for all \(i\) then \(\phi_i\equiv\tfrac{1}{2}\), so the payoff parameters
+\(\delta_i\) drop out of~\eqref{eq:pi} and cooperation is set entirely by mutation:
+\[
+  p_i = \frac{1+\mu_{i0}-\mu_{i1}}{2}, \qquad
+  \pC = \frac{1}{2}+\frac{1}{2N}\sum_{i=1}^{N}(\mu_{i0}-\mu_{i1}),
+\]
+so \(\pC=\tfrac{1}{2}\) exactly when \(\sum_i(\mu_{i0}-\mu_{i1})=0\).
+
+\end{remark}
+
+A player insensitive to payoff differences ignores the underlying game: their long-run
+behaviour is set by their mutation bias alone, and group cooperation reduces to the
+average asymmetry between the mutation rates.
+
+\begin{proposition}[Strong selection]\label{prop:strong}
+
+For each player \(i\), \eqref{eq:pi} confines the cooperation probability to the open
+interval \((\mu_{i0},\,1-\mu_{i1})\), and the endpoints are the strong-selection limits:
+as \(\beta_i\to\infty\),
+\[
+  p_i \to \mu_{i0} \ \text{when}\ \delta_i>0, \qquad
+  p_i \to 1-\mu_{i1} \ \text{when}\ \delta_i<0.
+\]
+
+\end{proposition}
+
+\begin{proof}
+
+Since \(0<\phi_i(\delta_i)<1\) and \(1-\mu_{i0}-\mu_{i1}>0\), \eqref{eq:pi} gives
+\(\mu_{i0}<p_i<1-\mu_{i1}\). As \(\beta_i\to\infty\),
+\(\phi_i(\delta_i)=(1+e^{\beta_i\delta_i})^{-1}\to0\) when \(\delta_i>0\) and \(\to1\)
+when \(\delta_i<0\), so \(p_i\to\mu_{i0}\) or \(p_i\to1-\mu_{i1}\) respectively.
+
+\end{proof}
+
+A unique stationary distribution requires finite \(\beta\)~\cite{couto2023multiplayer}.
+With mutation the stationary distribution is a non-degenerate product
+measure even in this best-response limit, whereas without mutation the chain degenerates
+to a point mass at the dominant-action profile. Mutation therefore extends the exact
+analysis to arbitrarily strong selection.
+
+\begin{corollary}[Cooperation threshold]\label{cor:threshold}
+
+Player \(i\) cooperates with probability greater than \(\tfrac{1}{2}\) if and only if
+\[
+  \phi_i(\delta_i) > \frac{\tfrac{1}{2}-\mu_{i0}}{1-\mu_{i0}-\mu_{i1}}.
+\]
+When \(\mu_{i0}=\mu_{i1}\) this reduces to \(\delta_i<0\). A sufficient condition for
+\(\pC>\tfrac{1}{2}\) is that the inequality holds for every \(i\).
+
+\end{corollary}
+
+\begin{proof}
+
+Since \(1-\mu_{i0}-\mu_{i1}>0\),
+\[
+  p_i > \tfrac{1}{2}
+  \iff (1-\mu_{i0}-\mu_{i1})\phi_i(\delta_i) > \tfrac{1}{2}-\mu_{i0}
+  \iff \phi_i(\delta_i) > \frac{\tfrac{1}{2}-\mu_{i0}}{1-\mu_{i0}-\mu_{i1}}.
+\]
+When \(\mu_{i0}=\mu_{i1}\), the right-hand side equals \(\tfrac{1}{2}\), and since
+\(\phi_i\) is strictly decreasing with \(\phi_i(0)=\tfrac{1}{2}\), this is equivalent
+to \(\delta_i<0\). The claim about \(\pC\) follows by averaging~\eqref{eq:pC-mean}.
+
+\end{proof}
+
+With symmetric mutation a player cooperates the majority of the time precisely when the
+payoff favours cooperation, \(\delta_i<0\); mutation does not move the threshold, it only
+softens the transition across it. With asymmetric mutation the threshold can be met even
+when the payoff favours defection. Substituting
+\(\phi_i(\delta_i)=(1+e^{\beta_i\delta_i})^{-1}\), the condition \(p_i>\tfrac{1}{2}\) is
+equivalent to
+\[
+  \beta_i\delta_i < \ln\frac{\tfrac{1}{2}-\mu_{i1}}{\tfrac{1}{2}-\mu_{i0}}.
+\]
+The right-hand side is positive precisely when the mutation is biased towards cooperation
+(\(\mu_{i0}>\mu_{i1}\)). Thus when the payoff favours defection (\(\delta_i>0\)) a
+sufficiently strong cooperative bias still yields \(p_i>\tfrac{1}{2}\); conversely, when
+the payoff favours cooperation (\(\delta_i<0\)) a defection bias (\(\mu_{i1}>\mu_{i0}\))
+can drive \(p_i<\tfrac{1}{2}\).
+
+\begin{proposition}[Mutation-selection balance]\label{prop:balance}
+
+Under common symmetric mutation \(\mu_{i0}=\mu_{i1}=\mu\) for all \(i\), with
+\(0\le\mu\le\tfrac{1}{2}\), the aggregate cooperation probability is affine in \(\mu\),
+\[
+  \pC = (1-2\mu)\,\Phi + \mu, \qquad
+  \Phi := \frac{1}{N}\sum_{i=1}^{N}\phi_i(\delta_i),
+\]
+so that \(\pC=\Phi\) at \(\mu=0\), \(\pC=\tfrac{1}{2}\) at \(\mu=\tfrac{1}{2}\), and
+\[
+  \frac{\partial\pC}{\partial\mu} = 1-2\Phi.
+\]
+Mutation raises aggregate cooperation when \(\Phi<\tfrac{1}{2}\) and lowers it when
+\(\Phi>\tfrac{1}{2}\).
+
+\end{proposition}
+
+\begin{proof}
+
+With \(\mu_{i0}=\mu_{i1}=\mu\), \eqref{eq:pi} gives
+\(p_i=(1-2\mu)\phi_i(\delta_i)+\mu\). Averaging over \(i\) using~\eqref{eq:pC-mean} gives
+the stated expression for \(\pC\); affinity in \(\mu\), the two endpoints, and the
+derivative are immediate.
+
+\end{proof}
+
+Here \(\Phi\) is the cooperation level of the mutation-free dynamics
+of~\cite{couto2023multiplayer}. Mutation interpolates linearly between this
+selection-driven value and neutrality, reaching \(\pC=\tfrac{1}{2}\) as
+\(\mu\to\tfrac{1}{2}\): noise erases the influence of the payoffs.
 
 \section{The heterogeneous public goods game}\label{sec:payoff}
 
-The \emph{heterogeneous public goods game} is played by \(N\) players with
-player-specific contributions \(\alpha_1,\ldots,\alpha_N>0\) and public goods
+The \emph{heterogeneous public goods game}~\cite{hauser2019social} is played by \(N\)
+players with player-specific contributions \(\alpha_1,\ldots,\alpha_N>0\) and public goods
 multipliers \(r_1,\ldots,r_N>1\). The payoff to player \(i\) in state
 \(\bfa=(a_1,\ldots,a_N)\) is
 \begin{equation}\label{eq:payoff}
-  f_i(\bfa) = \frac{r_i}{N}\sum_{j=1}^N \alpha_j a_j - \alpha_i a_i.
+  f_i(\bfa) = \frac{1}{N}\sum_{j=1}^N r_j\alpha_j a_j - \alpha_i a_i.
 \end{equation}
-We write \(C(\bfa)=\sum_j\alpha_j a_j\) for the total contribution.
+The first term is a public good shared equally by all players, in which each
+contribution \(\alpha_j a_j\) is scaled by the contributor's multiplier \(r_j\); the
+second is player \(i\)'s own contribution cost. We write
+\(P(\bfa)=\frac{1}{N}\sum_j r_j\alpha_j a_j\) for the shared pool.
 
-Couto and Pal~\cite{couto2023multiplayer} established additivity for the linear public
-goods game; the heterogeneous version~\eqref{eq:payoff}, with player-specific multipliers
-\(r_i\), is additive for the same reason.
+The linear public goods game is additive~\cite{couto2023multiplayer}, and the
+heterogeneous version~\eqref{eq:payoff}, with player-specific multipliers \(r_i\), is
+additive for the same reason.
 
 \begin{lemma}[Additivity of the PGG]
 \label{lem:payoff-identity}
@@ -345,14 +482,14 @@ i.e.\ \(\Delta f_i(\bfa)=(1-2a_i)\,\alpha_i(1-r_i/N)\), independent of \(\bfa_{-
 \end{lemma}
 
 \begin{proof}
-When player \(i\) switches from \(a_i\) to \(\bar{a}_i=1-a_i\), only their own
-contribution changes, so the total contribution becomes
-\(C(\bfa_{i\to\bar{a}_i}) = C(\bfa)+\alpha_i(1-2a_i)\).
+When player \(i\) switches from \(a_i\) to \(\bar{a}_i=1-a_i\), only their own term in
+the pool changes, so
+\(P(\bfa_{i\to\bar{a}_i}) = P(\bfa)+\tfrac{1}{N}r_i\alpha_i(1-2a_i)\).
 Expanding both payoffs:
 \begin{align*}
-  f_i(\bfa) &= \frac{r_i}{N}\,C(\bfa)-\alpha_i a_i, \\
+  f_i(\bfa) &= P(\bfa)-\alpha_i a_i, \\
   f_i(\bfa_{i\to\bar{a}_i})
-  &= \frac{r_i}{N}\bigl[C(\bfa)+\alpha_i(1-2a_i)\bigr]-\alpha_i(1-a_i).
+  &= P(\bfa)+\tfrac{1}{N}r_i\alpha_i(1-2a_i)-\alpha_i(1-a_i).
 \end{align*}
 Subtracting:
 \begin{align*}
@@ -360,7 +497,7 @@ Subtracting:
   &= -\frac{r_i}{N}\alpha_i(1-2a_i) + \alpha_i(1-2a_i) \\
   &= \alpha_i(1-2a_i)\!\left(1-\frac{r_i}{N}\right).
 \end{align*}
-The term \(C(\bfa)\) cancels entirely, confirming additivity with
+The pool \(P(\bfa)\) cancels entirely, confirming additivity with
 \(\delta_i=\alpha_i(1-r_i/N)\).
 \end{proof}
 
@@ -377,18 +514,17 @@ probability is
 \begin{equation}\label{eq:pC}
   \boxed{
   \pC = \frac{1}{N}\sum_{i=1}^{N}
-        \left[\frac{1-\mu_{i0}-\mu_{i1}}{1+e^{\,\beta_i\alpha_i(1-r_i/N)}}+\mu_{i0}\right].
-  }
+        \left[\frac{1-\mu_{i0}-\mu_{i1}}{1+e^{\,\beta_i\alpha_i(1-r_i/N)}}+\mu_{i0}\right]
+  }.
 \end{equation}
 
 \end{corollary}
 
 \begin{proof}
 
-By Lemma~\ref{lem:payoff-identity}, \(\delta_i=\alpha_i(1-r_i/N)\). By
-Theorem~\ref{thm:decomp}: \(\pC = \frac{1}{N}\sum_{i=1}^N p_i\).
-Substituting \(\phi_i(\delta_i)=(1+e^{\beta_i\alpha_i(1-r_i/N)})^{-1}\)
-into~\eqref{eq:pi} gives~\eqref{eq:pC}.
+By Lemma~\ref{lem:payoff-identity}, \(\delta_i=\alpha_i(1-r_i/N)\). Substituting
+\(\phi_i(\delta_i)=(1+e^{\beta_i\alpha_i(1-r_i/N)})^{-1}\) into~\eqref{eq:pi} and
+averaging by~\eqref{eq:pC-mean} gives~\eqref{eq:pC}.
 
 \end{proof}
 
@@ -403,11 +539,11 @@ of~\cite{couto2023multiplayer}.
 Figure~\ref{fig:validation} validates Corollary~\ref{cor:exact-pC} against exact
 values and simulation across group sizes.
 Table~\ref{tab:stationary} verifies Theorem~\ref{thm:stationary}: for \(N=3\) with
-per-player multipliers \(r_1=1\), \(r_2=3=N\), \(r_3=9\), uniform contributions
-\(\alpha_i=1\), \(\beta=2\), and \(\mu_{i0}=\mu_{i1}=0.1\), the individual
-cooperation probabilities are \(p_1\approx0.267\), \(p_2=0.500\),
-\(p_3\approx0.886\), and the formula and exact values of \(\pi_{\mathbf{a}}\)
-agree to five decimal places for all eight states.
+per-player multipliers \(r_1=1\), \(r_2=3=N\), \(r_3=9\), contributions
+\(\alpha_1=1\), \(\alpha_2=2\), \(\alpha_3=3\), \(\beta=2\), and \(\mu_{i0}=\mu_{i1}=0.1\),
+the individual cooperation probabilities are \(p_1\approx0.267\), \(p_2=0.500\),
+\(p_3\approx0.900\), and the formula and exact values of \(\pi_{\mathbf{a}}\)
+agree to four decimal places for all eight states.
 
 \begin{figure}[ht]
   \centering
@@ -431,95 +567,40 @@ agree to five decimal places for all eight states.
   \centering
   \input{stationary_table}
   \caption{Stationary-distribution probabilities \(\pi_{\mathbf{a}}\) for all
-    eight states \(\mathbf{a}\in\{D,C\}^3\) with \(N=3\), \(\alpha_i=1\),
-    \(\beta=2\), \(\mu_{i0}=\mu_{i1}=0.1\), and per-player multipliers
+    eight states \(\mathbf{a}\in\{D,C\}^3\) with \(N=3\), \(\alpha_1=1\),
+    \(\alpha_2=2\), \(\alpha_3=3\), \(\beta=2\), \(\mu_{i0}=\mu_{i1}=0.1\), and
+    per-player multipliers
     \(r_1=1{<}N{=}r_2{=}3{<}r_3{=}9\).
     Formula: product measure~\eqref{eq:stationary} (Theorem~\ref{thm:stationary});
     Exact: values from the \(2^N\) linear system obtained
     using~\cite{harry_foster_2026_19495532}.
-    Both columns to five decimal places.}
+    Both columns to four decimal places.}
   \label{tab:stationary}
 \end{table}
 
-\section{Structural consequences}\label{sec:consequences}
+We now specialise the structural consequences of Section~\ref{sec:consequences} to the
+public goods game, where \(\delta_i=\alpha_i(1-r_i/N)\) makes every quantity explicit in
+the group size and the players' own parameters.
 
-The formulas~\eqref{eq:pi} and~\eqref{eq:pC} allow immediate structural conclusions
-about individual and aggregate cooperation. Without mutation, several of these reduce to
-properties of the linear public goods game already observed by~\cite{couto2023multiplayer}.
-
-\begin{corollary}[Player-specific cooperation thresholds]\label{cor:threshold}
-
-Player \(i\) cooperates with probability greater than \(\tfrac{1}{2}\) if and only if
-\[
-  \phi_i(\delta_i) > \frac{\tfrac{1}{2}-\mu_{i0}}{1-\mu_{i0}-\mu_{i1}}.
-\]
-For the PGG, \(\delta_i=\alpha_i(1-r_i/N)\); when \(\mu_{i0}=\mu_{i1}\) this reduces
-to \(r_i>N\). A sufficient condition for \(\pC>\tfrac{1}{2}\) is that the inequality
-holds for every \(i\).
-
-\end{corollary}
-%NOTE I think maybe we have a section inbetween 3 and 4 which includes this and the other theorem you haven't called a theorem.
-%as they aren't called a theorem
-\begin{proof}
-
-Since \(1-\mu_{i0}-\mu_{i1}>0\):
-\[
-  p_i > \tfrac{1}{2}
-  \iff (1-\mu_{i0}-\mu_{i1})\phi_i(\delta_i) > \tfrac{1}{2}-\mu_{i0}
-  \iff \phi_i(\delta_i) > \frac{\tfrac{1}{2}-\mu_{i0}}{1-\mu_{i0}-\mu_{i1}}.
-\]
-When \(\mu_{i0}=\mu_{i1}\), the right-hand side equals \(\tfrac{1}{2}\), and since
-\(\phi_i\) is strictly decreasing with \(\phi_i(0)=\tfrac{1}{2}\), this is equivalent
-to \(\delta_i<0\). For the PGG, \(\delta_i=\alpha_i(1-r_i/N)<0\) iff \(r_i>N\).
-The claim about \(\pC\) follows by averaging.
-
-\end{proof}
-
-With symmetric mutation, a player cooperates the majority of the time precisely when
-their personal multiplier on the public good exceeds the group size: that is, when
-they extract more from the pool per unit contributed than they put in. Without mutation
-this is the cooperation-dominance condition of~\cite{couto2023multiplayer} (their
-\(c_i < b_i/N\)); symmetric mutation preserves its location at \(r_i = N\) and only
-softens the transition across it. The centre
-panel of Figure~\ref{fig:panel} illustrates this, with curves at \(r>N\) lying above
+For the PGG, \(\delta_i<0\) precisely when \(r_i>N\), so
+the symmetric-mutation threshold of Corollary~\ref{cor:threshold} becomes \(r_i>N\): a
+player cooperates the majority of the time exactly when their personal multiplier on the
+public good exceeds the group size, that is, when they extract more from the pool per unit
+contributed than they put in. Without mutation this is the cooperation-dominance condition
+of~\cite{couto2023multiplayer} (their \(c_i<b_i/N\)). The centre panel of
+Figure~\ref{fig:panel} illustrates this, with curves at \(r>N\) lying above
 \(p_i=\tfrac{1}{2}\) and curves at \(r<N\) lying below it. Since the comparison is between
-\(r_i\) and \(N\), a player with a fixed multiplier becomes a non-benefactor once the group
-exceeds \(r_i\): cooperation in large groups therefore requires multipliers that grow
-with \(N\).
+\(r_i\) and \(N\), a player with a fixed multiplier becomes a non-benefactor once the
+group exceeds \(r_i\): cooperation in large groups therefore requires multipliers that
+grow with \(N\). For a non-beneficiary (\(r_i<N\), so \(\delta_i>0\)) a cooperative
+mutation bias \(\mu_{i0}>\mu_{i1}\) can still raise \(p_i\) above \(\tfrac{1}{2}\), as in
+Corollary~\ref{cor:threshold}.
 
-With asymmetric mutation the threshold can be met even when the payoff favours
-defection. For a non-beneficiary (\(\delta_i>0\), i.e.\ \(r_i<N\)), the condition
-\(p_i>\tfrac{1}{2}\) is equivalent to
-\[
-  \beta_i\delta_i < \ln\frac{\tfrac{1}{2}-\mu_{i1}}{\tfrac{1}{2}-\mu_{i0}},
-\]
-obtained by substituting \(\phi_i(\delta_i)=(1+e^{\beta_i\delta_i})^{-1}\) into
-Corollary~\ref{cor:threshold}. The right-hand side is positive precisely when the
-mutation is biased towards cooperation (\(\mu_{i0}>\mu_{i1}\)), so a sufficiently strong
-cooperative bias overrides the payoff incentive. 
-% NOTE I think this can go in section 3, it doesnt use the PGG. We just say "for a positive delta". 
-% We can then say that the inequality flips if delta is negative
-
-
-
-\begin{remark}[Neutral drift]\label{rem:neutral}
-
-If \(\beta_i=0\) for all \(i\) then \(\phi_i\equiv\tfrac{1}{2}\), so the payoff parameters
-\(\delta_i\) drop out of~\eqref{eq:pi} and cooperation is set entirely by mutation:
-\[
-  p_i = \frac{1+\mu_{i0}-\mu_{i1}}{2}, \qquad
-  \pC = \frac{1}{2}+\frac{1}{2N}\sum_{i=1}^{N}(\mu_{i0}-\mu_{i1}),
-\]
-so \(\pC=\tfrac{1}{2}\) exactly when \(\sum_i(\mu_{i0}-\mu_{i1})=0\).
-
-\end{remark}
-
-A player insensitive to payoff differences ignores the underlying game: their long-run
-behaviour is set by their mutation bias alone, and group cooperation reduces to the
-average asymmetry between mutation rates. The right panel of Figure~\ref{fig:panel} shows
-this for symmetric mutation, with \(p_i=\tfrac{1}{2}\) for every \(\alpha_i\) and \(r_i\)
-at \(\beta_i=0\); the left panel shows the curves converging to \(p_i=\tfrac{1}{2}\) at
-\(\beta_i=0\) before diverging in the direction set by \(r_i\) relative to \(N\).
+At \(\beta_i=0\) the payoff parameters drop out
+(Remark~\ref{rem:neutral}); the right panel of Figure~\ref{fig:panel} shows
+\(p_i=\tfrac{1}{2}\) for every \(\alpha_i\) and \(r_i\), and the left panel shows the
+curves converging to \(p_i=\tfrac{1}{2}\) at \(\beta_i=0\) before diverging in the
+direction set by \(r_i\) relative to \(N\).
 
 \begin{figure}[ht]
   \centering
@@ -538,57 +619,20 @@ at \(\beta_i=0\); the left panel shows the curves converging to \(p_i=\tfrac{1}{
   \label{fig:panel}
 \end{figure}
 
-Figure~\ref{fig:mutation} isolates the role of mutation. A larger selection intensity
-\(\beta_i\) makes the player respond more sharply to payoff differences, adopting the
-higher-payoff action with greater probability, whereas \(\beta_i=0\) is payoff-blind
-random choice. Without mutation \(p_i\) is driven to \(0\) or \(1\) as \(\beta_i\) grows,%NOTE. Maybe make this a theorem with a proof? It's a good result even if it might seem obvious
-whereas mutation confines \(p_i\) to the interval \([\mu_{i0},1-\mu_{i1}]\). The two panels
-show the same player (\(r_i=7\), \(\alpha_i=2\)) at \(N=5\) and \(N=200\): increasing the
-group size alone turns the benefactor (\(r_i>N\), \(p_i\) rising to \(1-\mu\)) into a
+For the PGG, \(\phi_i(\delta_i)>\tfrac{1}{2}\iff
+r_i>N\), so the sign of \(\partial\pC/\partial\mu\) in Proposition~\ref{prop:balance} is
+set by whether the group is, on average, beneficiaries: common mutation raises aggregate
+cooperation when most players have \(r_i<N\) and lowers it when most have \(r_i>N\).
+
+Figure~\ref{fig:mutation} isolates the
+role of mutation for a single player. A larger selection intensity \(\beta_i\) makes the
+player respond more sharply to payoff differences, adopting the higher-payoff action with
+greater probability, whereas \(\beta_i=0\) is payoff-blind random choice. Without mutation
+\(p_i\) is driven to \(0\) or \(1\) as \(\beta_i\) grows, whereas mutation confines
+\(p_i\) to \([\mu_{i0},1-\mu_{i1}]\) (Proposition~\ref{prop:strong}). The two panels show
+the same player (\(r_i=7\), \(\alpha_i=2\)) at \(N=5\) and \(N=200\): increasing the group
+size alone turns the benefactor (\(r_i>N\), \(p_i\) rising to \(1-\mu\)) into a
 non-benefactor (\(r_i<N\), \(p_i\) falling to \(\mu\)).
-
-\begin{proposition}[Mutation-selection balance]\label{prop:balance}
-
-Under common symmetric mutation \(\mu_{i0}=\mu_{i1}=\mu\) for all \(i\), with
-\(0\le\mu\le\tfrac{1}{2}\), the aggregate cooperation probability is affine in \(\mu\),
-\[
-  \pC = (1-2\mu)\,\Phi + \mu, \qquad
-  \Phi := \frac{1}{N}\sum_{i=1}^{N}\phi_i(\delta_i),
-\]
-so that \(\pC=\Phi\) at \(\mu=0\), \(\pC=\tfrac{1}{2}\) at \(\mu=\tfrac{1}{2}\), and
-\[
-  \frac{\partial\pC}{\partial\mu} = 1-2\Phi.
-\]
-Mutation raises aggregate cooperation when \(\Phi<\tfrac{1}{2}\) and lowers it when
-\(\Phi>\tfrac{1}{2}\). For the PGG, \(\phi_i(\delta_i)>\tfrac{1}{2}\iff r_i>N\), so the
-sign is set by whether the group is, on average, beneficiaries.
-
-\end{proposition}
-
-\begin{proof}
-
-With \(\mu_{i0}=\mu_{i1}=\mu\), \eqref{eq:pi} gives
-\(p_i=(1-2\mu)\phi_i(\delta_i)+\mu\). Averaging over \(i\) gives the stated expression
-for \(\pC\); affinity in \(\mu\), the two endpoints, and the derivative are immediate.
-
-\end{proof}
-
-Here \(\Phi\) is the cooperation level of the mutation-free dynamics
-of~\cite{couto2023multiplayer}. Mutation interpolates linearly between this
-selection-driven value and neutrality, reaching \(\pC=\tfrac{1}{2}\) as
-\(\mu\to\tfrac{1}{2}\): noise erases the influence of the payoffs.
-
-\begin{remark}
-
-Couto and Pal~\cite{couto2023multiplayer} require finite \(\beta\) for a unique
-stationary distribution. Formula~\eqref{eq:pi} remains valid as \(\beta_i\to\infty\):
-\(\phi_i(\delta_i)\to0\) when \(\delta_i>0\) and \(\to1\) when \(\delta_i<0\), so
-\(p_i\to\mu_{i0}\) or \(p_i\to1-\mu_{i1}\). With mutation the stationary distribution is
-a non-degenerate product measure even in this best-response limit, whereas without
-mutation the chain degenerates to a point mass at the dominant-action profile. Mutation
-therefore extends the exact analysis to arbitrarily strong selection.
-
-\end{remark}
 
 \begin{figure}[ht]
   \centering
@@ -615,17 +659,18 @@ For the PGG with \(r_i\neq N\), both \(\partial p_i/\partial\alpha_i\) and
 each derivative carries the factor \((1-r_i/N)\) multiplied by the negative quantity
 \(\phi_i'\), so its sign is that of \(r_i/N-1\). Indeed, \(\beta_i\) and \(\alpha_i\) enter
 \(p_i\) only through the product \(\beta_i\alpha_i\), so a change in selection intensity has
-the same effect as a proportional change in contribution. Raising the mutation rate instead
-pulls \(p_i\) towards \(\tfrac{1}{2}\), lowering cooperation when \(r_i>N\) and raising it
-when \(r_i<N\). % NOTE this is only true when action-invariant mutation is considered
+the same effect as a proportional change in contribution. Under symmetric mutation, raising
+the mutation rate instead pulls \(p_i\) towards \(\tfrac{1}{2}\), lowering cooperation when
+\(r_i>N\) and raising it when \(r_i<N\); with asymmetric mutation \(p_i\) is pulled towards
+its neutral value \((1+\mu_{i0}-\mu_{i1})/2\).
 
 \end{remark}
 
 A player who benefits from the public good (\(r_i>N\)) cooperates more as they contribute
 more or respond more strongly to payoff differences; a non-benefactor (\(r_i<N\)) does the
 opposite. Each player's long-run cooperation is thus determined entirely by their own
-\((\alpha_i,\beta_i,r_i,\mu_i)\) and the group size \(N\); the other players' parameters
-do not enter. %technically \mu_ik since we aren't considering action-invariant mutation specifically here?
+\((\alpha_i,\beta_i,r_i,\mu_{i0},\mu_{i1})\) and the group size \(N\); the other players'
+parameters do not enter.
 
 \section{Conclusion}\label{sec:conclusion}
 

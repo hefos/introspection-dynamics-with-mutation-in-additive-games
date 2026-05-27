@@ -14,7 +14,7 @@ def get_new_formula_val(alphas, r, N):
         numerator = 0.8
         denominator = 1 + np.exp(0.5 * (alphas[i] * (1 - (r/N))))
 
-        running_phis.append((numerator / denominator) + 0.1)
+        running_phis.append((numerator / denominator) + 0.05)
     
     return sum(running_phis) / N
 

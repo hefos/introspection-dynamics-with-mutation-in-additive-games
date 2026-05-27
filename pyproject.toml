@@ -8,6 +8,7 @@ dependencies = [
     "ludics>=0.1.0",
     "matplotlib>=3.10.8",
     "seaborn>=0.13.2",
+    "stet>=0.0.2",
 ]
 
 [tool.uv]

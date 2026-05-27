@@ -5,6 +5,8 @@ assets/data/new_formula/r_lt_N/main.csv
 assets/data/simulations/.DS_Store
 assets/data/simulations/r_gt_N/main.csv
 assets/data/simulations/r_lt_N/main.csv
+assets/data/simulations/r_gt_N/_stet_store.csv
+assets/data/simulations/r_lt_N/_stet_store.csv
 assets/data/theoretic_results/r_gt_N/main.csv
 assets/data/theoretic_results/r_lt_N/main.csv
 assets/graphs/.DS_Store

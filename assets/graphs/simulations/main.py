@@ -73,16 +73,16 @@ def plot_case(ax, sim, theoretic, new):
 
 def pgg_per_player_r(state, r_vector, contribution_vector, **kwargs):
     N = len(state)
-    total = float(np.dot(contribution_vector, state))
+    shared_pool = float(np.dot(r_vector * contribution_vector, state)) / N
     return np.array([
-        r_vector[i] / N * total - contribution_vector[i] * float(state[i])
+        shared_pool - contribution_vector[i] * float(state[i])
         for i in range(N)
     ], dtype=float)
 
 
 def generate_stationary_table(out_path):
     N = 3
-    alphas = np.ones(N)
+    alphas = np.array([1.0, 2.0, 3.0])
     r_vector = np.array([1.0, 3.0, 9.0])
     beta = 2.0
     mu = 0.1
@@ -122,7 +122,7 @@ def generate_stationary_table(out_path):
             p[i] ** int(state[i]) * (1 - p[i]) ** (1 - int(state[i]))
             for i in range(N)
         ]))
-        lines.append(rf"{label} & {pi_formula:.5f} & {pi_exact:.5f} \\")
+        lines.append(rf"{label} & {pi_formula:.4f} & {pi_exact:.4f} \\")
     lines.append(r"\bottomrule")
     lines.append(r"\end{tabular}")
 

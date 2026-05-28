@@ -13,7 +13,7 @@ def get_definite_pc(N,r,alphas):
         state_space=state_space,
         fitness_function=ludics.fitness_functions.heterogeneous_contribution_pgg_fitness_function,
         compute_transition_probability=ludics.compute_introspection_transition_probability,
-        individual_to_action_mutation_probability=np.full(shape=(N,2), fill_value=0.1),
+        individual_to_action_mutation_probability=np.tile(np.array([0.15, 0.05]), (N, 1)),
         contribution_vector=alphas,
         r=r,
         number_of_strategies=2,

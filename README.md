@@ -1,8 +1,10 @@
-# An Exact Cooperation Formula for Introspection Dynamics in the Heterogeneous Public Goods Game
+# Introspection Dynamics with Mutation in Additive Games
 
 This repository contains the source code and data for the paper of the same
-name. We prove that introspection dynamics on any state-independent game is
-exactly solvable, and derive a closed-form cooperation probability for the
+name. Couto and Pal (2023) showed that for additive games the stationary
+distribution of introspection dynamics is a product measure. We extend this to
+introspection dynamics with mutation and with player-specific selection
+intensities, and derive a closed-form cooperation probability for the
 heterogeneous public goods game. The figures and data are all under version
 control and available at
 https://github.com/hefos/exact-coop-introspection-pgg.
@@ -18,13 +20,19 @@ With `uv` installed, run the following from the repository root.
 uv run python assets/graphs/simulations/main.py
 ```
 
-**Figure 2** (structural properties of \(p_i\)):
+**Figure 2** (structural properties of $p_i$):
 
 ```bash
 uv run python assets/graphs/big_panel/main.py
 ```
 
-Both scripts write their output directly to `tex/`. The simulation figure
+**Figure 3** (effect of mutation on cooperation):
+
+```bash
+uv run python assets/graphs/mutation/main.py
+```
+
+All three scripts write their output directly to `tex/`. The simulation figure
 script also regenerates `tex/stationary_table.tex`.
 
 ## Regenerating the underlying data

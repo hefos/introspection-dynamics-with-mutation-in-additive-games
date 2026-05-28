@@ -123,6 +123,15 @@ wheels = [
 ]
 
 [[package]]
+name = "filelock"
+version = "3.29.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/b5/fe/997687a931ab51049acce6fa1f23e8f01216374ea81374ddee763c493db5/filelock-3.29.0.tar.gz", hash = "sha256:69974355e960702e789734cb4871f884ea6fe50bd8404051a3530bc07809cf90", size = 57571, upload-time = "2026-04-19T15:39:10.068Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/81/47/dd9a212ef6e343a6857485ffe25bba537304f1913bdbed446a23f7f592e1/filelock-3.29.0-py3-none-any.whl", hash = "sha256:96f5f6344709aa1572bbf631c640e4ebeeb519e08da902c39a001882f30ac258", size = 39812, upload-time = "2026-04-19T15:39:08.752Z" },
+]
+
+[[package]]
 name = "fonttools"
 version = "4.62.1"
 source = { registry = "https://pypi.org/simple" }
@@ -163,6 +172,7 @@ dependencies = [
     { name = "ludics" },
     { name = "matplotlib" },
     { name = "seaborn" },
+    { name = "stet" },
 ]
 
 [package.metadata]
@@ -170,6 +180,7 @@ requires-dist = [
     { name = "ludics", specifier = ">=0.1.0" },
     { name = "matplotlib", specifier = ">=3.10.8" },
     { name = "seaborn", specifier = ">=0.13.2" },
+    { name = "stet", specifier = ">=0.0.2" },
 ]
 
 [[package]]
@@ -616,6 +627,19 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/94/e7/b2c673351809dca68a0e064b6af791aa332cf192da575fd474ed7d6f16a2/six-1.17.0.tar.gz", hash = "sha256:ff70335d468e7eb6ec65b95b99d3a2836546063f63acc5171de367e834932a81", size = 34031, upload-time = "2024-12-04T17:35:28.174Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/b7/ce/149a00dd41f10bc29e5921b496af8b574d8413afcd5e30dfa0ed46c2cc5e/six-1.17.0-py2.py3-none-any.whl", hash = "sha256:4721f391ed90541fddacab5acf947aa0d3dc7d27b2e1e8eda2be8970586c3274", size = 11050, upload-time = "2024-12-04T17:35:26.475Z" },
+]
+
+[[package]]
+name = "stet"
+version = "0.0.2"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "filelock" },
+    { name = "pandas" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/9f/c2/6c293359f203f9d0db69d8311c2af67fc00c8078185fa0a5f5fef8c1cc10/stet-0.0.2.tar.gz", hash = "sha256:0263000b9ddeb61d18b00b8a22677d0321ada154349d731934a18016f0c2ae2b", size = 144722, upload-time = "2026-03-12T12:39:57.515Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/2f/f7/961d16c777b2c341fefbfda55224ef656aa26b1d0976a97c3aa88b8f4543/stet-0.0.2-py3-none-any.whl", hash = "sha256:24d3bd62c01b6616afc661ca21c40b80733114d5fe4e0dbe7824d714e6a176f4", size = 12806, upload-time = "2026-03-12T12:39:56.538Z" },
 ]
 
 [[package]]

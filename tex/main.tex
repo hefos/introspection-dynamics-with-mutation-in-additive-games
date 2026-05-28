@@ -548,19 +548,17 @@ agree to four decimal places for all eight states.
   \centering
   \includegraphics[width=\textwidth]{simulations.pdf}
   \caption{Validation of formula~\eqref{eq:pC} on a heterogeneous group with
-    \(\alpha_i=i\), \(\beta=0.5\), \(\mu_{i0}=\mu_{i1}=0.1\). %NOTE maybe redo with different rates?
+    \(\alpha_i=i\), \(\beta=0.5\), \(\mu_{i0}=0.05\), \(\mu_{i1}=0.15\).
     \textit{Left:} \(r=2N\) (so \(r>N\) for all \(N\)).
     \textit{Right:} \(r=N/2\) (so \(r<N\) for all \(N\)).
     Orange dots: exact \(p_C\) from the full \(2^N\) linear system (feasible only
     for small \(N\)).
     Blue curve: formula~\eqref{eq:pC} (Corollary~\ref{cor:exact-pC}).
-    Blue boxes: distribution of \(p_C\) across 99 independent runs of \(10^5\)
-    simulation steps each (outliers shown).
-    The negligible variability across runs reflects the large number of simulation
-    steps per run.
+    Blue boxes: distribution of \(p_C\) across 19 independent runs of 5{,}000
+    simulation steps each (with the first 500 steps discarded as warm-up;
+    outliers shown).
     All values obtained using~\cite{harry_foster_2026_19495532}.}
   \label{fig:validation}
-  % TODO Replace figure when long runs have finished.
 \end{figure}
 
 \begin{table}[ht]

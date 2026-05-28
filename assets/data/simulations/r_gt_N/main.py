@@ -7,7 +7,7 @@ import stet
 
 file_path = pathlib.Path(__file__)
 
-iterations = 5000
+iterations = 10_000
 warmup = 500
 choice_intensity = 0.5
 mutation_d_to_c = 0.05

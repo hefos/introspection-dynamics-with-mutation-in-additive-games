@@ -29,7 +29,7 @@ for r_val, ls in zip([2, 5, 7], linestyles):
         color="black",
         linestyle=ls,
         linewidth=2,
-        label=rf"$r = {r_val}$",
+        label=rf"$r_i = {r_val}$",
     )
 ax.axhline(0.5, color="gray", linewidth=0.8, linestyle=":")
 ax.set_xlabel(r"$\beta_i$")
@@ -44,7 +44,7 @@ for (r_val, beta_val), ls in zip([(7, 2), (7, 0.2), (2, 2), (2, 0.2)], linestyle
         color="black",
         linestyle=ls,
         linewidth=2,
-        label=rf"$r = {r_val},\ \beta = {beta_val}$",
+        label=rf"$r_i = {r_val},\ \beta_i = {beta_val}$",
     )
 ax.axhline(0.5, color="gray", linewidth=0.8, linestyle=":")
 ax.set_xlabel(r"$\alpha_i$")

@@ -70,7 +70,7 @@ assets_path = file_path.parents[2]
 
 
 def load_data(case):
-    sim = pd.read_csv(assets_path / f"data/quick_simulations/{case}/main.csv")
+    sim = pd.read_csv(assets_path / f"data/simulations/{case}/main.csv")
     theoretic = pd.read_csv(assets_path / f"data/theoretic_results/{case}/main.csv")
     new = pd.read_csv(assets_path / f"data/new_formula/{case}/main.csv")
     for df in (sim, theoretic, new):

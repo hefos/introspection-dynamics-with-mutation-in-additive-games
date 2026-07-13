@@ -92,10 +92,36 @@ Would you observe similar patterns for non-linear PGGs? (E.g., can mutation
 increase cooperation frequency when cooperation is not expected?)
 \end{reviewerquote}
 
-\pending{Add a numerical study of a non-linear public goods game with
-mutation, computing the stationary distribution from the full \(2^N\) linear
-system, and report whether mutation can raise cooperation where selection
-alone would not.}
+Done, in a new section (`Non-additive games') with a new six-panel figure.
+We take the non-linear public goods game with synergy or discounting
+parameter \(w\) (Hauert et al., 2006) as a case study and compute exact
+quantities from the full \(2^N\) linear system, for parameters at which
+defection dominates the linear game. The section reports the following.
+First, the \(w=1\) values coincide with our closed form, a numerical check
+of the additive theory. Second, with discounting the additive pattern
+persists qualitatively: mutation raises low cooperation towards
+\(\tfrac{1}{2}\), though no longer affinely. Third, and answering the
+reviewer's question directly, with synergy mutation produces high
+cooperation where none is expected: the game is bistable, the mutation-free
+strong-selection dynamics started from defection never cooperate, yet any
+positive mutation rate makes the chain ergodic and strong selection then
+drives cooperation up towards \(1-\mu\) rather than down to \(\mu\).
+Mutation acts as an equilibrium-selection device in non-additive games, and
+we note the parallel with the role of rare mutations in stochastic
+evolutionary dynamics. Fourth, beyond additivity there can be an optimal,
+strictly positive mutation rate: for a bistable synergy game the exact
+\(p_C\) is non-monotone in \(\mu\), peaking at \(\mu^*\approx0.02\), and
+the optimum moves and its peak falls as selection strengthens; our
+mutation-selection balance result rules this out for any additive game,
+where \(p_C\) is affine in \(\mu\). Finally, we show that additivity is
+exactly the point at which the players' actions decouple: heatmaps of the
+pairwise correlations, for the same heterogeneous group as our validation
+figure (contributions \(\alpha_i=i\)), show that every pairwise correlation
+is identically zero at \(w=1\) despite the heterogeneity, weakly negative
+under discounting, and positive and increasing in both players'
+contributions when the two strict equilibria compete. Beyond additivity a
+player's long-run behaviour is tied to their co-players' parameters, in
+contrast to the additive case.
 
 \begin{reviewerquote}
 Reference [2] provides a closed formula for the stationary distribution for
@@ -115,12 +141,10 @@ distribution of the full chain is the product of the per-player stationary
 distributions (Theorem 1); the two-action closed form follows as a
 specialisation (Theorems 2 and 3). Computing the stationary distribution
 therefore reduces from one linear system of dimension \(\prod_i L_i\) to
-\(N\) systems of dimension \(L_i\), and the marginals admit the explicit
-representation \(m_i=\mu_i(I-(1-M_i)Q_i)^{-1}\), with \(Q_i\) the
-mutation-free kernel and \(M_i=\sum_b\mu_{ib}\). We also record what is
-special to two actions: the identical-rows property behind the closed form
-holds only there, and with mutation the marginal is in general no longer of
-Boltzmann form; without mutation it is, recovering Proposition 2 of [2].
+\(N\) systems of dimension \(L_i\). We also record what is special to two
+actions: only there do the rows of the per-player transition matrix
+coincide, so for three or more actions the marginals are given by \(N\)
+small linear systems rather than by a closed form.
 
 \subsection*{Minor comments}
 

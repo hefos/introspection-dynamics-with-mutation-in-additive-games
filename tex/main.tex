@@ -105,23 +105,10 @@ player-specific selection intensities \(\beta_i\) rather than a single global va
 Specifically, we extend the product-measure result to mutation and to arbitrary
 finite action sets (Section~\ref{sec:decomp}),
 record the structural consequences that hold for any additive game
-(Section~\ref{sec:consequences}), and specialise them to the heterogeneous public goods
+(Section~\ref{sec:consequences}), specialise them to the heterogeneous public goods
 game (PGG), for which additivity holds and the closed-form cooperation probability follows
-(Section~\ref{sec:payoff}).
-
-The paper is organised as follows. Section~\ref{sec:setup} introduces the framework, the
-additive-game condition, and introspection dynamics with mutation, noting that whilst the
-donation-form Prisoner's Dilemma is additive, the Stag Hunt and the general
-Prisoner's Dilemma are not.
-Section~\ref{sec:decomp} shows that, with mutation, the stationary distribution
-remains a product measure for any finite number of actions per player, and that
-for two actions the individual cooperation probabilities take the closed
-form~\eqref{eq:pi}.
-Section~\ref{sec:consequences} records the structural consequences that hold for any
-additive game: a neutral-drift regime, a strong-selection limit, a cooperation threshold,
-and a mutation-selection balance.
-Section~\ref{sec:payoff} specialises these to the heterogeneous PGG, establishing
-additivity and deriving the closed-form cooperation probability.
+(Section~\ref{sec:payoff}), and explore the effect of mutation beyond additivity
+numerically (Section~\ref{sec:non-additive}).
 Section~\ref{sec:conclusion} concludes.
 
 \section{Setup and notation}\label{sec:setup}
@@ -190,7 +177,7 @@ writing \((a_1, a_2)\) for the state in which player 1 plays \(a_1\) and player
 (as defined by \(M_1\)) is \emph{additive} but the Stag Hunt game (as
 defined by \(M_2\)) is not. Further games considered
 in~\cite{couto2022introspection} are the Volunteer's Dilemma and the Volunteer's
-Timing Dilemma (a generalisation with more than 2 strategies), neither of which
+Timing Dilemma (a generalisation with more than 2 actions), neither of which
 are \emph{additive}.
 
 More generally, the general Prisoner's Dilemma (PD) is parameterised by the
@@ -334,26 +321,9 @@ stationary distribution.
 
 Theorem~\ref{thm:general} reduces the computation of the stationary
 distribution from one linear system of dimension \(\prod_i L_i\) to \(N\)
-systems of dimension \(L_i\). The marginals admit an explicit
-representation: writing \(Q_i\) for the mutation-free kernel (the case
-\(\mu_{ib}=0\)) and \(\mu_i=(\mu_{ib})_{b\in A_i}\) as a row vector,
-\(K_i=(1-M_i)Q_i+\mathbf{1}\mu_i\), and solving \(m_iK_i=m_i\) gives
-\[
-  m_i = \mu_i\bigl(I-(1-M_i)Q_i\bigr)^{-1},
-\]
-where the inverse exists since \((1-M_i)Q_i\) has spectral radius
-\(1-M_i<1\).
+systems of dimension \(L_i\).
 
-Without mutation the kernel \(Q_i\) satisfies detailed balance with respect
-to the Boltzmann distribution \(m_i(b)\propto e^{\beta_i g_i(b)}\), which is
-precisely the marginal in Proposition~2 of~\cite{couto2023multiplayer}; with
-mutation, \(m_i\) is in general neither Boltzmann nor an affine mixture of
-the Boltzmann distribution and \(\mu_i\). Mutation does, however, regularise
-the strong-selection limit: the entries of \(K_i\) remain bounded below by
-the \(\mu_{ib}\) as \(\beta_i\to\infty\), so the chain stays ergodic and
-Theorem~\ref{thm:general} continues to apply.
-
-\subsection{Two actions}\label{sec:two-actions}
+\subsection{Games with two actions}\label{sec:two-actions}
 
 For two actions more is true: the two rows of \(K_i\) coincide, and the
 marginal \(m_i\) takes an explicit closed form. For \(L_i\ge3\) the rows
@@ -695,7 +665,7 @@ the individual cooperation probabilities are \(p_1\approx0.267\), \(p_2=0.500\),
 \(p_3\approx0.900\), and the formula and exact values of \(\pi_{\mathbf{a}}\)
 agree to four decimal places for all eight states.
 
-\begin{figure}[ht]
+\begin{figure}[!htbp]
   \centering
   \includegraphics[width=\textwidth]{simulations.pdf}
   \caption{Validation of formula~\eqref{eq:pC} on a heterogeneous group with
@@ -760,7 +730,7 @@ balance for a single player: \(p_i\) is affine in the symmetric mutation rate \(
 \(\phi_i(\delta_i)\) at \(\mu=0\) and \(\tfrac{1}{2}\) at \(\mu=\tfrac{1}{2}\),
 increasing in \(\mu\) for a net contributor and decreasing for a net beneficiary.
 
-\begin{figure}[ht]
+\begin{figure}[!htbp]
   \centering
   \includegraphics[width=\textwidth]{big_panel.pdf}
   \caption{Structural properties of \(p_i\) for a single player with \(N = 5\)
@@ -789,7 +759,7 @@ the same player (\(r_i=7\), \(\alpha_i=2\)) at \(N=5\) and \(N=200\): increasing
 size alone turns the net beneficiary (\(r_i>N\), \(p_i\) rising to \(1-\mu\)) into a
 net contributor (\(r_i<N\), \(p_i\) falling to \(\mu\)).
 
-\begin{figure}[ht]
+\begin{figure}[!htbp]
   \centering
   \includegraphics[width=\textwidth]{mutation.pdf}
   \caption{Effect of mutation on the cooperation probability of a single player with
@@ -828,6 +798,141 @@ does the opposite. Each player's long-run cooperation is thus determined entirel
 \((\alpha_i,\beta_i,r_i,\mu_{i0},\mu_{i1})\) and the group size \(N\); the other players'
 parameters do not enter.
 
+\section{Non-additive games}\label{sec:non-additive}
+
+The results so far rely on additivity. When \(\Delta f_i(\bfa;b)\) depends on
+\(\bfa_{-i}\), the kernel \(K_i\) is not defined, the players' actions are
+coupled, and the stationary distribution must be computed from the full
+\(\prod_i L_i\) linear system. In this section we explore numerically how
+mutation behaves in that setting, taking the non-linear public goods game as
+a case study.
+
+In the non-linear PGG the pool is no longer proportional to the total
+contribution \(X(\bfa)=\sum_j \alpha_j a_j\): each unit contributed changes
+the marginal value of the next by a factor \(w>0\), so that the payoff to
+player \(i\) is
+\begin{equation}\label{eq:nonlinear-payoff}
+  f_i(\bfa) = \frac{r}{N}\,\frac{w^{X(\bfa)}-1}{w-1} - \alpha_i a_i,
+\end{equation}
+with the linear game~\eqref{eq:payoff} with common multiplier \(r_i=r\)
+recovered in the limit \(w\to1\). For unit contributions (\(\alpha_i=1\))
+the pool is \((r/N)(1+w+\cdots+w^{k-1})\) with \(k=\sum_j a_j\) cooperators:
+this is the synergy and discounting game of~\cite{hauert2006synergy}, in
+which the \(j\)-th contribution is worth a factor \(w\) of the
+\((j-1)\)-th. For \(w>1\) each additional contribution is worth more than
+the last: the benefits of cooperation are \emph{synergistically enhanced},
+as when collaborators complement one another. For \(w<1\) they are
+\emph{discounted}, as when the public good saturates and further
+contributions bring diminishing returns. With unit contributions, switching
+player \(i\) to cooperation adds \((r/N)\,w^{k_{-i}}\) to their share of the
+pool, where \(k_{-i}\) is the number of co-operating co-players, so
+cooperation is individually favoured precisely when
+\((r/N)\,w^{k_{-i}}>1\). For \(w=1\) this is the additive condition \(r>N\)
+of Section~\ref{sec:payoff}; for \(w\neq1\) the incentive depends on the
+co-players and the game is not additive. With discounting (\(w<1\))
+cooperation is favoured only when few others cooperate; with synergy
+(\(w>1\)) only when enough others do.
+
+Figure~\ref{fig:non-additive} reports exact quantities computed from the
+full \(2^N\) linear system using~\cite{harry_foster_2026_19495532}, for
+\(N=8\). The top row takes unit contributions; the top-left and top-centre
+panels take \(r=4\),
+so that \(r<N\) and defection dominates the linear game. Three observations
+follow. First, the \(w=1\) values coincide with the closed form of
+Corollary~\ref{cor:exact-pC} and the affine balance of
+Proposition~\ref{prop:balance}, a numerical check of the additive theory.
+Second, with discounting the additive pattern persists qualitatively:
+cooperation is low, mutation raises it towards the neutral level
+\(\tfrac{1}{2}\), and \(p_C\) is no longer exactly affine in \(\mu\). Third,
+with synergy the behaviour changes altogether: cooperation is nearly full at
+weak mutation, and mutation lowers it towards \(\tfrac{1}{2}\).
+
+The synergy case shows that mutation can produce high cooperation where none
+is expected. At \(w=1.4\) the game is bistable: all-defect and all-cooperate
+are both strict equilibria, since the first cooperator loses
+\(1-r/N>0\) regardless of \(w\), whilst a defector in a fully
+cooperative group forgoes \((r/N)w^{N-1}-1>0\). In the
+strong-selection limit the mutation-free dynamics therefore remain at
+whichever equilibrium the initial state reaches: started from defection, no
+cooperation ever arises. Any positive mutation rate makes the chain ergodic,
+and the top-centre panel of Figure~\ref{fig:non-additive} shows the outcome.
+For \(w\le1\) strong selection drives cooperation down to the mutation floor
+\(\mu\) (Proposition~\ref{prop:strong} for \(w=1\)); for \(w=1.4\)
+increasing the selection intensity instead drives \(p_C\) up, towards
+approximately \(1-\mu\). Occasional payoff-independent switches allow the
+group to escape the all-defect equilibrium; once at least three co-players
+cooperate (\((r/N)w^{k}>1\) for \(k\ge3\) at these parameters),
+introspection favours joining them, and the group is carried to full
+cooperation. Mutation therefore acts as an equilibrium-selection device in
+non-additive games, echoing the role of rare mutations in stochastic
+evolutionary dynamics~\cite{fudenberg2006evolutionary}.
+
+Beyond additivity there can also be an optimal, strictly positive mutation
+rate. For additive games Proposition~\ref{prop:balance} rules this out:
+under common symmetric mutation, aggregate cooperation is affine and hence
+monotone in \(\mu\). The top-right panel of Figure~\ref{fig:non-additive}
+shows a smaller multiplier with stronger synergy (\(r=2\), \(w=1.5\)), for
+which cooperation is individually favoured only once four co-players
+cooperate. At \(\beta=5\) cooperation is nearly full at weak mutation and
+noise only erodes it. At \(\beta=10\) and \(\beta=20\) the curve is no
+longer monotone: \(p_C\) peaks at \(\mu^*\approx0.02\) and
+\(\mu^*\approx0.03\) respectively, with the peak falling as selection
+strengthens. A moderate amount of noise maximises cooperation: enough
+mutation to seed the escape from the all-defect equilibrium, but not so much
+as to erode the cooperative one.
+
+Additivity is also precisely the point at which the players' actions
+decouple. The bottom row of Figure~\ref{fig:non-additive} shows the pairwise
+correlations \(\mathrm{corr}(a_i,a_j)\) under the stationary distribution
+for the heterogeneous group of Figure~\ref{fig:validation} (contributions
+\(\alpha_i=i\), \(\beta=0.5\)), here with \(r=4\) and symmetric mutation
+\(\mu=0.05\); since the total contribution reaches \(36\), mild synergy and
+discounting (\(w=1.05\) and \(w=0.95\)) suffice. For \(w=1\) every pairwise
+correlation is zero, as the product measure of Theorem~\ref{thm:general}
+requires, despite the heterogeneity. For \(w=0.95\) all pairs are weakly
+negatively correlated: under discounting a player's incentive to cooperate
+falls with the contributions of co-operating co-players, favouring
+anti-coordination. For \(w=1.05\), where the two strict equilibria compete,
+the correlations are positive and substantial, and increase with both
+players' contributions: the two largest contributors are the most strongly
+coupled (\(\mathrm{corr}(a_7,a_8)\approx0.35\)). Beyond additivity a
+player's long-run behaviour is thus tied to their co-players' parameters, in
+contrast to the additive case, where it depends only on their own; raising
+the mutation rate erodes every off-diagonal correlation towards zero.
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{non_additive.pdf}
+  \caption{Mutation in the non-linear public goods
+    game~\eqref{eq:nonlinear-payoff} with \(N=8\) and \(\alpha=1\). All
+    values were computed exactly from the full \(2^N\) linear system
+    using~\cite{harry_foster_2026_19495532}.
+    \textit{Top left:} \(p_C\) as a function of the common symmetric
+    mutation rate \(\mu\) at \(r=4\), \(\beta=5\), for discounting
+    (\(w=0.7\)), the linear game (\(w=1\)), and synergy (\(w=1.4\)). Orange
+    dots: the closed form of Corollary~\ref{cor:exact-pC}, which the
+    \(w=1\) values match. The \(w=0.7\) curve follows the additive pattern
+    but is no longer affine, whilst the \(w=1.4\) curve starts near full
+    cooperation and falls towards \(\tfrac{1}{2}\).
+    \textit{Top centre:} \(p_C\) as a function of \(\beta\) at \(r=4\),
+    \(\mu=0.05\). For \(w\le1\) strong selection drives cooperation to the
+    mutation floor \(\mu\); for \(w=1.4\) it selects the cooperative
+    equilibrium and \(p_C\) approaches \(1-\mu\).
+    \textit{Top right:} \(p_C\) as a function of \(\mu\) for a bistable
+    synergy game (\(r=2\), \(w=1.5\)). At \(\beta=10\) and \(\beta=20\)
+    cooperation is maximised at a strictly positive mutation rate, which
+    Proposition~\ref{prop:balance} rules out for additive games.
+    \textit{Bottom row:} pairwise correlations \(\mathrm{corr}(a_i, a_j)\)
+    under the stationary distribution for the heterogeneous group of
+    Figure~\ref{fig:validation} (contributions \(\alpha_i=i\),
+    \(\beta=0.5\)), at \(r=4\) and \(\mu=0.05\); diagonals are omitted and
+    the colour scales differ between panels. For \(w=1\) every entry is
+    zero (Theorem~\ref{thm:general}); for \(w=0.95\) all pairs are weakly
+    negatively correlated; for \(w=1.05\) the correlations are positive and
+    increase with both players' contributions.}
+  \label{fig:non-additive}
+\end{figure}
+
 \section{Conclusion}\label{sec:conclusion}
 
 Building on the additive-game results of~\cite{couto2023multiplayer}, we have shown that
@@ -846,13 +951,16 @@ goods game, the linear payoff structure implies additivity
 (Lemma~\ref{lem:payoff-identity}), and the long-run cooperation probability has a closed
 form with \(N\) terms rather than \(2^N\) (Corollary~\ref{cor:exact-pC}).
 
-The approach does not extend to games that are not additive. When
+The exact analysis does not extend to games that are not additive. When
 \(\Delta f_i(\bfa)\) depends on \(\bfa_{-i}\), the per-player chains are coupled and
 the stationary distribution is no longer a product measure; the full \(2^N\) linear
 system must be solved in general. Games such as the Stag Hunt (\(M_2\)
 of~\eqref{eq:games_from_couto_2022}) contain payoff cross
 terms \(a_i a_{-i}\) that cannot be eliminated by rescaling, so no reformulation
-brings them within the scope of the present results.
+brings them within the scope of the closed forms. Our numerical exploration of
+the non-linear public goods game (Section~\ref{sec:non-additive}) shows that
+mutation then takes on a further role, selecting among coexisting strict
+equilibria; characterising this behaviour analytically remains open.
 
 The source code, figures, and data for this paper are under version control
 and available at~\cite{foster2026repo}, in line with best practices for

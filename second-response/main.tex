@@ -73,11 +73,17 @@ player, \{C, D\}. [...] It follows trivially that the stationary distribution
 of such a transition matrix is \{p\_i, 1-p\_i\}.
 \end{reviewerquote}
 
-\pending{Restructure the proof of Theorem 1 along exactly these lines: define
-the per-player state space \(\{C,D\}\) and the per-player transition matrix
-with identical rows \((p_i,\,1-p_i)\), from which the stationary marginal is
-immediate. This same two-state-chain framework also supports the alternative
-mutation scheme raised by Reviewer 2.}
+Done, following exactly the suggested argument. Section 3 now defines, for
+each player, the selection kernel \(K_i\) on their own action set: the
+stochastic matrix governing a selected player's next action, well defined
+precisely when the game is additive. Theorem 1 verifies directly that the
+product of the per-player stationary distributions is stationary for the
+full chain, and that positive mutation makes the chain irreducible and
+aperiodic, so the stationary distribution is unique. For two actions the two
+rows of \(K_i\) coincide at \((p_i,\,1-p_i)\), which is the reviewer's
+argument; the closed form for the marginal (Theorem 2) and the explicit
+product measure (Theorem 3) follow. This per-player-chain framework also
+supports the alternative mutation scheme raised by Reviewer 2.
 
 \begin{reviewerquote}
 Even though one cannot obtain closed formulas for non-additive games, it
@@ -99,9 +105,22 @@ including such a result if possible (even in the simplest case of symmetric
 mutations).
 \end{reviewerquote}
 
-\pending{Attempt the extension to \(L\) strategies with mutation, at least in
-the symmetric-mutation case; fold the result into the restructured Theorem 1
-if it goes through.}
+Done, and for arbitrary player- and action-specific mutation probabilities
+rather than only the symmetric case. We have gone further and restructured
+the paper so that the general result is now the lead result: the setup of
+Section 2 is stated for finite action sets \(A_i\), and Section 3 first
+establishes that for any additive game in which player \(i\), when selected,
+mutates to action \(b\) with probability \(\mu_{ib}>0\), the stationary
+distribution of the full chain is the product of the per-player stationary
+distributions (Theorem 1); the two-action closed form follows as a
+specialisation (Theorems 2 and 3). Computing the stationary distribution
+therefore reduces from one linear system of dimension \(\prod_i L_i\) to
+\(N\) systems of dimension \(L_i\), and the marginals admit the explicit
+representation \(m_i=\mu_i(I-(1-M_i)Q_i)^{-1}\), with \(Q_i\) the
+mutation-free kernel and \(M_i=\sum_b\mu_{ib}\). We also record what is
+special to two actions: the identical-rows property behind the closed form
+holds only there, and with mutation the marginal is in general no longer of
+Boltzmann form; without mutation it is, recovering Proposition 2 of [2].
 
 \subsection*{Minor comments}
 
@@ -201,8 +220,12 @@ calling C a state. (An alternative would be defining another possible state
 space for each player that is simply \{0,1\} or \{C, D\}.)
 \end{reviewerquote}
 
-The wording now refers to selections `resulting in action \(C\)' rather than
-placing a player `in state \(C\)'. 
+Done. The wording now refers to selections `resulting in action \(C\)' rather
+than placing a player `in state \(C\)', and, following the reviewer's
+suggested alternative, each player's action set now serves as a formal
+per-player state space: Section 3 defines the selection kernel \(K_i\) on
+\(A_i\) (which is \(\{C,D\}\) in the two-action case) as part of the
+restructured proofs (see our response to the main comments above).
 
 \begin{reviewerquote}
 Page 5: ``without mutation the chain degenerates to a point mass at the

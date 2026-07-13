@@ -199,7 +199,7 @@ handles = [
         markersize=8,
         label=r"exact $p_C$ (linear system)",
     ),
-    Line2D([0], [0], color="C0", linewidth=2, label=r"formula $p_C$ (Corollary~1)"),
+    Line2D([0], [0], color="C0", linewidth=2, label=r"formula $p_C$ (Corollary 2)"),
     Patch(facecolor="C0", edgecolor="black", label=r"simulated $p_C$"),
 ]
 

@@ -10,6 +10,12 @@ def p_i(alpha, r, N, beta, mu):
     return (1 - 2 * mu) / (1 + np.exp(s)) + mu
 
 
+def p_i_alternative(alpha, r, N, beta, nu):
+    s = beta * alpha * (1 - r / N)
+    fermi_value = 1 / (1 + np.exp(s))
+    return ((1 - nu) * fermi_value + nu) / (1 + nu)
+
+
 linestyles = ["-", "--", ":"]
 beta_values = np.linspace(0, 6, 400)
 fig, axes = plt.subplots(1, 2, figsize=(11, 5), sharey=True)
@@ -23,6 +29,17 @@ for ax, N in zip(axes, [5, 200]):
             linestyle=ls,
             linewidth=2,
             label=rf"$\mu = {mu}$",
+        )
+    beta_dots = beta_values[20::40]
+    for label, mu in zip(["alternative scheme", None], [0.1, 0.25]):
+        nu = mu / (1 - mu)
+        ax.scatter(
+            beta_dots,
+            p_i_alternative(alpha=2, r=7, N=N, beta=beta_dots, nu=nu),
+            marker="x",
+            color="black",
+            zorder=3,
+            label=label,
         )
     ax.axhline(0.5, color="gray", linewidth=0.8, linestyle=":")
     ax.set_xlabel(r"$\beta_i$")

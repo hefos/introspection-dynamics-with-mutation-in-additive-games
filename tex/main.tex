@@ -450,6 +450,105 @@ product form while shifting each marginal: with \(b=1\), \(c_1=0.6\), \(c_2=0.1\
 \(\pi_{DC}\approx0.321\), \(\pi_{CD}\approx0.057\), and \(\pi_{CC}\approx0.031\).
 \end{remark}
 
+\subsection{An alternative mutation scheme}\label{sec:alternative-mutation}
+
+In the dynamics of Section~\ref{sec:setup} a mutating player may adopt any
+action, including the one they already play. An alternative convention
+restricts mutation to the other action: for two actions, when player \(i\)
+is selected they mutate to the alternative \(\bar{a}_i\) with probability
+\(\nu_{i,\bar{a}_i}\in(0,1)\), and otherwise apply the Fermi comparison, so
+that the switching probability of~\eqref{eq:intro-transition} becomes
+\begin{equation}\label{eq:intro-transition-alternative}
+  T^{\intro}_{\bfa,\,\bfa_{i\to\bar{a}_i}}
+  = \frac{1}{N}\bigl[(1-\nu_{i,\bar{a}_i})\phi_i(\Delta f_i(\bfa))
+    +\nu_{i,\bar{a}_i}\bigr].
+\end{equation}
+For an additive game the selection kernel \(K_i\) remains well defined,
+with
+\[
+  K_i(D,C) = (1-\nu_{iC})\phi_i(\delta_i)+\nu_{iC}, \qquad
+  K_i(C,D) = (1-\nu_{iD})\bigl(1-\phi_i(\delta_i)\bigr)+\nu_{iD},
+\]
+but its two rows no longer coincide, so the forgetful property in the proof
+of Theorem~\ref{thm:decomp} fails.
+
+\begin{proposition}[Alternative mutation scheme]\label{prop:alternative}
+
+For any two-action additive game with constants \(\delta_i\), under the
+alternative scheme~\eqref{eq:intro-transition-alternative} with
+\(\nu_{iC},\nu_{iD}\in(0,1)\), the unique stationary distribution is the
+product measure~\eqref{eq:stationary} with marginals
+\begin{equation}\label{eq:pi-alternative}
+  p_i = \frac{(1-\nu_{iC})\phi_i(\delta_i)+\nu_{iC}}
+             {1+\nu_{iC}\bigl(1-\phi_i(\delta_i)\bigr)
+               +\nu_{iD}\,\phi_i(\delta_i)}.
+\end{equation}
+
+\end{proposition}
+
+\begin{proof}
+
+All entries of \(K_i\) are positive, so \(K_i\) has a unique stationary
+distribution \(m_i=(p_i,\,1-p_i)\), determined by the two-state balance
+\(p_i\,K_i(C,D)=(1-p_i)\,K_i(D,C)\); solving gives
+\(p_i=K_i(D,C)/\bigl(K_i(D,C)+K_i(C,D)\bigr)\),
+which is~\eqref{eq:pi-alternative}. The proof of Theorem~\ref{thm:general}
+uses only that one player updates at a time and that the selected player's
+next action depends on their own current action alone; it therefore applies
+verbatim, and the stationary distribution is the product of the \(m_i\).
+
+\end{proof}
+
+\begin{proposition}[Equivalence of the mutation schemes]\label{prop:equivalence}
+
+For symmetric rates \(\nu_{iC}=\nu_{iD}=\nu_i\), the stationary distribution
+under the alternative scheme coincides with that of the dynamics of
+Section~\ref{sec:setup} with symmetric mutation
+\(\mu_{iC}=\mu_{iD}=\nu_i/(1+\nu_i)\).
+
+\end{proposition}
+
+\begin{proof}
+
+Both stationary distributions are product measures with Bernoulli marginals,
+so it suffices that the marginals agree. With \(\mu_i=\nu_i/(1+\nu_i)\),
+\eqref{eq:pi} gives
+\[
+  p_i = (1-2\mu_i)\phi_i(\delta_i)+\mu_i
+      = \frac{(1-\nu_i)\phi_i(\delta_i)+\nu_i}{1+\nu_i},
+\]
+which is~\eqref{eq:pi-alternative} with \(\nu_{iC}=\nu_{iD}=\nu_i\). The map
+\(\nu_i\mapsto\nu_i/(1+\nu_i)\) is a bijection from \((0,1)\) onto
+\((0,\tfrac{1}{2})\), so the correspondence runs in both directions.
+
+\end{proof}
+
+The two chains are different, and in general mix at different speeds, but
+their long-run behaviour is identical: for symmetric rates, whether a
+mutating player may re-select their current action is a reparameterisation
+of the mutation rate, not a modelling choice. Every symmetric-mutation
+result of Sections~\ref{sec:consequences} and~\ref{sec:payoff} therefore
+holds for the alternative scheme with \(\mu\) replaced by \(\nu/(1+\nu)\);
+Figure~\ref{fig:mutation} illustrates the coincidence. For asymmetric rates
+the equivalence fails: the denominator of~\eqref{eq:pi-alternative} depends
+on \(\phi_i(\delta_i)\), so the marginal is no longer affine in the Fermi
+value, whereas~\eqref{eq:pi} always is, and no fixed choice of
+\(\mu_{iC},\mu_{iD}\) reproduces~\eqref{eq:pi-alternative} across all payoff
+differences.
+
+Both conventions appear in the literature. Redrawing from the full action
+set is the convention of the exploration dynamics
+of~\cite{traulsen2009exploration}, and payoff-independent mutations of this
+kind drive the equilibrium-selection analyses of adaptive
+dynamics~\cite{kandori1993learning}: a reconsidering player re-samples their
+options, sometimes landing on the action they already use. Mutation
+restricted to the other action is the bit-flip mutation of genetic
+algorithms~\cite{holland1992adaptation,goldberg1989genetic}, natural when
+mutation is read as an error in executing a switch. For more than two
+actions, mutating to a uniformly chosen \emph{other} action still yields a
+selection kernel that depends only on the player's own action, so
+Theorem~\ref{thm:general} continues to apply there too.
+
 \section{Structural consequences}\label{sec:consequences}
 
 The formula~\eqref{eq:pi} for the individual cooperation probability allows immediate
@@ -787,7 +886,11 @@ net contributor (\(r_i<N\), \(p_i\) falling to \(\mu\)).
     net contributor; \(p_i\) falls towards \(\mu\).
     In both panels the \(\mu=0\) curve is the mutation-free dynamics
     of~\cite{couto2023multiplayer}, reaching \(1\) or \(0\); mutation confines \(p_i\) to
-    \([\mu,1-\mu]\). Increasing the group size alone turns the net beneficiary into a
+    \([\mu,1-\mu]\). The alternative mutation scheme of
+    Section~\ref{sec:alternative-mutation} with rate \(\nu=\mu/(1-\mu)\) is
+    also shown for \(\mu\in\{0.1,0.25\}\); as established by
+    Proposition~\ref{prop:equivalence}, it coincides with the corresponding
+    curve. Increasing the group size alone turns the net beneficiary into a
     net contributor.}
   \label{fig:mutation}
 \end{figure}

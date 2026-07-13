@@ -374,23 +374,42 @@ also.
 \end{reviewerquote}
 
 The reviewer is correct that under mutation restricted to the other action
-the forgetful property of Theorem 1 fails: the probability that a selected
-player's next action is \(C\) then differs, by the mutation rate, between the
-two current actions. Our preliminary analysis shows that the factorisation of
-Theorem 2 nevertheless survives: for an additive game each player still
-evolves as an independent two-state Markov chain, whose stationary
-distribution is explicit; with symmetric mutation rate \(\mu_i\) the marginal
-becomes
+the forgetful property fails: the probability that a selected player's next
+action is \(C\) then differs, by the mutation rate, between the two current
+actions. We have added a subsection (`An alternative mutation scheme')
+analysing this scheme in full, with action-dependent rates
+\(\nu_{iC},\nu_{iD}\). The factorisation that the reviewer suspected `could
+hold regardless' does hold: our general product-measure theorem uses only
+that a selected player's next action depends on their own current action, so
+it applies verbatim, and the marginals follow from the two-state balance,
 \[
-  p_i \;=\; \frac{(1-\mu_i)\,\phi_i(\delta_i)+\mu_i}{1+\mu_i}.
+  p_i = \frac{(1-\nu_{iC})\phi_i(\delta_i)+\nu_{iC}}
+             {1+\nu_{iC}\bigl(1-\phi_i(\delta_i)\bigr)
+               +\nu_{iD}\,\phi_i(\delta_i)}.
 \]
-\pending{Add a full section analysing this alternative mutation scheme
-(including action-dependent rates), proving the modified marginals and the
-persistence of the product measure, and comparing the two schemes. Add a
-justification of the original scheme: drawing the mutant action from the full
-action set, including the current one, is the standard convention for
-mutation and exploration in evolutionary and learning dynamics, and we will
-cite the relevant literature.}
+Moreover, we prove that for symmetric rates the two schemes are equivalent:
+the alternative scheme with rate \(\nu_i\) has exactly the same stationary
+distribution as our scheme with \(\mu_{iC}=\mu_{iD}=\nu_i/(1+\nu_i)\).
+Whether a mutating player may re-select their current action is therefore a
+reparameterisation of the mutation rate rather than a substantive modelling
+choice, which we believe addresses the concern that self-mutation is `a
+convenient trick that makes the maths easy' in the strongest possible way.
+For asymmetric rates the schemes genuinely differ, and the subsection
+records the difference. We have also added references justifying both
+conventions: redrawing from the full action set is the convention of
+exploration dynamics (Traulsen et al., 2009) and of the payoff-independent
+mutations used in stochastic equilibrium selection (Kandori et al., 1993),
+whilst mutation to the other action only is the bit-flip mutation of genetic
+algorithms (Holland, 1992; Goldberg, 1989). The figure isolating the role of
+mutation now also overlays the alternative scheme at the reparameterised
+rate, illustrating the coincidence of the two schemes.
+
+Regarding the overall contribution: since the reviewer's report the
+manuscript has also gained the general result for arbitrary finite action
+sets (Theorem 1), formal restructured proofs, and a numerical section on
+non-additive games (equilibrium selection by mutation, an optimal mutation
+rate, and the decoupling of the players exactly at additivity), which we
+hope addresses the comment that the paper was short in its previous form.
 
 \vspace{2em}
 

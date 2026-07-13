@@ -49,9 +49,11 @@ the authors could first say they extend introspection dynamics to include
 mutations, and from there they rederive results for additive games.
 \end{reviewerquote}
 
-\pending{Reorder the abstract and introduction so that the extension of
-introspection dynamics to mutation is stated first, with the additive-game
-results then rederived from it.}
+Done. The abstract and the introduction now lead with the extension: we
+first state that we extend introspection dynamics to include per-player,
+per-action mutation and player-specific selection intensities, and then
+present the additive-game results of Couto and Pal as rederived, and
+generalised, from the extended dynamics.
 
 \begin{reviewerquote}
 The Introduction could include some more references. Think of a reader who
@@ -60,9 +62,12 @@ know how the present model relates to previous ones, such as, for example,
 other EGT models for asymmetric games or logit-response dynamics.
 \end{reviewerquote}
 
-\pending{Expand the introduction's related work: logit-response dynamics
-(Blume; Al\'os-Ferrer and Netzer), evolutionary game theoretic models of
-asymmetric games, and mutation and exploration in learning dynamics.}
+Done. The introduction now relates introspection dynamics to the
+logit-response dynamics of evolutionary game theory in economics (Blume,
+1993; Al\'os-Ferrer and Netzer, 2010), notes evolutionary approaches to
+asymmetric games (McAvoy and Hauert, 2015), and adds the exploration
+dynamics of Traulsen et al.\ (2009) for the role of mutation as
+exploration, error, and behavioural noise.
 
 \begin{reviewerquote}
 Theorem 1's proof is intuitive (and perhaps even an obvious result). However,
@@ -214,7 +219,9 @@ acronym `PD' has not been defined.
 
 Done. The text now reads ``Additivity requires, for each player, the
 equality'', the general Prisoner's Dilemma is displayed in matrix form as
-\(M_3\), and the acronym PD is defined at first use.
+\(G_3\), and the acronym PD is defined at first use. (The example matrices,
+previously \(M_1\), \(M_2\), \(M_3\), are now \(G_1\), \(G_2\), \(G_3\), to
+avoid a collision with the total mutation probability \(M_i\).)
 
 \begin{reviewerquote}
 Page 3: ``(both differentials equal c).'' To be precise, it's \(c_1\) and
@@ -233,10 +240,12 @@ counterintuitive notation given you denote cooperation as \(a=1\) and
 defection as \(a=0\) before.
 \end{reviewerquote}
 
-We now write `components' rather than `quantities'. \pending{Rename the
-mutation probabilities so that the subscripts agree with the action coding
-(mutation to \(C\) and to \(D\)); this notation change ripples through every
-statement and figure, so we will carry it out in a single dedicated pass.}
+We now write `components' rather than `quantities'. The mutation
+probabilities have also been renamed throughout: they are now indexed by
+the target action, \(\mu_{iC}\) for mutation towards cooperation and
+\(\mu_{iD}\) for mutation towards defection, consistent with the general
+notation \(\mu_{ib}\) for \(b\in A_i\); the notation \(\mu_{i0}\),
+\(\mu_{i1}\) no longer appears.
 
 \begin{reviewerquote}
 Page 4: At times, you refer to C as a state. [...] To be precise, avoid
@@ -341,8 +350,11 @@ Page 10: I personally prefer when a Conclusion section doesn't require the
 reader to know all the notation introduced in the body text.
 \end{reviewerquote}
 
-\pending{Rewrite the conclusion so that, together with the introduction, it
-is self-contained.}
+Done. The conclusion has been rewritten so that, together with the
+introduction, it is self-contained: the results are stated in words (the
+players behave independently in the long run, each player's choice is
+forgetful, and the computation reduces to one small linear system per
+player) rather than through the notation of the body text.
 
 \section*{Reviewer 2}
 

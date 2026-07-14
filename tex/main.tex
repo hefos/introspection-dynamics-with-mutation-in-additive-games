@@ -131,11 +131,14 @@ Section~\ref{sec:conclusion} concludes.
 \section{Setup and notation}\label{sec:setup}
 
 Consider \(N\) ordered players, where each player \(i\) selects from a finite
-action set \(A_i\) with \(L_i:=|A_i|\ge2\). The state space is
-\(S=\prod_{i=1}^{N}A_i\). Each player \(i\) has a payoff function
-\(f_i:S\to\mathbb{R}\) and player-specific selection intensity \(\beta_i>0\).
-For \(b\in A_i\) we write \(\bfa_{i\to b}\) for the state with player \(i\)'s
-action replaced by \(b\), and
+action set \(A_i\) with \(L_i:=|A_i|\ge2\). A state is a profile
+\(\bfa=(a_1,\dots,a_N)\), where \(a_i\in A_i\) denotes the action currently
+played by player \(i\), and the state space is \(S=\prod_{i=1}^{N}A_i\). Each
+player \(i\) has a payoff function \(f_i:S\to\mathbb{R}\) and player-specific
+selection intensity \(\beta_i>0\). We reserve \(b\in A_i\) for a generic
+alternative action of the player under consideration: we write
+\(\bfa_{i\to b}\) for the state with player \(i\)'s action replaced by \(b\),
+and
 \[
   \Delta f_i(\bfa; b) := f_i(\bfa) - f_i(\bfa_{i\to b})
 \]
@@ -153,7 +156,10 @@ as
   f_i(\bfa) = g_i(a_i) + h_i(\bfa_{-i})
 \end{equation}
 for some \(g_i:A_i\to\mathbb{R}\) and \(h_i\), in which case
-\(\Delta f_i(\bfa;b)=g_i(a_i)-g_i(b)\). Indeed, fixing a reference action
+\(\Delta f_i(\bfa;b)=g_i(a_i)-g_i(b)\). In words, \(g_i\) collects the part
+of player \(i\)'s payoff controlled by their own action and \(h_i\) the part
+controlled by the co-players, and the two parts do not interact: switching
+action changes \(g_i\) alone. Indeed, fixing a reference action
 \(c\in A_i\) and setting \(g_i(a_i):=\Delta f_i(\bfa;c)\) and
 \(h_i(\bfa_{-i}):=f_i(\bfa_{i\to c})\) exhibits the decomposition, and the
 converse is immediate.
@@ -254,10 +260,11 @@ choice and~\eqref{eq:intro-transition-general} reads
 \begin{equation}\label{eq:intro-transition}
   T^{\intro}_{\bfa,\,\bfa_{i\to\bar{a}_i}}
   = \frac{1}{N}\bigl[(1-\mu_{iC}-\mu_{iD})\phi_i(\Delta f_i(\bfa))
-    +\mu_{i,\bar{a}_i}\bigr],
+    +\mu_{i\bar{a}_i}\bigr],
 \end{equation}
-where the mutation term \(\mu_{i,\bar{a}_i}\) is indexed by the target
-action \(\bar{a}_i\).
+where the mutation term is indexed by the target action: \(\mu_{i\bar{a}_i}\)
+denotes \(\mu_{iC}\) when player \(i\) currently defects, so that
+\(\bar{a}_i=C\), and \(\mu_{iD}\) when they cooperate.
 
 \begin{definition}[Cooperation probability]
 For two actions, given an ergodic chain on \(S\) with stationary distribution
@@ -465,12 +472,14 @@ In the dynamics of Section~\ref{sec:setup} a mutating player may adopt any
 action, including the one they already play. An alternative convention
 restricts mutation to the other action: for two actions, when player \(i\)
 is selected they mutate to the alternative \(\bar{a}_i\) with probability
-\(\nu_{i,\bar{a}_i}\in(0,1)\), and otherwise apply the Fermi comparison, so
-that the switching probability of~\eqref{eq:intro-transition} becomes
+\(\nu_{i\bar{a}_i}\in(0,1)\), where, as in~\eqref{eq:intro-transition},
+\(\nu_{iC}\) and \(\nu_{iD}\) are the rates towards each target action, and
+otherwise apply the Fermi comparison, so that the switching probability
+of~\eqref{eq:intro-transition} becomes
 \begin{equation}\label{eq:intro-transition-alternative}
   T^{\intro}_{\bfa,\,\bfa_{i\to\bar{a}_i}}
-  = \frac{1}{N}\bigl[(1-\nu_{i,\bar{a}_i})\phi_i(\Delta f_i(\bfa))
-    +\nu_{i,\bar{a}_i}\bigr].
+  = \frac{1}{N}\bigl[(1-\nu_{i\bar{a}_i})\phi_i(\Delta f_i(\bfa))
+    +\nu_{i\bar{a}_i}\bigr].
 \end{equation}
 For an additive game the selection kernel \(K_i\) remains well defined,
 with
@@ -553,10 +562,16 @@ dynamics~\cite{kandori1993learning}: a reconsidering player re-samples their
 options, sometimes landing on the action they already use. Mutation
 restricted to the other action is the bit-flip mutation of genetic
 algorithms~\cite{holland1992adaptation,goldberg1989genetic}, natural when
-mutation is read as an error in executing a switch. For more than two
-actions, mutating to a uniformly chosen \emph{other} action still yields a
-selection kernel that depends only on the player's own action, so
-Theorem~\ref{thm:general} continues to apply there too.
+mutation is read as an error in executing a switch. We emphasise the scope
+of these results: Propositions~\ref{prop:alternative}
+and~\ref{prop:equivalence} hold for any number of players and for
+player-specific rates. Since the equivalence acts marginal by marginal, a
+single population may even mix the conventions, with some players redrawing
+from the full action set and others restricted to the alternative, and the
+stationary distribution remains the product of the corresponding marginals.
+For more than two actions, mutating to a uniformly chosen \emph{other}
+action still yields a selection kernel that depends only on the player's
+own action, so Theorem~\ref{thm:general} continues to apply there too.
 
 \section{Structural consequences}\label{sec:consequences}
 
@@ -662,7 +677,14 @@ cooperation
 (\(\mu_{iC}>\mu_{iD}\)). Thus when the payoff favours defection (\(\delta_i>0\)) a
 sufficiently strong cooperative bias still yields \(p_i>\tfrac{1}{2}\); conversely, when
 the payoff favours cooperation (\(\delta_i<0\)) a defection bias (\(\mu_{iD}>\mu_{iC}\))
-can drive \(p_i<\tfrac{1}{2}\).
+can drive \(p_i<\tfrac{1}{2}\). The logarithmic form presumes
+\(\mu_{iC},\mu_{iD}<\tfrac{1}{2}\). Since \(\mu_{iC}+\mu_{iD}<1\), at most
+one rate can reach \(\tfrac{1}{2}\), and if one does the threshold question
+is settled without reference to the payoffs:
+Proposition~\ref{prop:strong} confines \(p_i\) to
+\((\mu_{iC},\,1-\mu_{iD})\), so \(\mu_{iC}\ge\tfrac{1}{2}\) forces
+\(p_i>\tfrac{1}{2}\) and \(\mu_{iD}\ge\tfrac{1}{2}\) forces
+\(p_i<\tfrac{1}{2}\), whatever the game.
 
 \begin{proposition}[Mutation-selection balance]\label{prop:balance}
 
@@ -1072,8 +1094,10 @@ the mutation rate erodes every off-diagonal correlation towards zero.
     \textit{Bottom row:} pairwise correlations \(\mathrm{corr}(a_i, a_j)\)
     under the stationary distribution for the heterogeneous group of
     Figure~\ref{fig:validation} (contributions \(\alpha_i=i\),
-    \(\beta=0.5\)), at \(r=4\) and \(\mu=0.05\); diagonals are omitted and
-    the colour scales differ between panels. For \(w=1\) every entry is
+    \(\beta=0.5\)), at \(r=4\) and \(\mu=0.05\). The axes give the player
+    indices \(i\) and \(j\), which, since \(\alpha_i=i\), also order the
+    players by contribution; diagonals are omitted and the colour scales
+    differ between panels. For \(w=1\) every entry is
     zero (Theorem~\ref{thm:general}); for \(w=0.95\) all pairs are weakly
     negatively correlated; for \(w=1.05\) the correlations are positive and
     increase with both players' contributions.}

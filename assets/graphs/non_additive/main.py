@@ -165,9 +165,9 @@ for column, w in enumerate(correlation_w_values):
     fig.colorbar(im, ax=ax, label=r"$\mathrm{corr}(a_i, a_j)$")
     ax.set_xticks(range(N), labels=range(1, N + 1))
     ax.set_yticks(range(N), labels=range(1, N + 1))
-    ax.set_xlabel(r"player $j$")
+    ax.set_xlabel(r"player $j$ ($\alpha_j = j$)")
     ax.set_title(rf"$w = {w}$")
-axes[1, 0].set_ylabel(r"player $i$")
+axes[1, 0].set_ylabel(r"player $i$ ($\alpha_i = i$)")
 
 plt.tight_layout()
 plt.savefig(file_path.parents[3] / "tex" / "non_additive.pdf", bbox_inches="tight")

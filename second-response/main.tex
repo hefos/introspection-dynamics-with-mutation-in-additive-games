@@ -1,0 +1,422 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amssymb}
+\usepackage{parskip}
+\usepackage[hidelinks]{hyperref}
+\pagestyle{plain}
+
+\newenvironment{reviewerquote}
+  {\begin{quote}\itshape}
+  {\end{quote}}
+
+\title{Response to reviewers\\
+  \large Introspection Dynamics with Mutation in Additive Games}
+\author{Harry Foster, Vince Knight, Sebastian Krapohl}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+Dear Professor Zaccour,
+
+We thank both reviewers for their careful reading of the manuscript and for
+their constructive comments. We respond to each comment below; reviewer text
+is set in italics, and our responses follow in upright type. Where a comment
+has led to a change in the manuscript we describe the change.
+
+\section*{Reviewer 1}
+
+\subsection*{Main comments}
+
+\begin{reviewerquote}
+In the abstract, perhaps the introspection dynamics process could be better
+explained to be more accessible to readers who are not familiar with it.
+\end{reviewerquote}
+
+We have rewritten the opening of the abstract to describe the process
+explicitly: at each time step a randomly selected player compares their
+current payoff to the payoff an alternative action would have given, and
+switches with a probability increasing in the difference. Following a minor
+comment below, we have also removed all formulas from the abstract.
+
+\begin{reviewerquote}
+I think the manuscript would sound stronger with a slight framing reordering:
+the authors could first say they extend introspection dynamics to include
+mutations, and from there they rederive results for additive games.
+\end{reviewerquote}
+
+Done. The abstract and the introduction now lead with the extension: we
+first state that we extend introspection dynamics to include per-player,
+per-action mutation and player-specific selection intensities, and then
+present the additive-game results of Couto and Pal as rederived, and
+generalised, from the extended dynamics.
+
+\begin{reviewerquote}
+The Introduction could include some more references. Think of a reader who
+hasn't carefully read References [1] and [2]: it would be hard for them to
+know how the present model relates to previous ones, such as, for example,
+other EGT models for asymmetric games or logit-response dynamics.
+\end{reviewerquote}
+
+Done. The introduction now relates introspection dynamics to the
+logit-response dynamics of evolutionary game theory in economics (Blume,
+1993; Al\'os-Ferrer and Netzer, 2010), notes evolutionary approaches to
+asymmetric games (McAvoy and Hauert, 2015), and adds the exploration
+dynamics of Traulsen et al.\ (2009) for the role of mutation as
+exploration, error, and behavioural noise.
+
+\begin{reviewerquote}
+Theorem 1's proof is intuitive (and perhaps even an obvious result). However,
+it remains somewhat verbal. Perhaps the authors could complement it with a
+more formal argument. For additive games, because players' updates are
+independent of what others do, we can define a smaller state space for each
+player, \{C, D\}. [...] It follows trivially that the stationary distribution
+of such a transition matrix is \{p\_i, 1-p\_i\}.
+\end{reviewerquote}
+
+Done, following exactly the suggested argument. Section 3 now defines, for
+each player, the selection kernel \(K_i\) on their own action set: the
+stochastic matrix governing a selected player's next action, well defined
+precisely when the game is additive. Theorem 1 verifies directly that the
+product of the per-player stationary distributions is stationary for the
+full chain, and that positive mutation makes the chain irreducible and
+aperiodic, so the stationary distribution is unique. For two actions the two
+rows of \(K_i\) coincide at \((p_i,\,1-p_i)\), which is the reviewer's
+argument; the closed form for the marginal (Theorem 2) and the explicit
+product measure (Theorem 3) follow. This per-player-chain framework also
+supports the alternative mutation scheme raised by Reviewer 2.
+
+\begin{reviewerquote}
+Even though one cannot obtain closed formulas for non-additive games, it
+would still be nice to see the effect of the mutations for those games too.
+Would you observe similar patterns for non-linear PGGs? (E.g., can mutation
+increase cooperation frequency when cooperation is not expected?)
+\end{reviewerquote}
+
+Done, in a new section (`Non-additive games') with a new six-panel figure.
+We take the non-linear public goods game with synergy or discounting
+parameter \(w\) (Hauert et al., 2006) as a case study and compute exact
+quantities from the full \(2^N\) linear system, for parameters at which
+defection dominates the linear game. The section reports the following.
+First, the \(w=1\) values coincide with our closed form, a numerical check
+of the additive theory. Second, with discounting the additive pattern
+persists qualitatively: mutation raises low cooperation towards
+\(\tfrac{1}{2}\), though no longer affinely. Third, and answering the
+reviewer's question directly, with synergy mutation produces high
+cooperation where none is expected: the game is bistable, the mutation-free
+strong-selection dynamics started from defection never cooperate, yet any
+positive mutation rate makes the chain ergodic and strong selection then
+drives cooperation up towards \(1-\mu\) rather than down to \(\mu\).
+Mutation acts as an equilibrium-selection device in non-additive games, and
+we note the parallel with the role of rare mutations in stochastic
+evolutionary dynamics. Fourth, beyond additivity there can be an optimal,
+strictly positive mutation rate: for a bistable synergy game the exact
+\(p_C\) is non-monotone in \(\mu\), peaking at \(\mu^*\approx0.02\), and
+the optimum moves and its peak falls as selection strengthens; our
+mutation-selection balance result rules this out for any additive game,
+where \(p_C\) is affine in \(\mu\). Finally, we show that additivity is
+exactly the point at which the players' actions decouple: heatmaps of the
+pairwise correlations, for the same heterogeneous group as our validation
+figure (contributions \(\alpha_i=i\)), show that every pairwise correlation
+is identically zero at \(w=1\) despite the heterogeneity, weakly negative
+under discounting, and positive and increasing in both players'
+contributions when the two strict equilibria compete. Beyond additivity a
+player's long-run behaviour is tied to their co-players' parameters, in
+contrast to the additive case.
+
+\begin{reviewerquote}
+Reference [2] provides a closed formula for the stationary distribution for
+additive games with any number of strategies. Would your extension with
+mutations work similarly in the general case? Perhaps it would be worth
+including such a result if possible (even in the simplest case of symmetric
+mutations).
+\end{reviewerquote}
+
+Done, and for arbitrary player- and action-specific mutation probabilities
+rather than only the symmetric case. We have gone further and restructured
+the paper so that the general result is now the lead result: the setup of
+Section 2 is stated for finite action sets \(A_i\), and Section 3 first
+establishes that for any additive game in which player \(i\), when selected,
+mutates to action \(b\) with probability \(\mu_{ib}>0\), the stationary
+distribution of the full chain is the product of the per-player stationary
+distributions (Theorem 1); the two-action closed form follows as a
+specialisation (Theorems 2 and 3). Computing the stationary distribution
+therefore reduces from one linear system of dimension \(\prod_i L_i\) to
+\(N\) systems of dimension \(L_i\). We also record what is special to two
+actions: only there do the rows of the per-player transition matrix
+coincide, so for three or more actions the marginals are given by \(N\)
+small linear systems rather than by a closed form.
+
+\subsection*{Minor comments}
+
+\begin{reviewerquote}
+The manuscript is generally well-written, but it would benefit from another
+proofreading, as there are a few typos and missing words/commas.
+\end{reviewerquote}
+
+We have made a proofreading pass alongside the corrections below, fixing in
+particular a comma splice in the discussion of \(G_1\) and \(G_2\), one in
+the proof of Theorem 1, and inconsistent equation referencing (all display
+equations are now referenced with \verb|\eqref|).
+
+\begin{reviewerquote}
+Introspection dynamics is generally defined for games with any number of
+strategies. Therefore [...] it should read ``Introspection dynamics, in which
+each player compares their payoff to their payoff under an alternative
+action,'' [...] And specify that the linear system that needs to be solved to
+obtain the stationary distribution has dimension \(2^N\) for the particular
+case with 2 strategies.
+\end{reviewerquote}
+
+Done. The abstract and the introduction now say `an alternative action', and
+the introduction states that the linear system has dimension \(2^N\), more
+generally \(L^N\) when each player has \(L\) actions.
+
+\begin{reviewerquote}
+Abstract: I would personally avoid using formulas in the abstract, or else
+all parameters should be defined (e.g., it's not clear what \(\mu\) is in the
+abstract).
+\end{reviewerquote}
+
+We have removed all formulas from the abstract. The mutation probabilities
+are now described in words (payoff-independent, player-specific probabilities
+of switching to cooperation or to defection), and the closed form for the
+public goods game is described as having \(N\) terms rather than \(2^N\).
+
+\begin{reviewerquote}
+Page 2: I'd write `general Prisoner's Dilemma' instead of `classical (RPST)
+Prisoner's Dilemma'.
+\end{reviewerquote}
+
+Done, in both the introduction and Section 2.
+
+\begin{reviewerquote}
+Indentations, e.g., after Eq 1.
+\end{reviewerquote}
+
+Done. Text that continues a sentence after a display equation (after
+equations (1) and (3)) is no longer indented.
+
+\begin{reviewerquote}
+Page 3: It may not be clear what \((1,1)\) means in
+\(\Delta f_1((1,1))\) because that notation was not defined before.
+\end{reviewerquote}
+
+Done. The sentence now reads ``writing \((a_1, a_2)\) for the state in which
+player 1 plays \(a_1\) and player 2 plays \(a_2\)'' before the notation is
+used.
+
+\begin{reviewerquote}
+Page 3: ``Additivity for player 1 requires the equality \(T-R=P-S\)''.
+Additivity actually requires this equality for all players. And perhaps it's
+best to show the matrix form for the general Prisoner's Dilemma too. The
+acronym `PD' has not been defined.
+\end{reviewerquote}
+
+Done. The text now reads ``Additivity requires, for each player, the
+equality'', the general Prisoner's Dilemma is displayed in matrix form as
+\(G_3\), and the acronym PD is defined at first use. (The example matrices,
+previously \(M_1\), \(M_2\), \(M_3\), are now \(G_1\), \(G_2\), \(G_3\), to
+avoid a collision with the total mutation probability \(M_i\).)
+
+\begin{reviewerquote}
+Page 3: ``(both differentials equal c).'' To be precise, it's \(c_1\) and
+\(c_2\), unless you want to refer to the symmetric case.
+\end{reviewerquote}
+
+Done. The text now reads ``for player \(i\), both differentials equal
+\(c_i\)''.
+
+\begin{reviewerquote}
+Page 3: ``To define introspection dynamics we introduce the following two
+quantities:'' I wouldn't call the Fermi function and the mutation scheme
+`quantities'. Also, using \(\mu_0\) for the probability of mutating to
+cooperation and \(\mu_1\) for the probability of mutating to defection is a
+counterintuitive notation given you denote cooperation as \(a=1\) and
+defection as \(a=0\) before.
+\end{reviewerquote}
+
+We now write `components' rather than `quantities'. The mutation
+probabilities have also been renamed throughout: they are now indexed by
+the target action, \(\mu_{iC}\) for mutation towards cooperation and
+\(\mu_{iD}\) for mutation towards defection, consistent with the general
+notation \(\mu_{ib}\) for \(b\in A_i\); the notation \(\mu_{i0}\),
+\(\mu_{i1}\) no longer appears.
+
+\begin{reviewerquote}
+Page 4: At times, you refer to C as a state. [...] To be precise, avoid
+calling C a state. (An alternative would be defining another possible state
+space for each player that is simply \{0,1\} or \{C, D\}.)
+\end{reviewerquote}
+
+Done. The wording now refers to selections `resulting in action \(C\)' rather
+than placing a player `in state \(C\)', and, following the reviewer's
+suggested alternative, each player's action set now serves as a formal
+per-player state space: Section 3 defines the selection kernel \(K_i\) on
+\(A_i\) (which is \(\{C,D\}\) in the two-action case) as part of the
+restructured proofs (see our response to the main comments above).
+
+\begin{reviewerquote}
+Page 5: ``without mutation the chain degenerates to a point mass at the
+dominant-action profile''. Consider complementing this observation with an
+example to make it clearer for all readers.
+\end{reviewerquote}
+
+Done. We now give the donation game \(G_1\) as an example: each
+\(\delta_i=c_i>0\), so as \(\beta\to\infty\) the mutation-free stationary
+distribution collapses to a point mass on the all-defect profile.
+
+\begin{reviewerquote}
+Page 5: ``Mutation therefore extends the exact analysis to arbitrarily strong
+selection.'' This sentence might also not be fully clear for readers not
+familiar with introspection or Markov chains [...]
+\end{reviewerquote}
+
+Done. We have expanded this paragraph along the lines the reviewer sketches:
+without mutation the chain loses ergodicity in the strong-selection limit, so
+the limit must be taken after computing the stationary distribution at finite
+selection intensity, as in [1]; mutation keeps the switching probabilities
+bounded away from \(0\) and \(1\), so the chain stays ergodic at any
+selection intensity and a unique stationary distribution always exists.
+
+\begin{reviewerquote}
+Page 8: In the second paragraph, you refer to the ``stationary cooperation
+level of the linear public goods game in Proposition 3 of [2].'' Note that
+the equation given in Proposition 3 of [2] is not exactly for the stationary
+cooperation level, but rather the general stationary level for any state.
+Also, this paragraph is just one sentence -- consider joining it with the
+previous one.
+\end{reviewerquote}
+
+Done. The sentence now states that the product measure of Theorem 2 reduces
+to the stationary distribution given, for every state, in Proposition 3 of
+[2], with the cooperation level following; it has been joined to the
+preceding paragraph.
+
+\begin{reviewerquote}
+Figure 1: In the legend, you mean Corollary 2 instead of 1. In the caption,
+it should read ``All values were obtained using [3].''
+\end{reviewerquote}
+
+Done. The figure has been regenerated with the corrected legend, and the
+caption now reads ``All values were obtained using [3].''
+
+\begin{reviewerquote}
+Table 1: ``Both columns to four decimal places''.
+\end{reviewerquote}
+
+Done. The caption now reads ``Both columns are given to four decimal
+places.''
+
+\begin{reviewerquote}
+Page 9: It can be confusing to use the words `benefactor' and `beneficiary'.
+Make it clearer what you mean by each.
+\end{reviewerquote}
+
+Done. We now define the terms once, immediately after Lemma 1: a player is a
+\emph{net beneficiary} when \(r_i>N\), since each unit they contribute
+returns more than a unit to them from the pool, and a \emph{net contributor}
+when \(r_i<N\). These two terms are used consistently throughout; `benefactor'
+and `non-beneficiary' no longer appear.
+
+\begin{reviewerquote}
+Remark 3: I believe it's not exactly a ``negative quantity \(\phi_i\)'', but
+a negative sign stemming from \(\phi_i'\), to be more precise.
+\end{reviewerquote}
+
+Done. The remark now reads ``a negative sign stemming from the derivative
+\(\phi_i'<0\)''.
+
+\begin{reviewerquote}
+Figure 2: The order in which each panel is mentioned in the text is switched.
+The right panel is perhaps unnecessary because it's not showing any variation
+(and that can be easily seen through the equations). Why not a plot that
+varies over the mutation rates instead, for example?
+\end{reviewerquote}
+
+Done, on both counts. The right panel has been replaced by a plot of \(p_i\)
+as a function of the symmetric mutation rate \(\mu\in[0,\tfrac{1}{2}]\) for
+\(r_i<N\), \(r_i=N\), and \(r_i>N\), illustrating the affine
+mutation-selection balance of Proposition 2, with all lines meeting at
+\(p_i=\tfrac{1}{2}\) when \(\mu=\tfrac{1}{2}\). The surrounding text has been
+reordered so that the panels are discussed left, centre, right.
+
+\begin{reviewerquote}
+Page 10: I personally prefer when a Conclusion section doesn't require the
+reader to know all the notation introduced in the body text.
+\end{reviewerquote}
+
+Done. The conclusion has been rewritten so that, together with the
+introduction, it is self-contained: the results are stated in words (the
+players behave independently in the long run, each player's choice is
+forgetful, and the computation reduces to one small linear system per
+player) rather than through the notation of the body text.
+
+\section*{Reviewer 2}
+
+\begin{reviewerquote}
+I'm worried that their result (Theorem 1) holds for a particular kind of
+mutation model where players can mutate to both the actions (A or B)
+independently, no matter which action they are playing currently. [...] It
+turns out that if you only allow mutation to the other strategy, the
+statement \(p(A\to B)=p(A\to A)=p_A\) (Theorem 1) is no longer true even if
+the two mutational probabilities are the same. This means that Theorem 2 (the
+factorization result) is not immediately true for this other (equally
+reasonable or arguably more reasonable) mutational scheme. That said, Theorem
+2 could hold regardless; I did not check that. Could the authors justify the
+necessity of self-mutation (biologically or game theoretically)? I suggest
+that the authors perform some analysis of this alternate mutational scheme
+also.
+\end{reviewerquote}
+
+The reviewer is correct that under mutation restricted to the other action
+the forgetful property fails: the probability that a selected player's next
+action is \(C\) then differs, by the mutation rate, between the two current
+actions. We have added a subsection (`An alternative mutation scheme')
+analysing this scheme in full, with action-dependent rates
+\(\nu_{iC},\nu_{iD}\). The factorisation that the reviewer suspected `could
+hold regardless' does hold: our general product-measure theorem uses only
+that a selected player's next action depends on their own current action, so
+it applies verbatim, and the marginals follow from the two-state balance,
+\[
+  p_i = \frac{(1-\nu_{iC})\phi_i(\delta_i)+\nu_{iC}}
+             {1+\nu_{iC}\bigl(1-\phi_i(\delta_i)\bigr)
+               +\nu_{iD}\,\phi_i(\delta_i)}.
+\]
+Moreover, we prove that for symmetric rates the two schemes are equivalent:
+the alternative scheme with rate \(\nu_i\) has exactly the same stationary
+distribution as our scheme with \(\mu_{iC}=\mu_{iD}=\nu_i/(1+\nu_i)\).
+Whether a mutating player may re-select their current action is therefore a
+reparameterisation of the mutation rate rather than a substantive modelling
+choice, which we believe addresses the concern that self-mutation is `a
+convenient trick that makes the maths easy' in the strongest possible way.
+The equivalence acts marginal by marginal, so it holds for any number of
+players and player-specific rates; a single population may even mix the two
+conventions, and the stationary distribution remains the product of the
+corresponding marginals.
+For asymmetric rates the schemes genuinely differ, and the subsection
+records the difference. We have also added references justifying both
+conventions: redrawing from the full action set is the convention of
+exploration dynamics (Traulsen et al., 2009) and of the payoff-independent
+mutations used in stochastic equilibrium selection (Kandori et al., 1993),
+whilst mutation to the other action only is the bit-flip mutation of genetic
+algorithms (Holland, 1992; Goldberg, 1989). The figure isolating the role of
+mutation now also overlays the alternative scheme at the reparameterised
+rate, illustrating the coincidence of the two schemes.
+
+Regarding the overall contribution: since the reviewer's report the
+manuscript has also gained the general result for arbitrary finite action
+sets (Theorem 1), formal restructured proofs, and a numerical section on
+non-additive games (equilibrium selection by mutation, an optimal mutation
+rate, and the decoupling of the players exactly at additivity), which we
+hope addresses the comment that the paper was short in its previous form.
+
+\vspace{2em}
+
+Thank you again for the constructive reports.
+
+Harry Foster, Vince Knight, and Sebastian Krapohl
+
+\end{document}

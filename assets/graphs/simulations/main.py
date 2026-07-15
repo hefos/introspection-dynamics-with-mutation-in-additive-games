@@ -80,17 +80,20 @@ def load_data(case):
 
 def plot_case(ax, sim, theoretic, new):
     sns.scatterplot(
-        data=theoretic, x="N", y="p_C", ax=ax, marker="o", color="orange", zorder=3
+        data=theoretic, x="N", y="p_C", ax=ax, marker="x", color="black",
+        zorder=3
     )
-    sns.lineplot(data=new, x="N", y="p_C", errorbar=None, ax=ax, zorder=2)
+    sns.lineplot(
+        data=new, x="N", y="p_C", errorbar=None, ax=ax, color="black", zorder=2
+    )
     sns.boxplot(
         data=sim,
         x="N",
         y="p_C",
         ax=ax,
-        color="C0",
+        color="lightgray",
         medianprops=dict(color="black", linewidth=1.5),
-        boxprops=dict(facecolor="C0", edgecolor="black"),
+        boxprops=dict(facecolor="lightgray", edgecolor="black"),
         whiskerprops=dict(color="black"),
         capprops=dict(color="black"),
         flierprops=dict(marker=".", markersize=3, color="black", alpha=0.5),
@@ -193,14 +196,14 @@ handles = [
     Line2D(
         [0],
         [0],
-        marker="o",
+        marker="x",
         color="w",
-        markerfacecolor="orange",
+        markeredgecolor="black",
         markersize=8,
         label=r"exact $p_C$ (linear system)",
     ),
-    Line2D([0], [0], color="C0", linewidth=2, label=r"formula $p_C$ (Corollary~1)"),
-    Patch(facecolor="C0", edgecolor="black", label=r"simulated $p_C$"),
+    Line2D([0], [0], color="black", linewidth=2, label=r"formula $p_C$ (Corollary 2)"),
+    Patch(facecolor="lightgray", edgecolor="black", label=r"simulated $p_C$"),
 ]
 
 fig.legend(

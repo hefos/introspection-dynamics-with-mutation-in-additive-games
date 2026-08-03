@@ -17,6 +17,7 @@
 
 \newcommand{\bfa}{\mathbf{a}}
 \newcommand{\bfb}{\mathbf{b}}
+\newcommand{\bfm}{\mathbf{m}}
 \newcommand{\intro}{\mathrm{intro}}
 \newcommand{\pC}{p_C}
 
@@ -241,15 +242,28 @@ comparison. For two actions the two mutation probabilities are
 that \(M_i=\mu_{iC}+\mu_{iD}\).
 \end{itemize}
 
-At each step, one player \(i\) is selected uniformly at random, and draws an
+At each step, one player \(i\) is selected uniformly at random and updates
+their action in one of two ways. With probability \(\mu_{ib}\) they mutate
+to action \(b\), for each \(b\in A_i\); the target may be their current
+action \(a_i\), in which case the state does not change. Otherwise, with
+the remaining probability \(1-M_i\), they introspect: they draw an
 alternative action \(b\) uniformly from the \(L_i-1\) actions other than
-\(a_i\). The transition probability for the switch is
+\(a_i\) and switch to it with probability
+\(\phi_i\bigl(\Delta f_i(\bfa;b)\bigr)\). The transition probability to
+each state \(\bfa_{i\to b}\) with \(b\neq a_i\) is therefore
 \begin{equation}\label{eq:intro-transition-general}
   T^{\intro}_{\bfa,\,\bfa_{i\to b}}
   = \frac{1}{N}\left[(1-M_i)\,
     \frac{\phi_i\bigl(\Delta f_i(\bfa;b)\bigr)}{L_i-1}+\mu_{ib}\right],
-  \qquad b\neq a_i.
+  \qquad b\neq a_i,
 \end{equation}
+and the state is unchanged with the remaining probability,
+\begin{equation}\label{eq:holding}
+  T^{\intro}_{\bfa,\,\bfa}
+  = 1-\sum_{i=1}^{N}\sum_{b\neq a_i} T^{\intro}_{\bfa,\,\bfa_{i\to b}},
+\end{equation}
+which collects the events that the selected player mutates to their
+current action or introspects without switching.
 Since \(\phi_i\) is strictly decreasing, a larger payoff gain from keeping
 the current action yields a smaller switching probability. Setting
 \(\mu_{ib}=0\) for all possible actions $b$ recovers the introspection dynamics
@@ -294,14 +308,14 @@ switching probabilities in~\eqref{eq:intro-transition-general} depend on the
 whole state \(\bfa\) and no such matrix exists; for an additive game
 \(\Delta f_i(\bfa;b)=g_i(a_i)-g_i(b)\) depends only on \(a_i\) and \(b\), so
 \(K_i\) is well defined, with off-diagonal entries
-\[
+\begin{equation}\label{eq:kernel}
   K_i(a_i,b)
   = (1-M_i)\,\frac{\phi_i\bigl(g_i(a_i)-g_i(b)\bigr)}{L_i-1}+\mu_{ib},
   \qquad b\neq a_i,
-\]
+\end{equation}
 and diagonal entries holding the remaining mass. Every entry of \(K_i\) is at
 least \(\mu_{ib}>0\), so \(K_i\) is irreducible and aperiodic and has a
-unique, strictly positive stationary distribution \(m_i\) on \(A_i\).
+unique, strictly positive stationary distribution \(\bfm_i\) on \(A_i\).
 
 \begin{theorem}[Stationary distribution]\label{thm:general}
 
@@ -310,9 +324,9 @@ with selection intensities \(\beta_i>0\) and mutation probabilities
 \(\mu_{ib}>0\) with \(M_i<1\), the introspection chain on
 \(S=\prod_{i}A_i\) has the unique stationary distribution
 \begin{equation}\label{eq:stationary-general}
-  \pi_{\bfa} = \prod_{i=1}^{N} m_i(a_i), \qquad \bfa\in S,
+  \pi_{\bfa} = \prod_{i=1}^{N} \bfm_i(a_i), \qquad \bfa\in S,
 \end{equation}
-where \(m_i\) is the unique stationary distribution of \(K_i\).
+where \(\bfm_i\) is the unique stationary distribution of \(K_i\).
 
 \end{theorem}
 
@@ -326,18 +340,21 @@ states \(\bfa_{i\to b}\) with \(b\neq a_i\), with transition probabilities
   \qquad
   T^{\intro}_{\bfa_{i\to b},\,\bfa} = \frac{1}{N}\,K_i(b,a_i).
 \]
+The first expression follows from the holding
+probability~\eqref{eq:holding} and the diagonal entries
+\(K_i(a_i,a_i)=1-\sum_{b\neq a_i}K_i(a_i,b)\).
 The product form gives
-\(\pi_{\bfa_{i\to b}}\,m_i(a_i)=\pi_{\bfa}\,m_i(b)\), so
+\(\pi_{\bfa_{i\to b}}\,\bfm_i(a_i)=\pi_{\bfa}\,\bfm_i(b)\), so
 \[
   \bigl(\pi T^{\intro}\bigr)_{\bfa}
   = \frac{1}{N}\sum_{i=1}^{N}
     \Bigl[\pi_{\bfa}K_i(a_i,a_i)
       +\sum_{b\neq a_i}\pi_{\bfa_{i\to b}}K_i(b,a_i)\Bigr]
-  = \frac{1}{N}\sum_{i=1}^{N}\frac{\pi_{\bfa}}{m_i(a_i)}
-    \sum_{b\in A_i} m_i(b)\,K_i(b,a_i)
+  = \frac{1}{N}\sum_{i=1}^{N}\frac{\pi_{\bfa}}{\bfm_i(a_i)}
+    \sum_{b\in A_i} \bfm_i(b)\,K_i(b,a_i)
   = \pi_{\bfa},
 \]
-since \(\sum_{b} m_i(b)K_i(b,a_i)=m_i(a_i)\) by stationarity of \(m_i\).
+since \(\sum_{b} \bfm_i(b)K_i(b,a_i)=\bfm_i(a_i)\) by stationarity of \(\bfm_i\).
 Every switching probability in~\eqref{eq:intro-transition-general} is
 positive, so any state can be reached from any other by at most \(N\)
 single-action switches, and every state has a positive holding probability;
@@ -353,7 +370,7 @@ systems of dimension \(L_i\).
 \subsection{Games with two actions}\label{sec:two-actions}
 
 For two actions more is true: the two rows of \(K_i\) coincide, and the
-marginal \(m_i\) takes an explicit closed form. For \(L_i\ge3\) the rows
+marginal \(\bfm_i\) takes an explicit closed form. For \(L_i\ge3\) the rows
 differ in general, since the probability of retaining the current action
 depends on that action, so the following forgetful property is special to
 two actions.
@@ -374,7 +391,7 @@ player \(i\) cooperates is
 
 We compute the entries of \(K_i\). When \(a_i=D\) the payoff difference
 in~\eqref{eq:delta} is \(\Delta f_i=\delta_i\), so
-by~\eqref{eq:intro-transition} the probability of switching to \(C\) when
+by~\eqref{eq:kernel} the probability of switching to \(C\) when
 selected is
 \[
   K_i(D,C) = (1-\mu_{iC}-\mu_{iD})\phi_i(\delta_i)+\mu_{iC} = p_i.
@@ -392,18 +409,21 @@ The two rows of \(K_i\) therefore coincide:
 \]
 ordering \(A_i\) as \((C,D)\). A stochastic matrix with identical rows sends
 every distribution to that row in a single step, so
-\(m_i=(p_i,\,1-p_i)\) is the unique stationary distribution of \(K_i\). By
-Theorem~\ref{thm:general} the stationary marginal of player \(i\)'s action
-is \(m_i\), so the long-run probability that player \(i\) cooperates is
-\(m_i(C)=p_i\).
+\(\bfm_i=(p_i,\,1-p_i)\) is the unique stationary distribution of \(K_i\).
+Additivity decouples player \(i\) from the rest of the population: their
+action evolves as a two-state Markov chain in its own right, with kernel
+\(\bigl(1-\tfrac{1}{N}\bigr)I+\tfrac{1}{N}K_i\), which has the same
+stationary distribution as \(K_i\). Hence the long-run probability that
+player \(i\) cooperates is \(\bfm_i(C)=p_i\).
 
 \end{proof}
 
-Additivity makes a player's choice forgetful: each time player \(i\) is
-selected they cooperate with the same probability \(p_i\), whatever their
-current action. This probability is the payoff-driven Fermi value
-\(\phi_i(\delta_i)\), scaled by the chance of no mutation and shifted by the
-chance of mutating to cooperation.
+Additivity and the restriction to two actions together make a player's
+choice forgetful: each time player \(i\) is selected they cooperate with
+the same probability \(p_i\), whatever their current action. This
+probability is the payoff-driven Fermi value \(\phi_i(\delta_i)\), scaled
+by the chance of no mutation and shifted by the chance of mutating to
+cooperation.
 
 \begin{theorem}[Stationary distribution for two actions]\label{thm:stationary}
 
@@ -418,8 +438,8 @@ where \(p_i\) is given by~\eqref{eq:pi}.
 
 \begin{proof}
 
-By the proof of Theorem~\ref{thm:decomp}, \(m_i=(p_i,\,1-p_i)\), so that
-\(m_i(a_i)=p_i^{\,a_i}(1-p_i)^{1-a_i}\), and~\eqref{eq:stationary} is the
+By the proof of Theorem~\ref{thm:decomp}, \(\bfm_i=(p_i,\,1-p_i)\), so that
+\(\bfm_i(a_i)=p_i^{\,a_i}(1-p_i)^{1-a_i}\), and~\eqref{eq:stationary} is the
 product measure~\eqref{eq:stationary-general} of Theorem~\ref{thm:general}.
 
 \end{proof}
@@ -507,13 +527,13 @@ product measure~\eqref{eq:stationary} with marginals
 \begin{proof}
 
 All entries of \(K_i\) are positive, so \(K_i\) has a unique stationary
-distribution \(m_i=(p_i,\,1-p_i)\), determined by the two-state balance
+distribution \(\bfm_i=(p_i,\,1-p_i)\), determined by the two-state balance
 \(p_i\,K_i(C,D)=(1-p_i)\,K_i(D,C)\); solving gives
 \(p_i=K_i(D,C)/\bigl(K_i(D,C)+K_i(C,D)\bigr)\),
 which is~\eqref{eq:pi-alternative}. The proof of Theorem~\ref{thm:general}
 uses only that one player updates at a time and that the selected player's
 next action depends on their own current action alone; it therefore applies
-verbatim, and the stationary distribution is the product of the \(m_i\).
+verbatim, and the stationary distribution is the product of the \(\bfm_i\).
 
 \end{proof}
 
@@ -1051,7 +1071,9 @@ as to erode the cooperative one.
 
 Additivity is also precisely the point at which the players' actions
 decouple. The bottom row of Figure~\ref{fig:non-additive} shows the pairwise
-correlations \(\mathrm{corr}(a_i,a_j)\) under the stationary distribution
+correlations \(\mathrm{corr}(a_i,a_j)\), the Pearson correlation
+coefficients of the binary actions under the exact stationary distribution
+(for indicator variables this is the phi coefficient),
 for the heterogeneous group of Figure~\ref{fig:validation} (contributions
 \(\alpha_i=i\), \(\beta=0.5\)), here with \(r=4\) and symmetric mutation
 \(\mu=0.05\); since the total contribution reaches \(36\), mild synergy and
@@ -1091,7 +1113,8 @@ the mutation rate erodes every off-diagonal correlation towards zero.
     synergy game (\(r=2\), \(w=1.5\)). At \(\beta=10\) and \(\beta=20\)
     cooperation is maximised at a strictly positive mutation rate, which
     Proposition~\ref{prop:balance} rules out for additive games.
-    \textit{Bottom row:} pairwise correlations \(\mathrm{corr}(a_i, a_j)\)
+    \textit{Bottom row:} pairwise Pearson correlations
+    \(\mathrm{corr}(a_i, a_j)\) of the binary actions
     under the stationary distribution for the heterogeneous group of
     Figure~\ref{fig:validation} (contributions \(\alpha_i=i\),
     \(\beta=0.5\)), at \(r=4\) and \(\mu=0.05\). The axes give the player

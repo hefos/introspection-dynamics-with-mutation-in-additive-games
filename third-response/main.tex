@@ -1,0 +1,203 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amssymb}
+\usepackage{parskip}
+\usepackage[hidelinks]{hyperref}
+\pagestyle{plain}
+
+\newenvironment{reviewerquote}
+  {\begin{quote}\itshape}
+  {\end{quote}}
+
+\title{Response to reviewers\\
+  \large Introspection Dynamics with Mutation in Additive Games}
+\author{Harry Foster, Vince Knight, Sebastian Krapohl}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+Dear Professor Zaccour,
+
+We thank both reviewers for their positive assessments and for a further
+set of careful comments, all of which we have addressed. We respond to
+each comment below; reviewer text is set in italics, and our responses
+follow in upright type.
+
+\section*{Reviewer 1}
+
+\begin{reviewerquote}
+Page 3: ``At each step, one player \(i\) is selected uniformly at random,
+and draws an alternative action \(b\) uniformly from the \(L_i-1\) actions
+other than \(a_i\).'' This sentence can be confusing because it sounds as
+if a player cannot mutate to the current action. And, to fully describe
+the process, you should also define the transition probability for when
+\(b=a_i\).
+\end{reviewerquote}
+
+Done, on both counts. The process is now described as an explicit
+two-stage update: with probability \(\mu_{ib}\) the selected player
+mutates to action \(b\), and the target may be their current action, in
+which case the state does not change; otherwise, with probability
+\(1-M_i\), they introspect, drawing an alternative uniformly from the
+other \(L_i-1\) actions and switching with probability given by the Fermi
+function. The holding probability \(T^{\mathrm{intro}}_{\mathbf{a},
+\mathbf{a}}\) is now displayed as a numbered equation immediately after
+the transition probability, with a sentence stating which events it
+collects (mutation to the current action, and introspection without
+switching).
+
+\begin{reviewerquote}
+Page 4: the \(m_i\) notation for the stationary distribution could be
+understood as a scalar, when it's a vector. Consider using boldface.
+\end{reviewerquote}
+
+Done. The stationary distribution is now written \(\mathbf{m}_i\)
+throughout, consistent with the boldface state \(\mathbf{a}\).
+
+\begin{reviewerquote}
+Page 4: in the last equation (after equation 6),
+\(T_{\mathbf{a},\mathbf{a}}\) doesn't seem obvious to me (at least, I had
+to verify it on the side). Or perhaps I missed something.
+\end{reviewerquote}
+
+The reviewer did not miss anything; the expression was stated without
+justification. It now follows by inspection: the holding probability is
+the numbered equation added in response to the first comment, and the
+proof of Theorem 1 states that the expression follows from it together
+with the diagonal entries
+\(K_i(a_i,a_i)=1-\sum_{b\neq a_i}K_i(a_i,b)\).
+
+\begin{reviewerquote}
+Page 5: in Theorem 2's proof, you refer to equation 5 when I think you
+meant the equation next to 5 (which is not numbered).
+\end{reviewerquote}
+
+Quite right: the intended reference was the formula for the off-diagonal
+entries of the selection kernel \(K_i\), which does not carry the
+\(1/N\) factor. That formula is now a numbered equation and the proof
+cites it.
+
+\begin{reviewerquote}
+Page 5: ``By Theorem 1 the stationary marginal of player \(i\)'s action
+is \(m_i\), so the long-run probability that player \(i\) cooperates is
+\(m_i(C) = p_i\).'' I think Theorem 1 doesn't even need to be invoked
+here, right?
+\end{reviewerquote}
+
+Right again. The proof now gives the direct argument: additivity
+decouples player \(i\) from the rest of the population, so their action
+evolves as a two-state Markov chain in its own right, with kernel
+\((1-\tfrac{1}{N})I+\tfrac{1}{N}K_i\), which has the same stationary
+distribution as \(K_i\). Theorem 1 is no longer invoked.
+
+\begin{reviewerquote}
+Page 5: ``Additivity makes a player's choice forgetful:\ldots'' maybe
+make it clear here again that is both additivity AND having only 2
+actions that makes a player's choice `forgetful'.
+\end{reviewerquote}
+
+Done. The sentence now reads ``Additivity and the restriction to two
+actions together make a player's choice forgetful''.
+
+\begin{reviewerquote}
+Page 16: I assume you use some standard correlation measure (Pearson for
+binary variables?) but it would be nice to specify which one is exactly
+used.
+\end{reviewerquote}
+
+Done. Both the body text and the caption of the figure now state that
+\(\mathrm{corr}(a_i,a_j)\) is the Pearson correlation coefficient of the
+binary actions under the exact stationary distribution (for indicator
+variables, the phi coefficient), which is what the accompanying source
+code computes.
+
+\section*{Reviewer 2}
+
+\begin{reviewerquote}
+First about Equation (15). I believe Eq.\ (15) corresponds to the
+sentence ``[\ldots] each unit contributed changes the marginal value of
+the next by a factor \(w > 0\) [\ldots]'', only when the object
+\(X(\mathbf{a})\) is an integer (i.e., the contributions \(\alpha_i\) are
+integers). For continuous values of contributions, there has to be some
+other normalization that is not \((w-1)\). Therefore, if you want to
+stick to continuous values of alpha, I suggest that you mention that this
+formula is just a canonical extension of the `synergy' model. Or, perhaps
+you would like to derive the other formula from first principle or
+mention that alpha is restricted to integers only.
+\end{reviewerquote}
+
+The reviewer is correct, and we have adopted their first suggestion. The
+text now states that the geometric-sum reading requires the total
+contribution \(X(\mathbf{a})\) to be an integer, as it is in both of our
+examples (\(\alpha_i=1\) for the top row of the figure and
+\(\alpha_i=i\) for the correlation panels), and that for non-integer
+contributions we regard the payoff formula as the canonical analytic
+extension of the synergy and discounting model, with the normalisation
+\(w-1\) retained so that the linear game is still recovered as
+\(w\to1\).
+
+\begin{reviewerquote}
+Finally, I was wondering what the purpose of studying this model is,
+broadly speaking (in evolutionary terms). For example, in standard games
+(let's just say in additive games or the non-linear public goods game
+that the authors study) would players ever learn to be more exploratory
+(i.e., would this mutational model itself evolve and spread in a
+population that does only pure introspection selection)? Does
+incorporating mutations in decisions have a fitness advantage? Can this
+be the case or is this model simply dominated as a strategy if the
+co-player is not exploring? I would have liked if the authors commented
+on that aspect. It is also quite easy to perform analysis on this since
+the authors already have payoff formulas.
+\end{reviewerquote}
+
+We thank the reviewer for this question, and we agree that the closed
+forms make the analysis tractable. Indeed, the additive structure gives a
+sharp preliminary answer. By the additive decomposition and the product
+measure, a player's expected stationary payoff is affine in their own
+cooperation probability \(p_i\), with slope \(-\delta_i\), whilst the
+co-players' marginals are entirely beyond their influence. In a social
+dilemma (\(\delta_i>0\)) symmetric exploration raises \(p_i\) above the
+pure-introspection value \(\phi_i(\delta_i)<\tfrac{1}{2}\), so it
+strictly lowers the explorer's own payoff whatever the co-players do:
+unbiased exploration is dominated, confirming the reviewer's conjecture,
+and in a form stronger than conjectured, since by the decoupling it does
+not matter whether the co-players explore. Two further observations
+follow from
+the same formulas. First, what is dominated is exploration towards the
+disfavoured action rather than noise as such: mutation biased towards
+defection pushes \(p_i\) below \(\phi_i(\delta_i)\) and outperforms pure
+introspection. Second, exploration towards cooperation benefits every
+co-player, so it is altruistic, and its evolution inherits the structure
+of the underlying dilemma. Beyond additivity the decoupling fails, and
+our Figure 4 shows that cooperation can peak at a strictly positive
+mutation rate, so there exploration may plausibly carry an individual
+advantage.
+
+We believe a proper treatment of this question, with heritable update
+rules competing on the slower evolutionary timescale, and the
+non-additive case examined, is a study in its own right, and, mindful
+that the manuscript already grew substantially in the previous round, we
+have not added it to the paper. Instead the conclusion now closes with a
+new paragraph that does two things. It first makes the evolutionary
+interpretation of our results explicit: the mutation rates model
+trembles, experimentation, and behavioural noise, and on this reading
+the results describe how noisy self-reflection shapes long-run
+behaviour, keeping every action in play, confining each player strictly
+inside the pure conventions however strong selection becomes, and
+leaving cooperation at a mutation-selection balance. It then poses the
+reviewer's question, whether such noise would itself be selected for if
+update rules were heritable and fitness were the expected stationary
+payoff, citing the exploration dynamics of Traulsen et al.\ (2009), and
+notes that the closed forms make it tractable and that it is a natural
+direction for future work.
+
+\vspace{2em}
+
+Thank you again for the constructive reports.
+
+Harry Foster, Vince Knight, and Sebastian Krapohl
+
+\end{document}

@@ -1,7 +1,7 @@
 \documentclass[11pt]{article}
 %DIF LATEXDIFF DIFFERENCE FILE
-%DIF DEL /tmp/main_old.tex   Mon Aug  3 15:18:06 2026
-%DIF ADD main.tex            Mon Aug  3 15:16:54 2026
+%DIF DEL /tmp/main_old.tex   Mon Aug 10 10:44:49 2026
+%DIF ADD main.tex            Mon Aug 10 10:44:41 2026
 
 \usepackage{amsmath, amsthm, amssymb}
 \usepackage[hidelinks]{hyperref}
@@ -469,11 +469,19 @@ systems of dimension \(L_i\).
 
 \subsection{Games with two actions}\label{sec:two-actions}
 
-For two actions more is true: the two rows of \(K_i\) coincide, and the
-marginal \DIFdelbegin \DIFdel{\(m_i\) }\DIFdelend \DIFaddbegin \DIFadd{\(\bfm_i\) }\DIFaddend takes an explicit closed form. For \(L_i\ge3\) the rows
-differ in general, since the probability of retaining the current action
-depends on that action, so the following forgetful property is special to
-two actions.
+For two actions more is true: the two rows of \(K_i\) coincide\DIFdelbegin \DIFdel{, and the
+marginal \(m_i\) takes }\DIFdelend \DIFaddbegin \DIFadd{. We call
+this the }\emph{\DIFadd{forgetful}} \DIFadd{property, since the probability that a selected
+player's next action is \(C\) is then the same whichever action they
+currently hold, and it is what gives the marginal \(\bfm_i\) }\DIFaddend an explicit
+closed form. \DIFdelbegin \DIFdel{For \(L_i\ge3\) the rowsdiffer in general, since the probability of retaining the current action
+depends on that action, so the following }\DIFdelend \DIFaddbegin \DIFadd{The two switching probabilities are complementary, by
+\(\phi_i(x)+\phi_i(-x)=1\), and with a single alternative this is enough to
+align the rows. For \(L_i\ge3\) they always differ: identical rows would
+force \(g_i\) to be constant, since \(\phi_i\) is injective, and equating a
+diagonal entry with the off-diagonal entries in its column would then
+require \(L_i=2\). The }\DIFaddend forgetful property is \DIFaddbegin \DIFadd{therefore }\DIFaddend special to two
+actions.
 
 \begin{theorem}[Individual cooperation probabilities]\label{thm:decomp}
 
@@ -519,7 +527,8 @@ player \(i\) cooperates is \DIFdelbegin \DIFdel{\(m_i(C)=p_i\)}\DIFdelend \DIFad
 
 \end{proof}
 
-Additivity \DIFdelbegin \DIFdel{makes }\DIFdelend \DIFaddbegin \DIFadd{and the restriction to two actions together make }\DIFaddend a player's
+\DIFdelbegin \DIFdel{Additivity makes }\DIFdelend \DIFaddbegin \DIFadd{Theorem~\ref{thm:decomp} gives the common value of the two rows.
+Additivity and the restriction to two actions together make }\DIFaddend a player's
 choice forgetful: each time player \(i\) is selected they cooperate with
 the same probability \(p_i\), whatever their current action. This
 probability is the payoff-driven Fermi value \(\phi_i(\delta_i)\), scaled

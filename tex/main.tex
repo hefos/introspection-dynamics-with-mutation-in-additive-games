@@ -369,11 +369,17 @@ systems of dimension \(L_i\).
 
 \subsection{Games with two actions}\label{sec:two-actions}
 
-For two actions more is true: the two rows of \(K_i\) coincide, and the
-marginal \(\bfm_i\) takes an explicit closed form. For \(L_i\ge3\) the rows
-differ in general, since the probability of retaining the current action
-depends on that action, so the following forgetful property is special to
-two actions.
+For two actions more is true: the two rows of \(K_i\) coincide. We call
+this the \emph{forgetful} property, since the probability that a selected
+player's next action is \(C\) is then the same whichever action they
+currently hold, and it is what gives the marginal \(\bfm_i\) an explicit
+closed form. The two switching probabilities are complementary, by
+\(\phi_i(x)+\phi_i(-x)=1\), and with a single alternative this is enough to
+align the rows. For \(L_i\ge3\) they always differ: identical rows would
+force \(g_i\) to be constant, since \(\phi_i\) is injective, and equating a
+diagonal entry with the off-diagonal entries in its column would then
+require \(L_i=2\). The forgetful property is therefore special to two
+actions.
 
 \begin{theorem}[Individual cooperation probabilities]\label{thm:decomp}
 
@@ -418,6 +424,7 @@ player \(i\) cooperates is \(\bfm_i(C)=p_i\).
 
 \end{proof}
 
+Theorem~\ref{thm:decomp} gives the common value of the two rows.
 Additivity and the restriction to two actions together make a player's
 choice forgetful: each time player \(i\) is selected they cooperate with
 the same probability \(p_i\), whatever their current action. This
